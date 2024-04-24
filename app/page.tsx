@@ -1,3 +1,14 @@
+"use client";
+import Pdfren from "./comp/pdfren/Pdfren";
+import Upsec from "./comp/upsec/Upsec";
+
 export default function Home() {
-  return <div>Helo</div>;
+  //image kit id-> p1howdxjk
+  //ex: https://ik.imagekit.io/p1howdxjk/path/to/myimage.jpg
+  return (
+    <div className="border border-red-600">
+      <Upsec />
+      <Pdfren />
+    </div>
+  );
 }
