@@ -1,7 +1,9 @@
 "use client";
 import Navbar from "./comp/navbar/Navbar";
-import Pdfren from "./comp/pdfren/Pdfren";
-import Upsec from "./comp/upsec/Upsec";
+import Hero from "./comp/hero/Hero";
+
+// import Pdfren from "./comp/pdfren/Pdfren";
+// import Upsec from "./comp/upsec/Upsec";
 
 export default function Home() {
   //image kit id-> p1howdxjk
@@ -9,8 +11,9 @@ export default function Home() {
   return (
     <div className="">
       <Navbar />
-      {/* <Upsec /> */}
-      {/* <Pdfren /> */}
+      <Hero />
+      {/* <Upsec />
+      <Pdfren /> */}
     </div>
   );
 }
