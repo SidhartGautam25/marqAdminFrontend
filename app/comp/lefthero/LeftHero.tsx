@@ -16,7 +16,7 @@ export default function LeftHero() {
             id=""
             value={opt}
             onChange={handleOnChange}
-            className="w-[95%] bg-gray-700 text-white rounded-sm p-3 mt-2 hover:bg-gray-800 mb-2"
+            className="w-[95%] bg-gray-700 text-white rounded-sm p-3 hover:bg-gray-800 mb-2"
           >
             <option value="blog">Blog</option>
             <option value="report">Reports</option>
