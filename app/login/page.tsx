@@ -1,13 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useReducer, useRef, useState } from "react";
+import Reducer from "../context/Reducer";
+import { User, UserContext } from "../context/Context";
 
 export default function Home() {
+  const [name,setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User | null>(null);
 
+  const login = async (name: string, password: string) => {
+    // Here you would call your backend service to authenticate the user
+    // For this example, let's mock a successful login response
+    setUser({name,email:email });
+    console.log("user: ",user);
+  };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    login("Rohit",email);
   };
 
   return (
