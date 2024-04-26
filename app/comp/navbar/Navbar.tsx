@@ -1,7 +1,18 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { AuthContext } from "@/app/context/authContext";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
-  let user = true;
+  const { state, dispatch } = useContext(AuthContext);
+  console.log("state us in navbar ", state);
+  const user = state.user;
+  const router = useRouter();
+  function handlelogout() {
+    localStorage.removeItem("user");
+    dispatch("LOGOUT");
+    router.push("/login");
+  }
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -12,11 +23,11 @@ export default function Navbar() {
         </div>
         <div className="space-x-4">
           {user ? (
-            <Link href="/services">
-              <span className="hover:text-gray-300">Logout</span>
-            </Link>
+            <button onClick={handlelogout} className="hover:text-gray-300">
+              Logout
+            </button>
           ) : (
-            <Link href="/contact">
+            <Link href="/login">
               <span className="hover:text-gray-300">Login</span>
             </Link>
           )}

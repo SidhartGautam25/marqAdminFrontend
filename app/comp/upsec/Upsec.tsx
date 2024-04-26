@@ -30,7 +30,7 @@ export default function Upsec() {
     }
   };
 
-  const handleClick = async (e) => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const daata = {
       title: "this is the title",
