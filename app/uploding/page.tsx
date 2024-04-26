@@ -1,6 +1,7 @@
 "use client";
 
 import Upload from "../comp/upload/Upload";
+import Upsec from "../comp/upsec/Upsec";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       </button>
       <div className="">
         <Upload />
+        <Upsec />
       </div>
     </div>
   );

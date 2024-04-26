@@ -3,22 +3,42 @@
 import { useContext, useReducer, useRef, useState } from "react";
 import Reducer from "../context/Reducer";
 import { User, UserContext } from "../context/Context";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../context/authContext";
 
 export default function Home() {
-  const [name,setName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<User | null>(null);
+  //const [user, setUser] = useState<User | null>(null);
+  const conobj = useContext(AuthContext);
+  const { dispatch, state } = conobj;
+  const [allgood, setAllgood] = useState(true);
+  const router = useRouter();
 
-  const login = async (name: string, password: string) => {
+  console.log("obj is on login page  ", state);
+
+  const login = async (email: string, password: string) => {
     // Here you would call your backend service to authenticate the user
     // For this example, let's mock a successful login response
-    setUser({name,email:email });
-    console.log("user: ",user);
+    const data = { email: email, password: password };
+    //console.log("user: ", user);
+    dispatch({ type: "LOGIN_START" });
+    try {
+    } catch (e) {
+      console.log("some error occured on login page");
+      setAllgood(false);
+    }
+    const res = await axios.post("http://localhost:8800/api/auth/login", data);
+    console.log("res form login is ", res.data.details);
+
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    router.push("/");
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    login("Rohit",email);
+    login(email, password);
   };
 
   return (

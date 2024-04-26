@@ -1,8 +1,10 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Upsec() {
   const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
+  // const [data,setData]=useState({})
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     console.log("some error occured");
@@ -28,6 +30,19 @@ export default function Upsec() {
     }
   };
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const daata = {
+      title: "this is the title",
+      link: "this is the link",
+      desc: "this is the description",
+    };
+    const res = await axios.post(
+      "http://localhost:8800/api/upload/uploadreport",
+      daata
+    );
+  };
+
   return (
     <div>
       <input
@@ -38,7 +53,7 @@ export default function Upsec() {
       />
 
       <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
-      <div>{image}</div>
+      <button onClick={handleClick}>submit</button>
     </div>
   );
 }
