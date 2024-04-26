@@ -29,7 +29,7 @@ export default function Pdfren() {
   };
   return (
     <div>
-      <Bookmarks />
+      {/* <Bookmarks /> */}
       <div
         style={{
           border: "3px solid blue",

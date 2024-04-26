@@ -14,6 +14,7 @@
     "@react-pdf-viewer/default-layout": "^3.12.0",
     "@react-pdf-viewer/toolbar": "^3.12.0",
     "@react-pdf/renderer": "^3.4.3",
+    "axios": "^1.6.8",
     "next": "14.2.2",
     "pdfjs-dist": "^3.4.120",
     "react": "^18",

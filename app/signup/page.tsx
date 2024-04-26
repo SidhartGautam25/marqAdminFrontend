@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -8,12 +10,29 @@ export default function Home() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [allgood, setAllgood] = useState(true);
+  const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Implement your sign-up logic here
     // For example, send a request to your API endpoint
     console.log({ username, email, phone, password, confirmPassword });
+    const data = {
+      name: username,
+      email: email,
+      phone: phone,
+      password: password,
+    };
+    try {
+      await axios.post("http://localhost:8800/api/auth/register", data);
+      if (allgood == false) {
+        setAllgood(true);
+      }
+      router.push("/login");
+    } catch (err) {
+      console.log("err occured on sign up page");
+    }
   };
 
   return (
