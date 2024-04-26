@@ -4,6 +4,8 @@ import axios from "axios";
 export default function Upsec() {
   const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
   // const [data,setData]=useState({})
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -45,15 +47,58 @@ export default function Upsec() {
 
   return (
     <div>
+      <div className="border-2 border-black flex">
+        <div className="m-1 p-2 rounded-lg flex flex-col items-center gap-5 ">
+          <div>
+            <label
+              htmlFor="title"
+              className="text-lg font-medium text-gray-700"
+            >
+              Title
+            </label>
+            <input
+              type="title"
+              id="title"
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="pageNo"
+              className="text-lg font-medium text-gray-700"
+            >
+              Desc
+            </label>
+            <textarea
+              id="pageNo"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            />
+          </div>
+        </div>
+        {/* <div className="text-[20px] mt-11 m-2 border-2 text-center border-black bg-red-400 rounded-lg h-9 w-9">
+        +
+      </div> */}
+      </div>
       <input
         type="file"
         name="file"
-        placeholder="upload your profile"
+        // placeholder="upload your profile"
         onChange={uploadImage}
+        className="border-2  border-black"
       />
 
       <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
-      <button onClick={handleClick}>submit</button>
+      <button
+        onClick={handleClick}
+        className="bg-gray-700 text-white rounded-lg m-2 p-2 font-bold w-80"
+      >
+        submit
+      </button>
     </div>
   );
 }
