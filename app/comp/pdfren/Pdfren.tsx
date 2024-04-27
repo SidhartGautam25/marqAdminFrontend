@@ -35,15 +35,8 @@ export default function Pdfren() {
         {" "}
         <Sidebtn />
       </div>
-      <div>
-        <div
-          style={{
-            border: "3px solid blue",
-            height: "750px",
-            width: "600px",
-            overflow: "hidden",
-          }}
-        >
+      <div className="w-full overflow-scroll h-[680px]">
+        <div className="">
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
             <Viewer
               // plugins={[defaultLayoutPluginInstance]}
