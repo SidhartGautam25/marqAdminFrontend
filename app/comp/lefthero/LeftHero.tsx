@@ -1,10 +1,12 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
+import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
 const btnStyle="w-[95%] mx-auto  border border-slate-200 my-2 p-2 hover:bg-blue-50 ease-in duration-400 hover:cursor-pointer hover:border-b-blue-500";
 
-export default function LeftHero() {
+
+export default function LeftHero({ reports }) {
   // let [state, setState] = useState({
   //   items: Array.from({ length: 10 }),
   // });
@@ -20,39 +22,48 @@ export default function LeftHero() {
   // };
 
   const [opt, setOpt] = useState<string>("report");
-  const [reports, setReports] = useState([]);
+  //const [reports, setReports] = useState([]);
+  const { state, dispatch } = useContext(ReportContext) as ReportContextType;
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setOpt(e.target.value);
   };
-  useEffect(() => {
-    // Code inside this function will run after every render
-    // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
 
-    // For example, you can fetch data from an API
-    const fetchReport = async () => {
-      console.log("fetch report called");
-      try {
-        const daata = await axios.get(
-          "http://localhost:8800/api/getall/report"
-        );
-        console.log("daata on leftb hero is ", daata);
-        if (daata) {
-          setReports([...daata.data]);
-        }
-      } catch (err) {}
-    };
-    fetchReport();
+  // useEffect(() => {
+  //   // Code inside this function will run after every render
+  //   // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
 
-    // You can also return a cleanup function from useEffect
-    // This cleanup function will be executed before the component is unmounted or re-rendered
-    return () => {
-      // Code inside this cleanup function will run before the component is unmounted or re-rendered
-      // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
-    };
-  }, []); // The second argument of useEffect is an optional array of dependencies
+  //   // For example, you can fetch data from an API
+  //   const fetchReport = async () => {
+  //     console.log("fetch report called");
+  //     try {
+  //       const daata = await axios.get(
+  //         "http://localhost:8800/api/getall/report"
+  //       );
+  //       console.log("daata on leftb hero is ", daata);
+  //       if (daata) {
+  //         setReports([...daata.data]);
+  //       }
+  //     } catch (err) {}
+  //   };
+  //   fetchReport();
+
+  //   // You can also return a cleanup function from useEffect
+  //   // This cleanup function will be executed before the component is unmounted or re-rendered
+  //   return () => {
+  //     // Code inside this cleanup function will run before the component is unmounted or re-rendered
+  //     // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
+  //   };
+  // }, []); // The second argument of useEffect is an optional array of dependencies
 
   // const dataBlag: string[] = ["fgbfgb", "dffdb", "bvfgb", "bfgb", "fbfdb"];
   // const dataReport: string[] = ["dfbfb", "rd", "rd", "rd", "rd"];
+
+  function rclickfun(i) {
+    console.log("obj under rclickfun is ");
+    console.log(i);
+    dispatch({ type: "SET_CURRENT", payload: { iid: i } });
+  }
+
   return (
     <div className="border-r-2 flex-[1] text-xl shadow-xl rounded-lg">
       <div className="flex justify-center">
@@ -110,6 +121,7 @@ export default function LeftHero() {
               <div
                 className={btnStyle}
                 key={i}
+                onClick={() => rclickfun(i)}
               >
                 {obj.title}
               </div>
