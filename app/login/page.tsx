@@ -1,18 +1,16 @@
 "use client";
 
-import { useContext, useReducer, useRef, useState } from "react";
-import Reducer from "../context/Reducer";
-import { User, UserContext } from "../context/Context";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "../context/authContext";
+import { AuthContext, AuthContextType } from "../context/authContext";
 
 export default function Home() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //const [user, setUser] = useState<User | null>(null);
-  const conobj = useContext(AuthContext);
+  const conobj = useContext(AuthContext) as AuthContextType;
   const { dispatch, state } = conobj;
   const [allgood, setAllgood] = useState(true);
   const router = useRouter();
