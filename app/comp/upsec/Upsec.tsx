@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Upsec() {
   const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const router = useRouter();
   // const [data,setData]=useState({})
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -35,14 +37,15 @@ export default function Upsec() {
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const daata = {
-      title: "this is the title",
-      link: "this is the link",
-      desc: "this is the description",
+      title: title,
+      link: image,
+      desc: desc,
     };
     const res = await axios.post(
       "http://localhost:8800/api/upload/uploadreport",
       daata
     );
+    router.push("/");
   };
 
   return (

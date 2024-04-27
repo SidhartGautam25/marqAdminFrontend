@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { useContext } from "react";
-import { AuthContext } from "@/app/context/authContext";
+import { AuthContext, AuthContextType } from "@/app/context/authContext";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
-  const { state, dispatch } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext) as AuthContextType;
   console.log("state us in navbar ", state);
   const user = state.user;
   const router = useRouter();
   function handlelogout() {
     localStorage.removeItem("user");
-    dispatch("LOGOUT");
+    dispatch({ type: "LOGOUT" });
     router.push("/login");
   }
   return (
