@@ -37,9 +37,11 @@ export default function Hero() {
 
   return (
     <>
+
       <div className="flex m-2 rounded-xl p-2 gap-4 border-2 border-blue-600 ">
         <LeftHero reports={reports} />
         <RightHero reports={reports} />
+
       </div>
     </>
   );

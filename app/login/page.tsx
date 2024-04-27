@@ -41,7 +41,8 @@ export default function Home() {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-200">
-      <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-md">
+      <div className=" max-w-md w-full bg-white p-8 border border-gray-300 rounded-md">
+        <div className="text-center font-bold text-xl">LOGIN</div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label

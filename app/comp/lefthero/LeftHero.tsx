@@ -3,6 +3,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
+const btnStyle="w-[95%] mx-auto  border border-slate-200 my-2 p-2 hover:bg-blue-50 ease-in duration-400 hover:cursor-pointer hover:border-b-blue-500";
+
+
 export default function LeftHero({ reports }) {
   // let [state, setState] = useState({
   //   items: Array.from({ length: 10 }),
@@ -62,20 +65,20 @@ export default function LeftHero({ reports }) {
   }
 
   return (
-    <div className="  flex-[1] bg-gray-50 text-xl border-2 border-red-600 rounded-lg py-2">
-      <div className="rounded-md flex justify-center">
+    <div className="border-r-2 flex-[1] text-xl shadow-xl rounded-lg">
+      <div className="flex justify-center">
         <select
           name=""
           id=""
           value={opt}
           onChange={handleOnChange}
-          className="w-[95%] bg-gray-700 text-white rounded-sm p-3 hover:bg-gray-800 mb-2"
+          className="rounded-lg w-full bg-blue-500 text-white hover:font-semibold hover:bg-blue-700  py-2 px-4 focus:outline-none "
         >
           <option value="blog">Blog</option>
           <option value="report">Reports</option>
         </select>
       </div>
-      <div className="overflow-scroll h-[700px] border-2 border-blue-900 flex flex-col items-center ">
+      <div className="overflow-scroll h-[700px]  flex flex-col items-center ">
         {opt === "blog" ? (
           // <InfiniteScroll
           //   dataLength={state.items.length}
@@ -113,10 +116,10 @@ export default function LeftHero({ reports }) {
           //     </Fragment>
           //   ))}
           // </InfiniteScroll>
-          <div>
+          <div className="w-full">
             {reports.map((obj, i) => (
               <div
-                className=" report w-[350px] flex justify-center  border-[1px] border-gray-600 hover:bg-gradient-to-r from-blue-900 to-black mb-2 p-3 hover:text-white text-center rounded-sm hover:cursor-pointer ease-in duration-200"
+                className={btnStyle}
                 key={i}
                 onClick={() => rclickfun(i)}
               >
