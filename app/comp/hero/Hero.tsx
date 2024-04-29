@@ -19,7 +19,7 @@ export default function Hero() {
         const daata = await axios.get(
           "http://localhost:8800/api/getall/report"
         );
-        console.log("daata on leftb hero is ", daata);
+        //console.log("daata on leftb hero is ", daata);
         if (daata) {
           setReports([...daata.data]);
         }

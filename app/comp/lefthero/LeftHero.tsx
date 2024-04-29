@@ -72,7 +72,7 @@ export default function LeftHero({ reports }) {
           id=""
           value={opt}
           onChange={handleOnChange}
-          className="rounded-lg w-full bg-blue-500 text-white hover:font-semibold hover:bg-blue-700  py-2 px-4 focus:outline-none "
+          className="rounded-[1px] mt-2 w-[95%] bg-blue-500 text-white hover:font-semibold hover:bg-blue-700  py-2 px-4 focus:outline-none "
         >
           <option value="blog">Blog</option>
           <option value="report">Reports</option>
