@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextType } from "../context/authContext";
+import PdfDescription from "../comp/pdfdescription/pdfdescription";
 
 export default function Home() {
   const [name, setName] = useState("");
@@ -40,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-200">
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-200">
       <div className=" max-w-md w-full bg-white p-8 border border-gray-300 rounded-md">
         <div className="text-center font-bold text-xl">LOGIN</div>
         <form onSubmit={handleSubmit} className="space-y-6">
