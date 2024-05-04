@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import add from "@/public/add.png"
 
 export default function Upsec() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,9 +51,9 @@ export default function Upsec() {
   };
 
   return (
-    <div>
-      <div className="border-2 border-black flex">
-        <div className="m-1 p-2 rounded-lg flex flex-col items-center gap-5 ">
+    <div className="flex flex-col">
+      <div className=" flex">
+        <div className="m-1 p-5 rounded-lg flex flex-col w-full gap-5">
           <div>
             <label
               htmlFor="title"
@@ -63,7 +65,7 @@ export default function Upsec() {
               type="title"
               id="title"
               required
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -77,7 +79,7 @@ export default function Upsec() {
             </label>
             <textarea
               id="pageNo"
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400"
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none h-24"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
@@ -87,18 +89,25 @@ export default function Upsec() {
         +
       </div> */}
       </div>
+      <div className="flex gap-3">
+      <label htmlFor="fileInput">
+            <Image src={add} alt="img" className="h-[30px] w-[30px]" />
+      </label>
       <input
         type="file"
         name="file"
+        id="fileInput"
         // placeholder="upload your profile"
         onChange={uploadImage}
-        className="border-2  border-black"
+        placeholder="Title"
+        className="hidden"
       />
-
+       <span>Uplode PDF</span>
+       </div>
       <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
       <button
         onClick={handleClick}
-        className="bg-gray-700 text-white rounded-lg m-2 p-2 font-bold w-80"
+        className="bg-gray-700 text-white rounded-lg mt-4 p-2 font-bold w-[8rem]"
       >
         submit
       </button>

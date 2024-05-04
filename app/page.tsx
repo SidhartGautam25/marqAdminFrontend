@@ -12,7 +12,7 @@ export default function Home() {
   //image kit id-> p1howdxjk
   //ex: https://ik.imagekit.io/p1howdxjk/path/to/myimage.jpg
   const { state } = useContext(AuthContext);
-  console.log("state us in navbar ", state);
+  //console.log("state us in navbar ", state);
   const user = state.user;
   const router = useRouter();
   if (!user) {
