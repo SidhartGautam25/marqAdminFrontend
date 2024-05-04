@@ -16,6 +16,7 @@ import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 // Import the styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import Sidebtn from "../sidebtn/Sidebtn";
+import PdfDescription from "../pdfdescription/pdfdescription";
 
 export default function Pdfren({ reports }) {
   const bookmarkPluginInstance = bookmarkPlugin();
@@ -48,6 +49,9 @@ export default function Pdfren({ reports }) {
         <Sidebtn />
       </div>}
       <div className="w-full overflow-scroll h-[680px]">
+        <div>
+          <PdfDescription/>
+        </div>
         <div className="">
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
             <Viewer
