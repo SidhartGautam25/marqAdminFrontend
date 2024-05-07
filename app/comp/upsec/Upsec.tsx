@@ -47,8 +47,8 @@ export default function Upsec() {
 
   return (
     <div>
-      <div className="border-2 border-black flex">
-        <div className="m-1 p-2 rounded-lg flex flex-col items-center gap-5 ">
+      <div className="border-2 border-black flex flex-col">
+        <div className="m-1 p-2 rounded-lg w-full flex flex-col gap-5 ">
           <div>
             <label
               htmlFor="title"
@@ -82,17 +82,17 @@ export default function Upsec() {
         </div>
         {/* <div className="text-[20px] mt-11 m-2 border-2 text-center border-black bg-red-400 rounded-lg h-9 w-9">
         +
-      </div> */}
-      </div>
-      <input
-        type="file"
-        name="file"
-        // placeholder="upload your profile"
-        onChange={uploadImage}
-        className="border-2  border-black"
-      />
+        </div> */}
+        <input
+          type="file"
+          name="file"
+          // placeholder="upload your profile"
+          onChange={uploadImage}
+          className="border-t-2  border-black"
+        />
 
-      <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
+        <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
+      </div>
       <button
         onClick={handleClick}
         className="bg-gray-700 text-white rounded-lg m-2 p-2 font-bold w-80"

@@ -12,7 +12,7 @@ export default function Home() {
         <button className="flex-1 bg-gray-700 text-white rounded-lg m-2 p-2 font-bold w-96">
           Upload your Table of Content
         </button>
-        <div className="">
+        <div className="w-4/6">
           {/* <Upload /> */}
           <Upsec />
         </div>
