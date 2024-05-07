@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 interface Section {
   name: string;
 }
@@ -10,6 +11,9 @@ const reportSections: Section[] = [
   { name: "Major Players" },
   { name: "Recent Developments" },
 ];
+const btnStyle="strap hover:font-semibold hover:bg-blue-50 flex justify-between items-center p-4 ease-in duration-400 hover:cursor-pointer hover:border-b border-blue-500";
+const btnStyle2="strap flex pl-2 justify-between items-center ease-in duration-400  hover:border-b border-blue-500 hover:font-medium hover:cursor-pointer";
+
 export default function Sidebtn() {
   const [isAboutReportOpen, setIsAboutReportOpen] = useState<boolean>(false);
 
@@ -17,9 +21,9 @@ export default function Sidebtn() {
     setIsAboutReportOpen(!isAboutReportOpen);
   };
   return (
-    <div className="flex flex-col w-64 p-4">
+    <div className=" bg-slate flex flex-col w-64 p-4 border-2 h-full">
       <button
-        className="text-md font-semibold text-gray-900 mb-4 flex justify-between items-center w-full text-left"
+        className={btnStyle}
         onClick={toggleAboutReport}
       >
         ABOUT THIS REPORT
@@ -27,20 +31,20 @@ export default function Sidebtn() {
       </button>
       {isAboutReportOpen &&
         reportSections.map((section) => (
-          <div key={section.name}>
-            <div className="mb-2 last:mb-0 px-3 py-1 rounded text-gray-700 hover:bg-gray-100">
+          <div key={section.name} className="p-2 pl-8 bg-slate-50 ">
+            <div className={btnStyle2}>
               {section.name}
             </div>
           </div>
         ))}
-      <h2 className="text-md font-semibold text-gray-900 mt-4 mb-2 cursor-pointer">
+      <h2 className={btnStyle}>
         TABLE OF CONTENTS
       </h2>
-      <h2 className="text-md font-semibold text-gray-900 mt-4 mb-2 cursor-pointer">
-        SCOPE OF THE REPORT
+      <h2 className={btnStyle}>
+        SCOPE OF REPORT
       </h2>
-      <h2 className="text-lg font-semibold text-gray-900 mt-4 mb-2 cursor-pointer">
-        Frequently Asked Questions
+      <h2 className={btnStyle}>
+        FAQs
       </h2>
       <button className="mt-6 bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600">
         Download PDF

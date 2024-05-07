@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +20,8 @@ export default function Home() {
     // For example, send a request to your API endpoint
     console.log({ username, email, phone, password, confirmPassword });
     const data = {
-      name: username,
+      username: username,
+      name: name,
       email: email,
       phone: phone,
       password: password,
@@ -31,7 +33,7 @@ export default function Home() {
       }
       router.push("/login");
     } catch (err) {
-      console.log("err occured on sign up page");
+      console.log("err occured on sign up page ", err);
     }
   };
 
@@ -53,6 +55,19 @@ export default function Home() {
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="name" className="text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>

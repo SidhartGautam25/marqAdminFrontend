@@ -28,10 +28,10 @@ const INITIAL_STATE: State = {
   error: null,
 };
 
-interface AuthContextType {
+export type AuthContextType = {
   state: State;
   dispatch: Dispatch<Action>;
-}
+};
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
