@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import car from "@/assests/car.jpg";
+// import Image from "next/image";
+// import car from "@/assests/car.jpg";
 
 interface Option {
   label: string;
@@ -13,24 +13,20 @@ const options: Option[] = [
   { label: "Corporate", value: "corporate" },
 ];
 
-const PdfDescription: React.FC = () => {
+export default function PdfDescription({ rep }) {
   const [selectedOption, setSelectedOption] = React.useState<string>("single");
+  //console.log("dis page ", rep[curr?.cid]);
+  const imageurl = rep?.linki;
+  const des = rep?.desc;
+  const title = rep?.title;
+  console.log("title is ", title);
 
   return (
     <div className="flex">
       {/* title description and date side */}
       <div className="px-16 w-1/2 flex justify-center flex-col border-2">
-        <h1 className="my-8 font-bold text-3xl ">
-          Iran Automotive Market Report - Analysing EV Trends and Car Sales
-          Volume Data
-        </h1>
-        <p className="my-4">
-          Iran Automotive report offers detailed analysis on market overview,
-          key investment analysis by car manufacturers, detailed monthly
-          statistics on car sales by company and by brand, and the changing
-          regulatory landscape. Our report also offers in-depth analysis on Iran
-          Electric Vehicle market.
-        </p>
+        <div className="my-8 font-bold text-3xl ">{title}</div>
+        <div className="my-4">{des}</div>
         <div className=" border-t-2 border-gray-300 my-4 font-extralight">
           <span className="my-8">Report Content</span>
           <div className="flex justify-between my-4">
@@ -44,17 +40,16 @@ const PdfDescription: React.FC = () => {
       {/* //image and pricing side */}
       <div className="w-1/2 group relative border-2 overflow-hidden  ">
         <div className="absolute">
-          <Image
-            src={car}
+          <img
+            src={imageurl}
             alt="carImage"
+            // width={100}
+            // height={100}
             className="object-fit h-full overflow-hidden group-hover:opacity-50"
           />
         </div>
         <div className="mix-blend-multiply ">
-          <h1 className="my-8 font-bold text-3xl p-16">
-            Iran Automotive Market Report - Analysing EV Trends and Car Sales
-            Volume Data
-          </h1>
+          <h1 className="my-8 font-bold text-3xl p-16">{des}</h1>
           <div className="p-16">
             <span>Choose your best option</span>
             <div className="flex items-center space-x-4 mb-4">
@@ -78,14 +73,16 @@ const PdfDescription: React.FC = () => {
             </div>
             <span className="text-2xl">$ 1,299.00 USD</span>
             <div className="my-8 flex">
-              <button className="btn-blue mx-2 w-32  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold">BUY NOW</button>
-              <button className="btn-blue mx-2 w-52  font-semibold flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-500 text-red-500 hover:text-white hover:font-bold">Download Free Sample</button>
+              <button className="btn-blue mx-2 w-32  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold">
+                BUY NOW
+              </button>
+              <button className="btn-blue mx-2 w-52  font-semibold flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-500 text-red-500 hover:text-white hover:font-bold">
+                Download Free Sample
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default PdfDescription;
+}
