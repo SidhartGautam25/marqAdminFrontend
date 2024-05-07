@@ -148,8 +148,7 @@ export default function Upsec() {
         <Calendar onChange={dateChange} value={date}/>
       </div> */}
 
-        <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
-      </div>
+      <div>{loading ? <h3>loading</h3> : <img src={image} alt="" />}</div>
       <button
         onClick={handleClick}
         className="btn-blue mx-2 w-1/2 self-center mt-6 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
