@@ -120,6 +120,9 @@ export default function Upsec() {
   const [imagei, setImagei] = useState<string>("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [pricingSin, setPricingSin] = useState("");
+  const [pricingTeam, setPricingTeam] = useState("");
+  const [pricingCor, setPricingCor] = useState("");
   // const [date, dateChange] = useState<Date>(new Date());
   const router = useRouter();
   // console.log(selectedOption);
@@ -209,7 +212,7 @@ export default function Upsec() {
   };
 
   return (
-    <div className="flex flex-col px-12">
+    <div className="flex flex-col px-12 py-4">
       <div className=" flex">
         <div className="m-1 p-5 rounded-lg flex flex-col w-full gap-5">
           <div>
@@ -342,6 +345,51 @@ export default function Upsec() {
         </div>
       </div>
 
+      {/* set pricing */}
+      <div className="flex border-b-2 pb-4">
+        <div className="w-1/3 mx-2">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Pricing for Single
+          </label>
+          <input
+            type="title"
+            id="title"
+            placeholder="in dollars"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={pricingSin}
+            onChange={(e) => setPricingSin(e.target.value)}
+          />
+        </div>
+        <div className="w-1/3 mx-2">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Pricing for Team
+          </label>
+          <input
+            type="title"
+            id="title"
+            placeholder="in dollars"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={pricingTeam}
+            onChange={(e) => setPricingTeam(e.target.value)}
+          />
+        </div>
+        <div className="w-1/3 mx-2">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Pricing for Corporate
+          </label>
+          <input
+            type="title"
+            id="title"
+            placeholder="in dollars"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={pricingCor}
+            onChange={(e) => setPricingCor(e.target.value)}
+          />
+        </div>
+      </div>
       {/* <div>
         <Calendar onChange={dateChange} value={date}/>
       </div> */}

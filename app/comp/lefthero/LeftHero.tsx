@@ -3,13 +3,44 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
-const btnStyle="w-[95%] mx-auto  border border-slate-200 my-2 p-2 hover:bg-blue-50 ease-in duration-400 hover:cursor-pointer hover:border-b-blue-500";
+type FilterOption =
+  | "All"
+  | "Electric Vehicle Technology"
+  | "Automotive Solutions"
+  | "Shared Mobility"
+  | "Electrical and Electronics"
+  | "Connectivity Technology"
+  | "Industrial Automotive Application"
+  | "Emerging Technology";
 
-
+const btnStyle =
+  "w-[95%] mx-auto  border border-slate-200 my-2 p-2 hover:bg-blue-50 ease-in duration-400 hover:cursor-pointer hover:border-b-blue-500";
 export default function LeftHero({ reports }) {
   // let [state, setState] = useState({
   //   items: Array.from({ length: 10 }),
   // });
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<FilterOption | "">("");
+
+  const filterOptions: FilterOption[] = [
+    "All",
+    "Electric Vehicle Technology",
+    "Automotive Solutions",
+    "Shared Mobility",
+    "Electrical and Electronics",
+    "Connectivity Technology",
+    "Industrial Automotive Application",
+    "Emerging Technology",
+  ];
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const selectFilterOption = (option: FilterOption) => {
+    setSelectedFilter(option);
+    setDropdownOpen(false); // Close the dropdown after selection
+  };
 
   // const fetchMoreData = () => {
   //   // a fake async api call like which sends
@@ -78,7 +109,33 @@ export default function LeftHero({ reports }) {
           <option value="report">Reports</option>
         </select>
       </div>
-      <div className="overflow-scroll h-[700px]  flex flex-col items-center ">
+      {/* filter */}
+      <div className="container mx-auto p-2">
+        <div className="relative w-full">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50"
+            onClick={toggleDropdown}
+          >
+            {selectedFilter==="All"?"Filter":selectedFilter || "Filter"}
+          </button>
+          {dropdownOpen && (
+            <ul className="absolute left-0 right-0 mt-2 bg-white shadow-lg border rounded-lg z-10">
+              {filterOptions.map((option, index) => (
+                <li
+                  key={index}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => selectFilterOption(option)}
+                >
+                  {option}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+
+      <div className="overflow-scroll h-[600px]  flex flex-col items-center ">
         {opt === "blog" ? (
           // <InfiniteScroll
           //   dataLength={state.items.length}
@@ -118,11 +175,7 @@ export default function LeftHero({ reports }) {
           // </InfiniteScroll>
           <div className="w-full">
             {reports.map((obj, i) => (
-              <div
-                className={btnStyle}
-                key={i}
-                onClick={() => rclickfun(i)}
-              >
+              <div className={btnStyle} key={i} onClick={() => rclickfun(i)}>
                 {obj.title}
               </div>
             ))}
@@ -131,6 +184,7 @@ export default function LeftHero({ reports }) {
           <span></span>
         )}
       </div>
+
     </div>
   );
 }
