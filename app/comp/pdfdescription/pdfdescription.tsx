@@ -1,3 +1,4 @@
+"use client";
 import { Covered_By_Your_Grace } from "next/font/google";
 import React from "react";
 // import Image from "next/image";
@@ -14,17 +15,21 @@ const options: Option[] = [
   { label: "Corporate", value: "corporate" },
 ];
 
-export default function PdfDescription({ rep }) {
+interface DynamicProps {
+  [key: string]: any;
+}
+
+const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   const [selectedOption, setSelectedOption] = React.useState<string>("single");
   //console.log("dis page ", rep[curr?.cid]);
   const imageurl = rep?.linki;
   const des = rep?.desc;
   const title = rep?.title;
-  const titleNew =title?.length > 80?`${rep?.title.substring(0, 80)}...`:title ;
+  const titleNew =
+    title?.length > 80 ? `${rep?.title.substring(0, 80)}...` : title;
   console.log("title is ", rep);
 
   // const description =readmore?info: `${info.substring(0, 200)}....`;
-
 
   return (
     <div className="h-[500px] flex">
@@ -42,7 +47,14 @@ export default function PdfDescription({ rep }) {
         </div>
       </div>
       <div className="w-1/2 px-6 py-6 bg-[#1F2937]">
-        <div className="h-3/5 flex items-center justify-center" style={{backgroundImage: `url(${imageurl})`,backgroundSize:'cover',backgroundRepeat: 'no-repeat'}}>
+        <div
+          className="h-3/5 flex items-center justify-center"
+          style={{
+            backgroundImage: `url(${imageurl})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           <h1 className="font-bold text-3xl p-4 mix-blend-multiply">
             <div className=" bg-blue-400">{titleNew}</div>
           </h1>
@@ -50,8 +62,8 @@ export default function PdfDescription({ rep }) {
         <div className="h-2/5 pt-2">
           <span className="text-white">Choose your best option</span>
           <div className="flex items-center space-x-4 mb-4">
-            {options.map((option) => (
-              <div className="">
+            {options.map((option, i) => (
+              <div className="" key={i}>
                 <label
                   key={option.value}
                   className="flex group border-white border hover:border-red-300 items-center space-x-2 px-4 py-2 hover:bg-red-500"
@@ -130,4 +142,6 @@ export default function PdfDescription({ rep }) {
     //   </div>
     // </div>
   );
-}
+};
+
+export default PdfDescription;

@@ -1,7 +1,12 @@
+"use client";
 import { Fragment, useEffect, useState, useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
+
+interface ChildComponentProps {
+  reports: Record<string, any>[];
+}
 
 type FilterOption =
   | "All"
@@ -15,7 +20,7 @@ type FilterOption =
 
 const btnStyle =
   "w-[95%] mx-auto  border border-slate-200 my-2 p-2 hover:bg-blue-50 ease-in duration-400 hover:cursor-pointer hover:border-b-blue-500";
-export default function LeftHero({ reports }) {
+const LeftHero: React.FC<ChildComponentProps> = ({ reports }) => {
   // let [state, setState] = useState({
   //   items: Array.from({ length: 10 }),
   // });
@@ -89,7 +94,7 @@ export default function LeftHero({ reports }) {
   // const dataBlag: string[] = ["fgbfgb", "dffdb", "bvfgb", "bfgb", "fbfdb"];
   // const dataReport: string[] = ["dfbfb", "rd", "rd", "rd", "rd"];
 
-  function rclickfun(i) {
+  function rclickfun(i: number) {
     console.log("obj under rclickfun is ");
     console.log(i);
     dispatch({ type: "SET_CURRENT", payload: { iid: i } });
@@ -116,7 +121,7 @@ export default function LeftHero({ reports }) {
             className="bg-blue-500 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50"
             onClick={toggleDropdown}
           >
-            {selectedFilter==="All"?"Filter":selectedFilter || "Filter"}
+            {selectedFilter === "All" ? "Filter" : selectedFilter || "Filter"}
           </button>
           {dropdownOpen && (
             <ul className="absolute left-0 right-0 mt-2 bg-white shadow-lg border rounded-lg z-10">
@@ -133,7 +138,6 @@ export default function LeftHero({ reports }) {
           )}
         </div>
       </div>
-
 
       <div className="overflow-scroll h-[600px]  flex flex-col items-center ">
         {opt === "blog" ? (
@@ -184,7 +188,8 @@ export default function LeftHero({ reports }) {
           <span></span>
         )}
       </div>
-
     </div>
   );
-}
+};
+
+export default LeftHero;
