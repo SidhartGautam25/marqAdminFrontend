@@ -17,8 +17,13 @@ import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import Sidebtn from "../sidebtn/Sidebtn";
 import PdfDescription from "../pdfdescription/pdfdescription";
+import exp from "constants";
 
-export default function Pdfren({ reports }) {
+interface ChildComponentProps {
+  reports: Record<string, any>[];
+}
+
+const Pdfren: React.FC<ChildComponentProps> = ({ reports }) => {
   const bookmarkPluginInstance = bookmarkPlugin();
   const { Bookmarks } = bookmarkPluginInstance;
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -36,6 +41,8 @@ export default function Pdfren({ reports }) {
   // console.log("pdfrul is ", pdfurl);
   console.log("reports 0 is ", reports[0]?.linkp);
   const repos = reports[state?.cid];
+  console.log("we are on pdfren repos ", repos);
+  console.log(typeof repos);
 
   const handleGoToSection = () => {
     // Calculate the position of the specific section on the page
@@ -91,4 +98,6 @@ export default function Pdfren({ reports }) {
       </div>
     </div>
   );
-}
+};
+
+export default Pdfren;

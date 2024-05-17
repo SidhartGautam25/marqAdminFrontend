@@ -14,7 +14,11 @@ const options: Option[] = [
   { label: "Corporate", value: "corporate" },
 ];
 
-export default function PdfDescription({ rep }) {
+interface DynamicProps {
+  [key: string]: any;
+}
+
+const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   const [selectedOption, setSelectedOption] = React.useState<string>("single");
   //console.log("dis page ", rep[curr?.cid]);
   const imageurl = rep?.linki;
@@ -137,4 +141,6 @@ export default function PdfDescription({ rep }) {
     //   </div>
     // </div>
   );
-}
+};
+
+export default PdfDescription;
