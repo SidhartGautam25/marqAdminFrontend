@@ -43,8 +43,6 @@ export default function PdfDescription({ rep }) {
           <img
             src={imageurl}
             alt="carImage"
-            // width={100}
-            // height={100}
             className="object-fit h-full overflow-hidden group-hover:opacity-50"
           />
         </div>
