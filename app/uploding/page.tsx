@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "../comp/navbar/Navbar";
-import Upload from "../comp/upload/Upload";
+// import Upload from "../comp/upload/Upload";
 import Upsec from "../comp/upsec/Upsec";
 
 export default function Home() {
