@@ -20,11 +20,11 @@ export default function PdfDescription({ rep }) {
   const imageurl = rep?.linki;
   const des = rep?.desc;
   const title = rep?.title;
-  const titleNew =title?.length > 80?`${rep?.title.substring(0, 80)}...`:title ;
+  const titleNew =
+    title?.length > 80 ? `${rep?.title.substring(0, 80)}...` : title;
   console.log("title is ", rep);
 
   // const description =readmore?info: `${info.substring(0, 200)}....`;
-
 
   return (
     <div className="h-[500px] flex">
@@ -42,7 +42,14 @@ export default function PdfDescription({ rep }) {
         </div>
       </div>
       <div className="w-1/2 px-6 py-6 bg-[#1F2937]">
-        <div className="h-3/5 flex items-center justify-center" style={{backgroundImage: `url(${imageurl})`,backgroundSize:'cover',backgroundRepeat: 'no-repeat'}}>
+        <div
+          className="h-3/5 flex items-center justify-center"
+          style={{
+            backgroundImage: `url(${imageurl})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           <h1 className="font-bold text-3xl p-4 mix-blend-multiply">
             <div className=" bg-blue-400">{titleNew}</div>
           </h1>
@@ -63,7 +70,7 @@ export default function PdfDescription({ rep }) {
                     onChange={() => setSelectedOption(option.value)}
                     className="text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="text-red-700 group-hover:text-white">
+                  <span className="text-gray-300 group-hover:text-white">
                     {option.label}
                   </span>
                 </label>
