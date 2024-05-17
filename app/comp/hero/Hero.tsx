@@ -6,7 +6,7 @@ import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
 export default function Hero() {
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<Record<string, any>[]>([]);
 
   useEffect(() => {
     // Code inside this function will run after every render
@@ -19,7 +19,7 @@ export default function Hero() {
         const daata = await axios.get(
           "http://localhost:8800/api/getall/report"
         );
-        console.log("daata on leftb hero is ", daata);
+        console.log("daata on leftb hero is ", daata.data);
         if (daata) {
           setReports([...daata.data]);
         }
