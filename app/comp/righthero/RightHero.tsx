@@ -4,7 +4,11 @@ import Pdfren from "../pdfren/Pdfren";
 import { useState, useContext } from "react";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
-export default function RightHero({ reports }) {
+interface ChildComponentProps {
+  reports: Record<string, any>[];
+}
+
+const RightHero: React.FC<ChildComponentProps> = ({ reports }) => {
   const { state, dispatch } = useContext(ReportContext) as ReportContextType;
   console.log("state in right hero is ", state);
 
@@ -32,4 +36,5 @@ export default function RightHero({ reports }) {
       </div>
     </>
   );
-}
+};
+export default RightHero;
