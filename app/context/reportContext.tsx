@@ -21,7 +21,10 @@ const INITIAL_STATE: State = {
     typeof window !== "undefined"
       ? localStorage.getItem("reportid") || null
       : null,
-  cpage: localStorage.getItem("reportpage"),
+  cpage:
+    typeof window !== "undefined"
+      ? localStorage.getItem("reportpage") || null
+      : null,
 };
 
 export type ReportContextType = {
