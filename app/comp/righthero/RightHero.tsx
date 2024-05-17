@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Sidebtn from "../sidebtn/Sidebtn";
 import Pdfren from "../pdfren/Pdfren";

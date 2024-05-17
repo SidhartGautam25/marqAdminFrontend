@@ -1,3 +1,4 @@
+"use client";
 import { Fragment, useEffect, useState, useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";

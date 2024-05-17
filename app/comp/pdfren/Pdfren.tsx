@@ -1,3 +1,4 @@
+"use client";
 import { Worker } from "@react-pdf-viewer/core";
 import Image from "next/image";
 import left from "@/public/left-chevron.png";

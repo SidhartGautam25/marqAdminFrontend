@@ -1,3 +1,4 @@
+"use client";
 import LeftHero from "../lefthero/LeftHero";
 import RightHero from "../righthero/RightHero";
 import { Fragment, useEffect, useState, useContext } from "react";

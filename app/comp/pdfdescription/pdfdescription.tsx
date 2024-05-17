@@ -1,3 +1,4 @@
+"use client";
 import { Covered_By_Your_Grace } from "next/font/google";
 import React from "react";
 // import Image from "next/image";
