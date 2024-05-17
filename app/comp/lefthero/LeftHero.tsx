@@ -93,7 +93,7 @@ const LeftHero: React.FC<ChildComponentProps> = ({ reports }) => {
   // const dataBlag: string[] = ["fgbfgb", "dffdb", "bvfgb", "bfgb", "fbfdb"];
   // const dataReport: string[] = ["dfbfb", "rd", "rd", "rd", "rd"];
 
-  function rclickfun(i) {
+  function rclickfun(i: number) {
     console.log("obj under rclickfun is ");
     console.log(i);
     dispatch({ type: "SET_CURRENT", payload: { iid: i } });
