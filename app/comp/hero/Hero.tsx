@@ -6,8 +6,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 
+axios.defaults.withCredentials = true;
+
 export default function Hero() {
   const [reports, setReports] = useState<Record<string, any>[]>([]);
+  const [dup, setDup] = useState<Record<string, any>[]>([]);
 
   useEffect(() => {
     // Code inside this function will run after every render
@@ -18,7 +21,7 @@ export default function Hero() {
       console.log("fetch report called");
       try {
         const daata = await axios.get(
-          "http://localhost:8800/api/getall/report"
+          "https://marq-admin-backend.onrender.com/api/getall/report"
         );
         console.log("daata on leftb hero is ", daata.data);
         if (daata) {

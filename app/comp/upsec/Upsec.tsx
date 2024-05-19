@@ -207,7 +207,7 @@ export default function Upsec() {
       subind: subIndustryOption,
     };
     const res = await axios.post(
-      "http://localhost:8800/api/upload/uploadreport",
+      "https://marq-admin-backend.onrender.com/api/upload/uploadreport",
       daata
     );
   };

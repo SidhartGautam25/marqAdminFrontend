@@ -31,7 +31,10 @@ export default function Home() {
       console.log("some error occured on login page");
       setAllgood(false);
     }
-    const res = await axios.post("http://localhost:8800/api/auth/login", data);
+    const res = await axios.post(
+      "https://marq-admin-backend.onrender.com/api/auth/login",
+      data
+    );
     console.log("res form login is ", res.data.details);
 
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
