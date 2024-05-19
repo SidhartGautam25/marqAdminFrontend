@@ -79,7 +79,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
     loading: false,
   };
 
-  const [state, dispatch] = useReducer(Reducer, initialState);
+  const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
   useEffect(() => {
     // console.log("state ",state);
     localStorage.setItem("user", JSON.stringify(state.user));
