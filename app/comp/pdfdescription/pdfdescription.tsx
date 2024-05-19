@@ -32,8 +32,8 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   // const description =readmore?info: `${info.substring(0, 200)}....`;
 
   return (
-    <div className="h-[500px] flex">
-      <div className="w-1/2 px-8 flex justify-center flex-col border-2">
+    <div className="h-[500px] flex shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+      <div className="w-1/2 px-8 flex justify-center flex-col border-2 bg-slate-50">
         <div className="w-[100px] h-[10px] bg-red-500"></div>
         <div className="my-8 font-bold text-3xl ">{title}</div>
         <div className="my-4">{des}</div>
@@ -45,8 +45,16 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             <span>Industry data</span>
           </div>
         </div>
+        <div className="my-2 flex justify-around">
+            <button className=" bg-blue-400 btn-blue mx-2 w-32  flex justify-center border-[1px] rounded border-blue-600 p-3 hover:bg-blue-500  text-white hover:font-semibold">
+              BUY NOW
+            </button>
+            <button className="btn-blue mx-2 w-52  flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-600 text-red-500 hover:text-white hover:font-semibold">
+              Download Free Sample
+            </button>
+          </div>
       </div>
-      <div className="w-1/2 px-6 py-6 bg-[#1F2937]">
+      <div className="w-1/2 px-6 py-6 bg-blue-200">
         <div
           className="h-3/5 flex items-center justify-center"
           style={{
@@ -55,18 +63,18 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <h1 className="font-bold text-3xl p-4 mix-blend-multiply">
-            <div className=" bg-blue-400">{titleNew}</div>
-          </h1>
+          {/* <h1 className="font-bold text-3xl p-4 mix-blend-multiply">
+            <div className="p-2 bg-blue-900 text-white">{titleNew}</div>
+          </h1> */}
         </div>
         <div className="h-2/5 pt-2">
-          <span className="text-white">Choose your best option</span>
+          <span className="text-black">Choose your best option</span>
           <div className="flex items-center space-x-4 mb-4">
             {options.map((option, i) => (
               <div className="" key={i}>
                 <label
                   key={option.value}
-                  className="flex group border-white border hover:border-red-300 items-center space-x-2 px-4 py-2 hover:bg-red-500"
+                  className="flex group border-white border hover:cursor-pointer hover:border-red-300 items-center space-x-2 px-4 py-2 hover:bg-red-500"
                 >
                   <input
                     type="radio"
@@ -83,64 +91,12 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             ))}
           </div>
 
-          <span className="text-xl text-white">$ 1,299.00 USD</span>
+          <span className="text-2xl text-blue-700 font-bold">$ 1,299.00 USD</span>
 
-          <div className="my-2 flex">
-            <button className="btn-blue mx-2 w-32  flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-semibold">
-              BUY NOW
-            </button>
-            <button className="btn-blue mx-2 w-52  flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-500 text-red-500 hover:text-white hover:font-semibold">
-              Download Free Sample
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
-
-    // <div className="flex">
-    //   {/* title description and date side */}
-    //   <div className="px-16 w-1/2 flex justify-center flex-col border-2">
-    //
-    //   </div>
-    //   {/* //image and pricing side */}
-    //   <div className="w-1/2 group relative border-2 overflow-hidden  ">
-    //
-    //
-    //
-    //       <div className="p-16">
-    //         <span>Choose your best option</span>
-    //         <div className="flex items-center space-x-4 mb-4">
-    //           {options.map((option) => (
-    //             <div className="">
-    //               <label
-    //                 key={option.value}
-    //                 className="flex border border-black hover:border-red-300 items-center space-x-2 px-4 py-2 text-xl hover:bg-red-500"
-    //               >
-    //                 <input
-    //                   type="radio"
-    //                   value={option.value}
-    //                   checked={selectedOption === option.value}
-    //                   onChange={() => setSelectedOption(option.value)}
-    //                   className="text-blue-600 focus:ring-blue-500 border-gray-300"
-    //                 />
-    //                 <span className="text-gray-700">{option.label}</span>
-    //               </label>
-    //             </div>
-    //           ))}
-    //         </div>
-    //         <span className="text-2xl">$ 1,299.00 USD</span>
-    //         <div className="my-8 flex">
-    //           <button className="btn-blue mx-2 w-32  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold">
-    //             BUY NOW
-    //           </button>
-    //           <button className="btn-blue mx-2 w-52  font-semibold flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-500 text-red-500 hover:text-white hover:font-bold">
-    //             Download Free Sample
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 
