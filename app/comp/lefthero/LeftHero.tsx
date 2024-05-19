@@ -115,7 +115,7 @@ const LeftHero: React.FC<ChildComponentProps> = ({ reports }) => {
         </select>
       </div>
       {/* filter */}
-      <div className="container mx-auto p-2">
+      <div className="container mx-auto p-2 ">
         <div className="relative w-full">
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50"
@@ -128,7 +128,7 @@ const LeftHero: React.FC<ChildComponentProps> = ({ reports }) => {
               {filterOptions.map((option, index) => (
                 <li
                   key={index}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  className="p-2 cursor-pointer hover:bg-blue-100 hover:border-b-2 border-blue-700"
                   onClick={() => selectFilterOption(option)}
                 >
                   {option}
