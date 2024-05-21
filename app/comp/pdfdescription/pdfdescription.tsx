@@ -1,3 +1,4 @@
+"use client";
 import { Covered_By_Your_Grace } from "next/font/google";
 import React from "react";
 // import Image from "next/image";
@@ -14,7 +15,11 @@ const options: Option[] = [
   { label: "Corporate", value: "corporate" },
 ];
 
-export default function PdfDescription({ rep }) {
+interface DynamicProps {
+  [key: string]: any;
+}
+
+const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   const [selectedOption, setSelectedOption] = React.useState<string>("single");
   //console.log("dis page ", rep[curr?.cid]);
   const imageurl = rep?.linki;
@@ -29,7 +34,7 @@ export default function PdfDescription({ rep }) {
   return (
     <div className="h-[500px] flex">
       <div className="w-1/2 px-8 flex justify-center flex-col border-2">
-        <div className="w-[100px] h-[10px] bg-red-500"></div>
+        <div className="w-[100px] h-[10px] bg-gray-500"></div>
         <div className="my-8 font-bold text-3xl ">{title}</div>
         <div className="my-4">{des}</div>
         <div className=" border-t-2 border-gray-300 my-4 font-extralight">
@@ -57,8 +62,8 @@ export default function PdfDescription({ rep }) {
         <div className="h-2/5 pt-2">
           <span className="text-white">Choose your best option</span>
           <div className="flex items-center space-x-4 mb-4">
-            {options.map((option) => (
-              <div className="">
+            {options.map((option, i) => (
+              <div className="" key={i}>
                 <label
                   key={option.value}
                   className="flex group border-white border hover:border-red-300 items-center space-x-2 px-4 py-2 hover:bg-red-500"
@@ -137,4 +142,6 @@ export default function PdfDescription({ rep }) {
     //   </div>
     // </div>
   );
-}
+};
+
+export default PdfDescription;
