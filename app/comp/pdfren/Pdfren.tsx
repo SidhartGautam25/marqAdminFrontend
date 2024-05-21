@@ -78,10 +78,10 @@ const Pdfren: React.FC<ChildComponentProps> = ({ reports }) => {
         </div>
       )}
       <div className="w-full overflow-scroll h-[680px]">
-        <div>
+        <div className="">
           <PdfDescription rep={repos} />
         </div>
-        <div className="">
+        <div className="border">
           {/* {state.cid && reports ? `${reports[state.cid].link1}` : "nothing"} */}
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
             <Viewer

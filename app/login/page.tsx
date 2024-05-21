@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextType } from "../context/authContext";
 import PdfDescription from "../comp/pdfdescription/pdfdescription";
 
+axios.defaults.withCredentials = true;
+
 export default function Home() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

@@ -22,7 +22,7 @@ export default function Home() {
     router.push("/login");
   }
   return (
-    <div className="">
+    <div>
       <Navbar />
       <Hero />
       {/* <Upsec />
