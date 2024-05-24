@@ -10,9 +10,9 @@ interface Option {
 }
 
 const options: Option[] = [
-  { label: "Single", value: "single" },
-  { label: "Team", value: "team" },
-  { label: "Corporate", value: "corporate" },
+  { label: "Data Suite", value: "Data Suite" },
+  { label: "Insight Report", value: "Insight Report" },
+  
 ];
 
 interface DynamicProps {
@@ -38,22 +38,18 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
         <div className="my-8 font-bold text-3xl ">{title}</div>
         <div className="my-4">{des}</div>
         <div className=" border-t-2 border-gray-300 my-4 font-extralight">
-          <span className="my-8">Report Content</span>
+          {/* <span className="my-8">Report Content</span>
           <div className="flex justify-between my-4">
             <span>Market Trends</span>
             <span>Overview</span>
             <span>Industry data</span>
-          </div>
+          </div> */}
         </div>
-        <div className="my-2 flex justify-around">
-            <button className=" bg-blue-400 btn-blue mx-2 w-32  flex justify-center border-[1px] rounded border-blue-600 p-3 hover:bg-blue-500  text-white hover:font-semibold">
-              BUY NOW
-            </button>
-            <button className="btn-blue mx-2 w-52  flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-600 text-red-500 hover:text-white hover:font-semibold">
-              Download Free Sample
-            </button>
-          </div>
+        <div className="bg-blue-400 p-3 w-[10rem] text-white flex justify-center items-center rounded-sm">
+          <span>April 2024</span>
+        </div>
       </div>
+
       <div className="w-1/2 px-6 py-6 bg-blue-200">
         <div
           className="h-3/5 flex items-center justify-center"
@@ -68,8 +64,8 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
           </h1> */}
         </div>
         <div className="h-2/5 pt-2">
-          <span className="text-black">Choose your best option</span>
-          <div className="flex items-center space-x-4 mb-4">
+          <span className="text-black">Pick Your Perfect Solution</span>
+          <div className="flex items-center space-x-4 mt-4">
             {options.map((option, i) => (
               <div className="" key={i}>
                 <label
@@ -90,10 +86,14 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
               </div>
             ))}
           </div>
-
-          <span className="text-2xl text-blue-700 font-bold">$ 1,299.00 USD</span>
-
-          
+          <div className="flex justify-between mt-7">
+            <span className="text-2xl text-blue-700 font-bold">
+              $ 1,299.00 USD
+            </span>
+            <button className=" bg-blue-500 btn-blue  flex justify-center border-[1px] rounded border-blue-600 p-3 hover:bg-blue-700  text-white">
+              Downlod Sample
+            </button>
+          </div>
         </div>
       </div>
     </div>

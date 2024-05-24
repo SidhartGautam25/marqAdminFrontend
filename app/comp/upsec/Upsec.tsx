@@ -299,7 +299,76 @@ export default function Upsec() {
           ))}
         </div>
       </div>
-
+      {/* related Report sction */}
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-20">
+          <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Study Period
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block  px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          </div>
+          <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Forecast Period
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          </div>
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 1
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 2
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 3
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+      </div>
       {/* upload Pdf and image for the thumbnail */}
       <div className="flex self-center gap-24 my-4">
         <div className="group flex flex-col items-center gap-3 self-center">
@@ -347,10 +416,10 @@ export default function Upsec() {
       </div>
 
       {/* set pricing */}
-      <div className="flex border-b-2 pb-4">
+      <div className="flex border-b-2 pb-4 justify-between">
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Single
+            Pricing for Data Suite
           </label>
           <input
             type="title"
@@ -364,7 +433,7 @@ export default function Upsec() {
         </div>
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Team
+            Pricing for Insight Report
           </label>
           <input
             type="title"
@@ -374,20 +443,6 @@ export default function Upsec() {
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
             value={pricingTeam}
             onChange={(e) => setPricingTeam(e.target.value)}
-          />
-        </div>
-        <div className="w-1/3 mx-2">
-          <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Corporate
-          </label>
-          <input
-            type="title"
-            id="title"
-            placeholder="in dollars"
-            required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
-            value={pricingCor}
-            onChange={(e) => setPricingCor(e.target.value)}
           />
         </div>
       </div>
