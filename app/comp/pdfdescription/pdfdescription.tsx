@@ -83,7 +83,7 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
                     onChange={() => setSelectedOption(option.value)}
                     className="text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="text-gray-300 group-hover:text-white">
+                  <span className="text-red-700 group-hover:text-white">
                     {option.label}
                   </span>
                 </label>
