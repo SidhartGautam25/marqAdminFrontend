@@ -524,6 +524,50 @@ export default function Upsec() {
             Upload Thumbnail
           </span>
         </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput2">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file2"
+            id="fileInput2"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage2} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload FAQ
+          </span>
+        </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput2">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file2"
+            id="fileInput2"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage2} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload Table of Content
+          </span>
+        </div>
       </div>
 
       {/* set pricing */}
