@@ -82,7 +82,7 @@ const Pdfren: React.FC<ChildComponentProps> = ({ reports }) => {
         <div className="">
           <PdfDescription rep={repos} />
         </div>
-        <div className="border">
+        <div className="border w-auto">
           {/* {state.cid && reports ? `${reports[state.cid].link1}` : "nothing"} */}
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
             <div>
