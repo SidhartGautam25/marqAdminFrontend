@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/app/context/authContext";
 import { useRouter } from "next/navigation";
 import { AuthContextType } from "@/app/context/authContext";
-import AdobePdfViewer from "./comp/adobe/adoberen";
+// import AdobePdfViewer from "./comp/adobe/adoberen";
 
 // import Pdfren from "./comp/pdfren/Pdfren";
 // import Upsec from "./comp/upsec/Upsec";
