@@ -36,8 +36,8 @@ export default function Sidebtn() {
           </div>
         ))}
       <h2 className={btnStyle}>TABLE OF CONTENTS</h2>
-      <h2 className={btnStyle}>SCOPE OF REPORT</h2>
       <h2 className={btnStyle}>FAQs</h2>
+      <h2 className={btnStyle}>RELATED REPORT</h2>
       <button className="mt-6 bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600">
         Download PDF
       </button>

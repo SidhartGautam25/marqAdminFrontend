@@ -43,7 +43,7 @@ export default function Hero() {
   return (
     <>
       <div className="flex m-2 rounded-xl p-2 gap-4 ">
-        <LeftHero reports={reports} />
+        {/* <LeftHero reports={reports} /> */}
         <RightHero reports={reports} />
       </div>
     </>

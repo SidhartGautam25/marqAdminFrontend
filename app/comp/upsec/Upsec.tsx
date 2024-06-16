@@ -4,7 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import add from "@/public/add.png";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Define the type for the radio options
 interface RadioOption {
   id: string; // Unique identifier for each radio button
@@ -168,6 +169,9 @@ export default function Upsec() {
       console.log(file.secure_url);
       setLoading1(false);
     }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
   };
 
   const uploadImage2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +197,9 @@ export default function Upsec() {
       console.log(file.secure_url);
       setLoading2(false);
     }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
   };
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -210,7 +217,11 @@ export default function Upsec() {
     };
     const res = await axios.post(local, daata);
   };
-
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files?.length) {
+  //     toast.success("File selected successfully!");
+  //   }
+  // };
   return (
     <div className="flex flex-col px-12 py-4">
       <div className=" flex">
@@ -298,7 +309,174 @@ export default function Upsec() {
           ))}
         </div>
       </div>
+      {/* seo info */}
+      <div className="p-4 flex flex-col justify-between border-t-2 border-b-2">
+        <h3 className="text-xl font-semibold my-4">SEO Information</h3>
 
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-title"
+          >
+            Meta Title
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-title"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-description"
+          >
+            Meta Description
+          </label>
+          <textarea
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-description"
+            rows={4}
+          ></textarea>
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-keywords"
+          >
+            Meta Keywords
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-keywords"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-thumbnail"
+          >
+            Alt Tag for Thumbnail
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-thumbnail"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Alt Tag for Image 1 within the PDF
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Alt Tag for Image 2 within the PDF
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            required
+          />
+        </div>
+      </div>
+      {/* related Report sction */}
+      {/* <div className="flex flex-col gap-3">
+        <div className="flex gap-20">
+          <div className="">
+            <label
+              htmlFor="title"
+              className="text-lg font-medium text-gray-700"
+            >
+              Study Period
+            </label>
+            <input
+              type="title"
+              id="title"
+              required
+              className="mt-1 block  px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="">
+            <label
+              htmlFor="title"
+              className="text-lg font-medium text-gray-700"
+            >
+              Forecast Period
+            </label>
+            <input
+              type="title"
+              id="title"
+              required
+              className="mt-1 block px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 1
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 2
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 3
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+      </div> */}
       {/* upload Pdf and image for the thumbnail */}
       <div className="flex self-center gap-24 my-4">
         <div className="group flex flex-col items-center gap-3 self-center">
@@ -313,6 +491,7 @@ export default function Upsec() {
             type="file"
             name="file1"
             id="fileInput1"
+            required
             // placeholder="upload your profile"
             onChange={uploadImage1}
             placeholder="Title"
@@ -334,6 +513,7 @@ export default function Upsec() {
             type="file"
             name="file2"
             id="fileInput2"
+            required
             // placeholder="upload your profile"
             onChange={uploadImage2}
             placeholder="Title"
@@ -343,13 +523,57 @@ export default function Upsec() {
             Upload Thumbnail
           </span>
         </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput2">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file2"
+            id="fileInput2"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage2} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload FAQ
+          </span>
+        </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput2">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file2"
+            id="fileInput2"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage2} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload Table of Content
+          </span>
+        </div>
       </div>
 
       {/* set pricing */}
-      <div className="flex border-b-2 pb-4">
+      <div className="flex border-b-2 pb-4 justify-between">
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Single
+            Pricing for Data Suite
           </label>
           <input
             type="title"
@@ -363,7 +587,7 @@ export default function Upsec() {
         </div>
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Team
+            Pricing for Insight Report
           </label>
           <input
             type="title"
@@ -373,20 +597,6 @@ export default function Upsec() {
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
             value={pricingTeam}
             onChange={(e) => setPricingTeam(e.target.value)}
-          />
-        </div>
-        <div className="w-1/3 mx-2">
-          <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Corporate
-          </label>
-          <input
-            type="title"
-            id="title"
-            placeholder="in dollars"
-            required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
-            value={pricingCor}
-            onChange={(e) => setPricingCor(e.target.value)}
           />
         </div>
       </div>
@@ -402,6 +612,7 @@ export default function Upsec() {
       >
         Submit
       </button>
+      <ToastContainer />
     </div>
   );
 }

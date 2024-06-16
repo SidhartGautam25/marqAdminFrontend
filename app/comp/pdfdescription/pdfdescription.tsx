@@ -13,6 +13,10 @@ interface Option {
 const options: Option[] = [
   { label: "Data Suite", value: "Data Suite" },
   { label: "Insight Report", value: "Insight Report" },
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
 ];
 
 interface DynamicProps {
@@ -52,11 +56,16 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
           </div> */}
         </div>
         <div className="bg-blue-400 p-3 w-[10rem] text-white flex justify-center items-center rounded-sm">
+<<<<<<< HEAD
           <span>
             {month} {year}
           </span>
+=======
+          <span>April 2024</span>
+>>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
         </div>
       </div>
+
       <div className="w-1/2 px-6 py-6 bg-blue-200">
         <div
           className="h-3/5 flex items-center justify-center"
@@ -71,8 +80,8 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
           </h1> */}
         </div>
         <div className="h-2/5 pt-2">
-          <span className="text-black">Choose your best option</span>
-          <div className="flex items-center space-x-4 mb-4">
+          <span className="text-black">Pick Your Perfect Solution</span>
+          <div className="flex items-center space-x-4 mt-4">
             {options.map((option, i) => (
               <div className="" key={i}>
                 <label
@@ -93,10 +102,21 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
               </div>
             ))}
           </div>
+          <div className="flex justify-between mt-7">
+            <span className="text-2xl text-blue-700 font-bold">
+              $ 1,299.00 USD
+            </span>
+            <button className=" bg-blue-500 btn-blue  flex justify-center border-[1px] rounded border-blue-600 p-3 hover:bg-blue-700  text-white">
+              Downlod Sample
+            </button>
+          </div>
 
+<<<<<<< HEAD
           <span className="text-2xl text-blue-700 font-bold">
             $ 1,299.00 USD
           </span>
+=======
+>>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
         </div>
       </div>
     </div>
