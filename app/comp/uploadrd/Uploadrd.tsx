@@ -2,41 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Report {
-  id: number;
   title: string;
   industry: string;
-  subIndustry: string;
-  uploadDate: string;
+  subind: string;
 }
 
-const initialReports: Report[] = [
-  {
-    id: 1,
-    title: "Global Electric Vehicle market",
-    industry: "Electric Vehicle (EV) Technology",
-    subIndustry: "Electric Vehicle",
-    uploadDate: "02-06-2024",
-  },
-  {
-    id: 2,
-    title: "Global Electric Vehicle market",
-    industry: "Electric Vehicle (EV) Technology",
-    subIndustry: "Electric Vehicle",
-    uploadDate: "02-06-2024",
-  },
-];
-
 export default function Uploadrd() {
-  const [reports, setReports] = useState<Report[]>(initialReports);
+  const [reports, setReports] = useState<Report[]>([]);
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState<Number>(0);
 
-  const handleDelete = (id: number) => {
-    const isConfirmed = confirm("Are you sure you want to delete this report?");
-    if (isConfirmed) {
-      setReports(reports.filter((report) => report.id !== id));
-    }
+  const handleDelete = () => {
+    // const isConfirmed = confirm("Are you sure you want to delete this report?");
+    // if (isConfirmed) {
+    //   setReports(reports.filter((report) => report.id !== id));
+    // }
   };
 
   useEffect(() => {
@@ -84,18 +65,16 @@ export default function Uploadrd() {
         </thead>
         <tbody>
           {reports.map((report, index) => (
-            <tr key={report.id}>
+            <tr key={index}>
               <td className="border px-4 py-2 text-center">{index + 1}</td>
               <td className="border px-4 py-2">{report.title}</td>
               <td className="border px-4 py-2">{report.industry}</td>
-              <td className="border px-4 py-2">{report.subIndustry}</td>
-              <td className="border px-4 py-2 text-center">
-                {report.uploadDate}
-              </td>
+              <td className="border px-4 py-2">{report.subind}</td>
+              <td className="border px-4 py-2 text-center">May 2024</td>
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => handleDelete(report.id)}
+                  onClick={() => handleDelete()}
                 >
                   Delete
                 </button>
