@@ -24,6 +24,8 @@ export default function Home() {
     // Here you would call your backend service to authenticate the user
     // For this example, let's mock a successful login response
     const data = { email: email, password: password };
+    const url = "https://marq-admin-backend.onrender.com/api/auth/login";
+    const local = "http://localhost:8800/api/auth/login";
     //console.log("user: ", user);
     dispatch({ type: "LOGIN_START" });
     try {
@@ -31,7 +33,7 @@ export default function Home() {
       console.log("some error occured on login page");
       setAllgood(false);
     }
-    const res = await axios.post("http://localhost:8800/api/auth/login", data);
+    const res = await axios.post(local, data);
     console.log("res form login is ", res.data.details);
 
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });

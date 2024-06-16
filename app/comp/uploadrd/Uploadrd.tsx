@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Report {
   id: number;
@@ -27,6 +28,9 @@ const initialReports: Report[] = [
 
 export default function Uploadrd() {
   const [reports, setReports] = useState<Report[]>(initialReports);
+  const dev_url = "http://localhost:8800";
+  const prod_url = "https://admin-backend-1-ekoa.onrender.com";
+  const [len, setLen] = useState<Number>(0);
 
   const handleDelete = (id: number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
@@ -34,6 +38,36 @@ export default function Uploadrd() {
       setReports(reports.filter((report) => report.id !== id));
     }
   };
+
+  useEffect(() => {
+    // Code inside this function will run after every render
+    // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
+
+    // For example, you can fetch data from an API
+    const fetchReport = async () => {
+      console.log("fetch report called");
+      let url = `${dev_url}/api/getall/report`;
+
+      try {
+        const daata = await axios.get(url);
+
+        console.log("daata on leftb hero is ", daata.data);
+        if (daata) {
+          console.log("daaaaaattatatata is ", daata);
+          setReports([...daata.data.reports]);
+          setLen(daata.data.len);
+        }
+      } catch (err) {}
+    };
+    fetchReport();
+
+    // You can also return a cleanup function from useEffect
+    // This cleanup function will be executed before the component is unmounted or re-rendered
+    return () => {
+      // Code inside this cleanup function will run before the component is unmounted or re-rendered
+      // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
+    };
+  }, []);
 
   return (
     <div className="overflow-x-auto m-5">

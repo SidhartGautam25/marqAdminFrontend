@@ -1,6 +1,7 @@
 "use client";
 import { Covered_By_Your_Grace } from "next/font/google";
 import React from "react";
+import { convert } from "./utility";
 // import Image from "next/image";
 // import car from "@/assests/car.jpg";
 
@@ -12,7 +13,6 @@ interface Option {
 const options: Option[] = [
   { label: "Data Suite", value: "Data Suite" },
   { label: "Insight Report", value: "Insight Report" },
-  
 ];
 
 interface DynamicProps {
@@ -25,6 +25,12 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   const imageurl = rep?.linki;
   const des = rep?.desc;
   const title = rep?.title;
+  const date = rep?.createdAt;
+  console.log("date is ", date);
+  const year = date?.substring(0, 4);
+  const mon = date?.substring(5, 7);
+  const month = convert(mon);
+  console.log("mnth is ", month);
   const titleNew =
     title?.length > 80 ? `${rep?.title.substring(0, 80)}...` : title;
   console.log("title is ", rep);
@@ -46,7 +52,9 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
           </div> */}
         </div>
         <div className="bg-blue-400 p-3 w-[10rem] text-white flex justify-center items-center rounded-sm">
-          <span>April 2024</span>
+          <span>
+            {month} {year}
+          </span>
         </div>
       </div>
 
@@ -95,6 +103,9 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             </button>
           </div>
 
+          <span className="text-2xl text-blue-700 font-bold">
+            $ 1,299.00 USD
+          </span>
         </div>
       </div>
     </div>
