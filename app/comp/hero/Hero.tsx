@@ -12,6 +12,9 @@ export default function Hero() {
   const [reports, setReports] = useState<Record<string, any>[]>([]);
   const [dup, setDup] = useState<Record<string, any>[]>([]);
 
+  const url = "https://marq-admin-backend.onrender.com/api/getall/report";
+  const local = "http://localhost:8800/api/getall/report";
+
   useEffect(() => {
     // Code inside this function will run after every render
     // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
@@ -20,9 +23,7 @@ export default function Hero() {
     const fetchReport = async () => {
       console.log("fetch report called");
       try {
-        const daata = await axios.get(
-          "https://marq-admin-backend.onrender.com/api/getall/report"
-        );
+        const daata = await axios.get(local);
         console.log("daata on leftb hero is ", daata.data);
         if (daata) {
           setReports([...daata.data]);

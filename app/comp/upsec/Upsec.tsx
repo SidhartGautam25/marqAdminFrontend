@@ -124,6 +124,8 @@ export default function Upsec() {
   const [pricingSin, setPricingSin] = useState("");
   const [pricingTeam, setPricingTeam] = useState("");
   const [pricingCor, setPricingCor] = useState("");
+  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
+  const local = "http://localhost:8800/api/upload/uploadreport";
   // const [date, dateChange] = useState<Date>(new Date());
   const router = useRouter();
   // console.log(selectedOption);
@@ -206,10 +208,7 @@ export default function Upsec() {
       industry: selectedOption,
       subind: subIndustryOption,
     };
-    const res = await axios.post(
-      "https://marq-admin-backend.onrender.com/api/upload/uploadreport",
-      daata
-    );
+    const res = await axios.post(local, daata);
   };
 
   return (

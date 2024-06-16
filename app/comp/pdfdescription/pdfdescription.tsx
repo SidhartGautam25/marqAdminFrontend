@@ -1,6 +1,7 @@
 "use client";
 import { Covered_By_Your_Grace } from "next/font/google";
 import React from "react";
+import { convert } from "./utility";
 // import Image from "next/image";
 // import car from "@/assests/car.jpg";
 
@@ -10,9 +11,8 @@ interface Option {
 }
 
 const options: Option[] = [
-  { label: "Single", value: "single" },
-  { label: "Team", value: "team" },
-  { label: "Corporate", value: "corporate" },
+  { label: "Data Suite", value: "Data Suite" },
+  { label: "Insight Report", value: "Insight Report" },
 ];
 
 interface DynamicProps {
@@ -25,6 +25,12 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
   const imageurl = rep?.linki;
   const des = rep?.desc;
   const title = rep?.title;
+  const date = rep?.createdAt;
+  console.log("date is ", date);
+  const year = date?.substring(0, 4);
+  const mon = date?.substring(5, 7);
+  const month = convert(mon);
+  console.log("mnth is ", month);
   const titleNew =
     title?.length > 80 ? `${rep?.title.substring(0, 80)}...` : title;
   console.log("title is ", rep);
@@ -38,21 +44,18 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
         <div className="my-8 font-bold text-3xl ">{title}</div>
         <div className="my-4">{des}</div>
         <div className=" border-t-2 border-gray-300 my-4 font-extralight">
-          <span className="my-8">Report Content</span>
+          {/* <span className="my-8">Report Content</span>
           <div className="flex justify-between my-4">
             <span>Market Trends</span>
             <span>Overview</span>
             <span>Industry data</span>
-          </div>
+          </div> */}
         </div>
-        <div className="my-2 flex justify-around">
-            <button className=" bg-blue-400 btn-blue mx-2 w-32  flex justify-center border-[1px] rounded border-blue-600 p-3 hover:bg-blue-500  text-white hover:font-semibold">
-              BUY NOW
-            </button>
-            <button className="btn-blue mx-2 w-52  flex justify-center border-[1px] rounded border-red-500 p-3 hover:bg-red-600 text-red-500 hover:text-white hover:font-semibold">
-              Download Free Sample
-            </button>
-          </div>
+        <div className="bg-blue-400 p-3 w-[10rem] text-white flex justify-center items-center rounded-sm">
+          <span>
+            {month} {year}
+          </span>
+        </div>
       </div>
       <div className="w-1/2 px-6 py-6 bg-blue-200">
         <div
@@ -91,9 +94,9 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             ))}
           </div>
 
-          <span className="text-2xl text-blue-700 font-bold">$ 1,299.00 USD</span>
-
-          
+          <span className="text-2xl text-blue-700 font-bold">
+            $ 1,299.00 USD
+          </span>
         </div>
       </div>
     </div>
