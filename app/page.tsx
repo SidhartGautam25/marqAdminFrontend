@@ -18,9 +18,9 @@ export default function Home() {
   //console.log("state us in navbar ", state);
   const user = authContext?.state.user;
   const router = useRouter();
-  if (!user) {
-    router.push("/login");
-  }
+  // if (!user) {
+  //   router.push("/login");
+  // }
   return (
     <div>
       <Navbar />
