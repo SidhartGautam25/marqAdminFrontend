@@ -118,6 +118,8 @@ export default function Upsec() {
   const [subIndustryOption, setSubIndustryOption] = useState<string>("null");
   const [loading1, setLoading1] = useState<boolean>(false);
   const [loading2, setLoading2] = useState<boolean>(false);
+  const [loading3, setLoading3] = useState<boolean>(false);
+  const [loading4, setLoading4] = useState<boolean>(false);
   const [imagep, setImagep] = useState<string>("");
   const [imagei, setImagei] = useState<string>("");
   const [title, setTitle] = useState("");
@@ -125,8 +127,18 @@ export default function Upsec() {
   const [pricingSin, setPricingSin] = useState("");
   const [pricingTeam, setPricingTeam] = useState("");
   const [pricingCor, setPricingCor] = useState("");
+  const [faq, setFaq] = useState("");
+  const [toc, setToc] = useState("");
+  const [imagef, setImagef] = useState<string>("");
+  const [imaget, setImaget] = useState<string>("");
+
+  const [metaTitle, setMetaTitle] = useState<string>("");
+  const [metaDesc, setMetaDesc] = useState<string>("");
+  const [metaKey, setMetaKey] = useState<string>("");
+
   const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
   const local = "http://localhost:8800/api/upload/uploadreport";
+
   // const [date, dateChange] = useState<Date>(new Date());
   const router = useRouter();
   // console.log(selectedOption);
@@ -202,6 +214,66 @@ export default function Upsec() {
     }
   };
 
+  const uploadImage3 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading3(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const file = await res.json();
+      setImagef(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading3(false);
+    }
+
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
+  const uploadImage4 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading4(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const file = await res.json();
+      setImaget(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading4(false);
+    }
+
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("submit button clicked");
@@ -211,9 +283,16 @@ export default function Upsec() {
       title: title,
       linkp: imagep,
       linki: imagei,
+      linkf: imagef,
+      linkt: imaget,
       desc: desc,
       industry: selectedOption,
       subind: subIndustryOption,
+      dataSuite: pricingSin,
+      insightReport: pricingTeam,
+      metaTitle: metaTitle,
+      metaDesc: metaDesc,
+      metaKey: metaKey,
     };
     const res = await axios.post(local, daata);
   };
@@ -324,6 +403,8 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-title"
             type="text"
+            value={metaTitle}
+            onChange={(e) => setMetaTitle(e.target.value)}
             required
           />
         </div>
@@ -339,6 +420,8 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-description"
             rows={4}
+            value={metaDesc}
+            onChange={(e) => setMetaDesc(e.target.value)}
           ></textarea>
         </div>
 
@@ -353,6 +436,8 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-keywords"
             type="text"
+            value={metaKey}
+            onChange={(e) => setMetaKey(e.target.value)}
             required
           />
         </div>
@@ -524,7 +609,7 @@ export default function Upsec() {
           </span>
         </div>
         <div className="group flex flex-col items-center gap-3 self-center">
-          <label htmlFor="fileInput2">
+          <label htmlFor="fileInput3">
             <Image
               src={add}
               alt="img"
@@ -533,11 +618,11 @@ export default function Upsec() {
           </label>
           <input
             type="file"
-            name="file2"
-            id="fileInput2"
+            name="file3"
+            id="fileInput3"
             required
             // placeholder="upload your profile"
-            onChange={uploadImage2} //change onchange function accordingly
+            onChange={uploadImage3} //change onchange function accordingly
             placeholder="Title"
             className="hidden"
           />
@@ -546,7 +631,7 @@ export default function Upsec() {
           </span>
         </div>
         <div className="group flex flex-col items-center gap-3 self-center">
-          <label htmlFor="fileInput2">
+          <label htmlFor="fileInput4">
             <Image
               src={add}
               alt="img"
@@ -555,11 +640,11 @@ export default function Upsec() {
           </label>
           <input
             type="file"
-            name="file2"
-            id="fileInput2"
+            name="file4"
+            id="fileInput4"
             required
             // placeholder="upload your profile"
-            onChange={uploadImage2} //change onchange function accordingly
+            onChange={uploadImage4} //change onchange function accordingly
             placeholder="Title"
             className="hidden"
           />

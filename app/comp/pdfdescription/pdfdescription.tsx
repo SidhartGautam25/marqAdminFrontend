@@ -13,10 +13,6 @@ interface Option {
 const options: Option[] = [
   { label: "Data Suite", value: "Data Suite" },
   { label: "Insight Report", value: "Insight Report" },
-<<<<<<< HEAD
-=======
-  
->>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
 ];
 
 interface DynamicProps {
@@ -56,13 +52,9 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
           </div> */}
         </div>
         <div className="bg-blue-400 p-3 w-[10rem] text-white flex justify-center items-center rounded-sm">
-<<<<<<< HEAD
           <span>
             {month} {year}
           </span>
-=======
-          <span>April 2024</span>
->>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
         </div>
       </div>
 
@@ -111,12 +103,9 @@ const PdfDescription: React.FC<DynamicProps> = ({ rep }) => {
             </button>
           </div>
 
-<<<<<<< HEAD
           <span className="text-2xl text-blue-700 font-bold">
             $ 1,299.00 USD
           </span>
-=======
->>>>>>> 8f4932e8e5700ccb3a0eb73a4e9e2d95b38c619a
         </div>
       </div>
     </div>
