@@ -20,96 +20,74 @@ interface ListItem {
 
 const listData: ListItem[] = [
   {
-    name: "ev_tech",
+    name: "Electric and Hybrid Vehicles",
     children: [
-      "Electric Vehicle",
-      "Battery Technology and Manufacturing",
-      "Charging Infrastructure",
-      "EV Powertrains",
-      "EV Components",
-      "EV Services",
+     "Battery Technology",
+    "Electric Motors",
+    "Charging Infrastructure",
+    "Hybrid Systems",
+    "Vehicle Design"
     ],
   },
   {
-    name: "automotive_solutions",
+    name: " Vehicles and Components",
     children: [
-      "Passenger Vehicle",
-      "Commercial Vehicle",
-      "Two-Wheeler",
-      "Three-Wheeler",
-      "ICE Powertrains",
-      "Components",
-      "Tire",
-      "Services",
+        "Chassis",
+        "Engine Components",
+        "Transmission Systems",
+        "Braking Systems",
+        "Fuel Systems"
     ],
   },
   {
-    name: "shared_mobility",
+    name: "Shared Mobility",
     children: [
-      "Car-Based Services",
-      "Micro-Mobility Services",
-      "Microtransit and Shuttle Services",
-      "Autonomous Mobility Services",
-      "Subscription and Membership Models",
-      "Integrated Mobility Platforms (MaaS)",
+      "Car Sharing",
+      "Ride Hailing",
+      "Bike Sharing",
+      "Scooter Sharing",
+      "Fleet Management"
     ],
   },
   {
-    name: "electrical_electronics",
+    name: "Tire",
     children: [
-      "ADAS",
-      "Sensors",
-      "ECU",
-      "Electrical and Electronic Components",
+      "Manufacturing",
+    "Design",
+    "Recycling",
+    "Performance Testing",
+    "Distribution"
     ],
   },
   {
-    name: "connectivity_tech",
+    name: "Connectivity Technology",
     children: [
-      "In-Vehicle Infotainment",
-      "Vehicle-to-Everything (V2X) Communications",
-      "Telematics and Remote Services",
-      "Connected Safety Features",
-      "Vehicle Connectivity Services",
+      "Telematics",
+    "Vehicle-to-Everything (V2X)",
+    "Infotainment Systems",
+    "Navigation Systems",
+    "Remote Diagnostics"
     ],
   },
   {
-    name: "industrial_automotive",
+    name: "Sensors, Electronics, and Electrical Equipment",
     children: [
-      "Agricultural Vehicles ",
-      "Construction Vehicles",
-      "Mining Vehicles ",
-      "Warehouse Vehicles ",
-      "Forestry Vehicles ",
-      "Utility Vehicles ",
-      "Cargo Transport Vehicles ",
-      "Emergency Service Vehicles ",
-      "Railway Service Vehicles ",
-      "Port and Terminal Vehicles ",
-    ],
-  },
-  {
-    name: "emerging_tech",
-    children: [
-      "Autonomous Vehicles (AVs)",
-      "Alternative Fuels and Powertrains",
-      "Automotive Digital Services",
-      "Artificial Intelligence (AI) and Machine Learning",
-      "Lightweight and Advanced Materials",
-      "Smart City Integration",
-      "Sustainable Technologies",
+      "LIDAR",
+    "RADAR",
+    "Cameras",
+    "Control Units",
+    "Wiring Harnesses"
     ],
   },
 ];
 // Sample data for the radio buttons
 const radioOptions: RadioOption[] = [
-  { id: "ev_tech", label: "Electric Vehicle Technology" },
-  { id: "automotive_solutions", label: "Automotive Solutions" },
-  { id: "shared_mobility", label: "Shared Mobility" },
-  { id: "electrical_electronics", label: "Electrical and Electronics" },
-  { id: "connectivity_tech", label: "Connectivity Technology" },
-  { id: "industrial_automotive", label: "Industrial Automotive Application" },
-  { id: "emerging_tech", label: "Emerging Technology" },
+  { id: "Electric and Hybrid Vehicles", label: "Electric and Hybrid Vehicles" },
+  { id: "Vehicles and Components", label: "Vehicles and Components" },
+  { id: "Shared Mobility", label: "Shared Mobility" },
+  { id: "Tire", label: "Tire" },
+  { id: "Connectivity Technology", label: "Connectivity Technology" },
+  { id: "Sensors, Electronics, and Electrical Equipment", label: "Sensors, Electronics, and Electrical Equipment" },
 ];
 
 export default function Upsec() {
