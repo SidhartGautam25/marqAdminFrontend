@@ -9,7 +9,7 @@ interface Report {
   title: string;
   industry: string;
   subind: string;
-  isPin?: boolean;
+  pin: boolean;
 }
 
 export default function Uploadrd() {
@@ -47,6 +47,22 @@ export default function Uploadrd() {
     if (page > 1) {
       setPage(page - 1);
     }
+  }
+
+  function PinMePlease(title: string) {
+    console.log("you clicked to pin this report");
+    try {
+      let url = `${dev_url}/api/getall/report/pin?title=${title}`;
+      const data = axios.put(url);
+    } catch (err) {}
+  }
+
+  function UnPinMePlease(title: string) {
+    console.log("you clicked to unpin this report");
+    try {
+      let url = `${dev_url}/api/getall/report/unpin?title=${title}`;
+      const data = axios.put(url);
+    } catch (err) {}
   }
 
   useEffect(() => {
@@ -121,7 +137,15 @@ export default function Uploadrd() {
                   className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
                   // onClick={() => togglePin(index)}
                 >
-                  <RxDrawingPin />
+                  {report.pin ? (
+                    <div onClick={() => UnPinMePlease(report.title)}>
+                      <RxDrawingPinFilled />
+                    </div>
+                  ) : (
+                    <div onClick={() => PinMePlease(report.title)}>
+                      <RxDrawingPin />
+                    </div>
+                  )}
                   {/* {reports.isPin ? (
                     <RxDrawingPinFilled />
                   ) : (
