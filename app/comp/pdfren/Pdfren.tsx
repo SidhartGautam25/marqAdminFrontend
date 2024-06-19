@@ -10,6 +10,7 @@ import { bookmarkPlugin } from "@react-pdf-viewer/bookmark";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { useState, useContext } from "react";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
+import styles from "./styles.module.css";
 
 // Import styles
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
@@ -81,19 +82,21 @@ const Pdfren: React.FC<ChildComponentProps> = ({ reports }) => {
         <div className="">
           <PdfDescription rep={repos} />
         </div>
-        <div className="border">
+        <div className="border w-auto">
           {/* {state.cid && reports ? `${reports[state.cid].link1}` : "nothing"} */}
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-            <Viewer
-              fileUrl={
-                pdfurl
-                  ? pdfurl
-                  : "https://res.cloudinary.com/dkzpbucfz/image/upload/v1713940823/pics/lu1fo2x4kk4v9qmd5r6s.pdf"
-              }
-              // fileUrl="https://res.cloudinary.com/dkzpbucfz/image/upload/v1713940823/pics/lu1fo2x4kk4v9qmd5r6s.pdf"
-              initialPage={currentpage}
-              onPageChange={({ currentPage }) => setCurrentpage(currentPage)}
-            />
+            <div style={{ width: "100%", height: "100%", borderWidth: "2px" }}>
+              <Viewer
+                fileUrl={
+                  pdfurl
+                    ? pdfurl
+                    : "https://res.cloudinary.com/dkzpbucfz/image/upload/v1713940823/pics/lu1fo2x4kk4v9qmd5r6s.pdf"
+                }
+                // fileUrl="https://res.cloudinary.com/dkzpbucfz/image/upload/v1713940823/pics/lu1fo2x4kk4v9qmd5r6s.pdf"
+                initialPage={currentpage}
+                onPageChange={({ currentPage }) => setCurrentpage(currentPage)}
+              />
+            </div>
           </Worker>
         </div>
       </div>

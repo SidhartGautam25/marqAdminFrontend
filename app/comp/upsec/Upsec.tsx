@@ -4,7 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import add from "@/public/add.png";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Define the type for the radio options
 interface RadioOption {
   id: string; // Unique identifier for each radio button
@@ -19,96 +20,74 @@ interface ListItem {
 
 const listData: ListItem[] = [
   {
-    name: "ev_tech",
+    name: "Electric and Hybrid Vehicles",
     children: [
-      "Electric Vehicle",
-      "Battery Technology and Manufacturing",
-      "Charging Infrastructure",
-      "EV Powertrains",
-      "EV Components",
-      "EV Services",
+     "Battery Technology",
+    "Electric Motors",
+    "Charging Infrastructure",
+    "Hybrid Systems",
+    "Vehicle Design"
     ],
   },
   {
-    name: "automotive_solutions",
+    name: " Vehicles and Components",
     children: [
-      "Passenger Vehicle",
-      "Commercial Vehicle",
-      "Two-Wheeler",
-      "Three-Wheeler",
-      "ICE Powertrains",
-      "Components",
-      "Tire",
-      "Services",
+        "Chassis",
+        "Engine Components",
+        "Transmission Systems",
+        "Braking Systems",
+        "Fuel Systems"
     ],
   },
   {
-    name: "shared_mobility",
+    name: "Shared Mobility",
     children: [
-      "Car-Based Services",
-      "Micro-Mobility Services",
-      "Microtransit and Shuttle Services",
-      "Autonomous Mobility Services",
-      "Subscription and Membership Models",
-      "Integrated Mobility Platforms (MaaS)",
+      "Car Sharing",
+      "Ride Hailing",
+      "Bike Sharing",
+      "Scooter Sharing",
+      "Fleet Management"
     ],
   },
   {
-    name: "electrical_electronics",
+    name: "Tire",
     children: [
-      "ADAS",
-      "Sensors",
-      "ECU",
-      "Electrical and Electronic Components",
+      "Manufacturing",
+    "Design",
+    "Recycling",
+    "Performance Testing",
+    "Distribution"
     ],
   },
   {
-    name: "connectivity_tech",
+    name: "Connectivity Technology",
     children: [
-      "In-Vehicle Infotainment",
-      "Vehicle-to-Everything (V2X) Communications",
-      "Telematics and Remote Services",
-      "Connected Safety Features",
-      "Vehicle Connectivity Services",
+      "Telematics",
+    "Vehicle-to-Everything (V2X)",
+    "Infotainment Systems",
+    "Navigation Systems",
+    "Remote Diagnostics"
     ],
   },
   {
-    name: "industrial_automotive",
+    name: "Sensors, Electronics, and Electrical Equipment",
     children: [
-      "Agricultural Vehicles ",
-      "Construction Vehicles",
-      "Mining Vehicles ",
-      "Warehouse Vehicles ",
-      "Forestry Vehicles ",
-      "Utility Vehicles ",
-      "Cargo Transport Vehicles ",
-      "Emergency Service Vehicles ",
-      "Railway Service Vehicles ",
-      "Port and Terminal Vehicles ",
-    ],
-  },
-  {
-    name: "emerging_tech",
-    children: [
-      "Autonomous Vehicles (AVs)",
-      "Alternative Fuels and Powertrains",
-      "Automotive Digital Services",
-      "Artificial Intelligence (AI) and Machine Learning",
-      "Lightweight and Advanced Materials",
-      "Smart City Integration",
-      "Sustainable Technologies",
+      "LIDAR",
+    "RADAR",
+    "Cameras",
+    "Control Units",
+    "Wiring Harnesses"
     ],
   },
 ];
 // Sample data for the radio buttons
 const radioOptions: RadioOption[] = [
-  { id: "ev_tech", label: "Electric Vehicle Technology" },
-  { id: "automotive_solutions", label: "Automotive Solutions" },
-  { id: "shared_mobility", label: "Shared Mobility" },
-  { id: "electrical_electronics", label: "Electrical and Electronics" },
-  { id: "connectivity_tech", label: "Connectivity Technology" },
-  { id: "industrial_automotive", label: "Industrial Automotive Application" },
-  { id: "emerging_tech", label: "Emerging Technology" },
+  { id: "Electric and Hybrid Vehicles", label: "Electric and Hybrid Vehicles" },
+  { id: "Vehicles and Components", label: "Vehicles and Components" },
+  { id: "Shared Mobility", label: "Shared Mobility" },
+  { id: "Tire", label: "Tire" },
+  { id: "Connectivity Technology", label: "Connectivity Technology" },
+  { id: "Sensors, Electronics, and Electrical Equipment", label: "Sensors, Electronics, and Electrical Equipment" },
 ];
 
 export default function Upsec() {
@@ -117,6 +96,8 @@ export default function Upsec() {
   const [subIndustryOption, setSubIndustryOption] = useState<string>("null");
   const [loading1, setLoading1] = useState<boolean>(false);
   const [loading2, setLoading2] = useState<boolean>(false);
+  const [loading3, setLoading3] = useState<boolean>(false);
+  const [loading4, setLoading4] = useState<boolean>(false);
   const [imagep, setImagep] = useState<string>("");
   const [imagei, setImagei] = useState<string>("");
   const [title, setTitle] = useState("");
@@ -124,6 +105,18 @@ export default function Upsec() {
   const [pricingSin, setPricingSin] = useState("");
   const [pricingTeam, setPricingTeam] = useState("");
   const [pricingCor, setPricingCor] = useState("");
+  const [faq, setFaq] = useState("");
+  const [toc, setToc] = useState("");
+  const [imagef, setImagef] = useState<string>("");
+  const [imaget, setImaget] = useState<string>("");
+
+  const [metaTitle, setMetaTitle] = useState<string>("");
+  const [metaDesc, setMetaDesc] = useState<string>("");
+  const [metaKey, setMetaKey] = useState<string>("");
+
+  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
+  const local = "http://localhost:8800/api/upload/uploadreport";
+
   // const [date, dateChange] = useState<Date>(new Date());
   const router = useRouter();
   // console.log(selectedOption);
@@ -166,6 +159,9 @@ export default function Upsec() {
       console.log(file.secure_url);
       setLoading1(false);
     }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
   };
 
   const uploadImage2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -191,6 +187,69 @@ export default function Upsec() {
       console.log(file.secure_url);
       setLoading2(false);
     }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
+  const uploadImage3 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading3(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const file = await res.json();
+      setImagef(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading3(false);
+    }
+
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
+  const uploadImage4 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading4(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const file = await res.json();
+      setImaget(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading4(false);
+    }
+
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
   };
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -202,16 +261,24 @@ export default function Upsec() {
       title: title,
       linkp: imagep,
       linki: imagei,
+      linkf: imagef,
+      linkt: imaget,
       desc: desc,
       industry: selectedOption,
       subind: subIndustryOption,
+      dataSuite: pricingSin,
+      insightReport: pricingTeam,
+      metaTitle: metaTitle,
+      metaDesc: metaDesc,
+      metaKey: metaKey,
     };
-    const res = await axios.post(
-      "http://localhost:8800/api/upload/uploadreport",
-      daata
-    );
+    const res = await axios.post(local, daata);
   };
-
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files?.length) {
+  //     toast.success("File selected successfully!");
+  //   }
+  // };
   return (
     <div className="flex flex-col px-12 py-4">
       <div className=" flex">
@@ -299,7 +366,180 @@ export default function Upsec() {
           ))}
         </div>
       </div>
+      {/* seo info */}
+      <div className="p-4 flex flex-col justify-between border-t-2 border-b-2">
+        <h3 className="text-xl font-semibold my-4">SEO Information</h3>
 
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-title"
+          >
+            Meta Title
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-title"
+            type="text"
+            value={metaTitle}
+            onChange={(e) => setMetaTitle(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-description"
+          >
+            Meta Description
+          </label>
+          <textarea
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-description"
+            rows={4}
+            value={metaDesc}
+            onChange={(e) => setMetaDesc(e.target.value)}
+          ></textarea>
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="meta-keywords"
+          >
+            Meta Keywords
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="meta-keywords"
+            type="text"
+            value={metaKey}
+            onChange={(e) => setMetaKey(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-thumbnail"
+          >
+            Alt Tag for Thumbnail
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-thumbnail"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Alt Tag for Image 1 within the PDF
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Alt Tag for Image 2 within the PDF
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            required
+          />
+        </div>
+      </div>
+      {/* related Report sction */}
+      {/* <div className="flex flex-col gap-3">
+        <div className="flex gap-20">
+          <div className="">
+            <label
+              htmlFor="title"
+              className="text-lg font-medium text-gray-700"
+            >
+              Study Period
+            </label>
+            <input
+              type="title"
+              id="title"
+              required
+              className="mt-1 block  px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="">
+            <label
+              htmlFor="title"
+              className="text-lg font-medium text-gray-700"
+            >
+              Forecast Period
+            </label>
+            <input
+              type="title"
+              id="title"
+              required
+              className="mt-1 block px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 1
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 2
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="">
+          <label htmlFor="title" className="text-lg font-medium text-gray-700">
+            Related Report 3
+          </label>
+          <input
+            type="title"
+            id="title"
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+      </div> */}
       {/* upload Pdf and image for the thumbnail */}
       <div className="flex self-center gap-24 my-4">
         <div className="group flex flex-col items-center gap-3 self-center">
@@ -314,6 +554,7 @@ export default function Upsec() {
             type="file"
             name="file1"
             id="fileInput1"
+            required
             // placeholder="upload your profile"
             onChange={uploadImage1}
             placeholder="Title"
@@ -335,6 +576,7 @@ export default function Upsec() {
             type="file"
             name="file2"
             id="fileInput2"
+            required
             // placeholder="upload your profile"
             onChange={uploadImage2}
             placeholder="Title"
@@ -344,13 +586,57 @@ export default function Upsec() {
             Upload Thumbnail
           </span>
         </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput3">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file3"
+            id="fileInput3"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage3} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload FAQ
+          </span>
+        </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput4">
+            <Image
+              src={add}
+              alt="img"
+              className=" hover:cursor-pointer h-[30px] w-[30px]"
+            />
+          </label>
+          <input
+            type="file"
+            name="file4"
+            id="fileInput4"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage4} //change onchange function accordingly
+            placeholder="Title"
+            className="hidden"
+          />
+          <span className=" group-hover:font-bold group-hover:text-green-600 ">
+            Upload Table of Content
+          </span>
+        </div>
       </div>
 
       {/* set pricing */}
-      <div className="flex border-b-2 pb-4">
+      <div className="flex border-b-2 pb-4 justify-between">
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Single
+            Pricing for Data Suite
           </label>
           <input
             type="title"
@@ -364,7 +650,7 @@ export default function Upsec() {
         </div>
         <div className="w-1/3 mx-2">
           <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Team
+            Pricing for Insight Report
           </label>
           <input
             type="title"
@@ -374,20 +660,6 @@ export default function Upsec() {
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
             value={pricingTeam}
             onChange={(e) => setPricingTeam(e.target.value)}
-          />
-        </div>
-        <div className="w-1/3 mx-2">
-          <label htmlFor="title" className="text-lg font-medium text-gray-700">
-            Pricing for Corporate
-          </label>
-          <input
-            type="title"
-            id="title"
-            placeholder="in dollars"
-            required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-600 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none"
-            value={pricingCor}
-            onChange={(e) => setPricingCor(e.target.value)}
           />
         </div>
       </div>
@@ -403,6 +675,7 @@ export default function Upsec() {
       >
         Submit
       </button>
+      <ToastContainer />
     </div>
   );
 }
