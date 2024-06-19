@@ -1,6 +1,8 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 interface RadioOption {
   id: string; // Unique identifier for each radio button
@@ -89,6 +91,21 @@ export default function Upins() {
   const [subIndustries, setSubIndustries] = useState<string[]>();
   const [subIndustryOption, setSubIndustryOption] = useState<string>("null");
 
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDesc, setMetaDesc] = useState("");
+  const [metaKey, setMetaKey] = useState("");
+  const [altThumb, setAltThumb] = useState("");
+  const [altPdf, setAltPdf] = useState("");
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [imagep, setImagep] = useState("");
+  const [imaget, setImaget] = useState("");
+
+  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadblog";
+  const local = "http://localhost:8800/api/upload/uploadblog";
+
   const handleChangeSubIndustry = (item: string) => {
     setSubIndustryOption(item);
   };
@@ -97,6 +114,86 @@ export default function Upins() {
     setSelectedOption(option);
     const selected = listData.find((item) => item.name === option);
     setSubIndustries(selected ? selected.children : []);
+  };
+
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log("submit button clicked");
+    console.log("image 1 is ", imagep);
+    console.log("image 2 is ", imaget);
+    const daata = {
+      title: title,
+      type: type,
+      linkp: imagep,
+      linkt: imaget,
+      industry: selectedOption,
+      subind: subIndustryOption,
+      metaTitle: metaTitle,
+      metaDesc: metaDesc,
+      metaKey: metaKey,
+      altPdf: altPdf,
+      altThumb: altThumb,
+    };
+    const res = await axios.post(local, daata);
+    if (res) {
+      toast.success("Uploaded successfully!");
+    }
+  };
+
+  const uploadImage1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading1(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      setImagep(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading1(false);
+    }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
+  const uploadImage2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading2(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      setImaget(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading2(false);
+    }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
   };
 
   return (
@@ -117,6 +214,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="insight-title"
             type="text"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
         </div>
 
@@ -131,6 +232,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="insight-type"
             type="text"
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value);
+            }}
           />
         </div>
         <div className="mb-4">
@@ -192,6 +297,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-title"
             type="text"
+            value={metaTitle}
+            onChange={(e) => {
+              setMetaTitle(e.target.value);
+            }}
           />
         </div>
 
@@ -206,6 +315,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-description"
             rows={4}
+            value={metaDesc}
+            onChange={(e) => {
+              setMetaDesc(e.target.value);
+            }}
           ></textarea>
         </div>
 
@@ -220,6 +333,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="meta-keywords"
             type="text"
+            value={metaKey}
+            onChange={(e) => {
+              setMetaKey(e.target.value);
+            }}
           />
         </div>
 
@@ -234,6 +351,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="alt-thumbnail"
             type="text"
+            value={altThumb}
+            onChange={(e) => {
+              setAltThumb(e.target.value);
+            }}
           />
         </div>
 
@@ -248,6 +369,10 @@ export default function Upins() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="alt-image-pdf"
             type="text"
+            value={altPdf}
+            onChange={(e) => {
+              setAltPdf(e.target.value);
+            }}
           />
         </div>
 
@@ -356,6 +481,7 @@ export default function Upins() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
               id="upload-thumbnail"
               type="file"
+              onChange={uploadImage2}
             />
           </div>
           <div className="w-1/2 ml-2">
@@ -369,11 +495,15 @@ export default function Upins() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
               id="upload-pdf"
               type="file"
+              onChange={uploadImage1}
             />
           </div>
         </div>
 
-        <button className="btn-blue mx-2 w-1/2 self-center mt-6 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-medium">
+        <button
+          className="btn-blue mx-2 w-1/2 self-center mt-6 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-medium"
+          onClick={handleClick}
+        >
           Submit
         </button>
       </form>

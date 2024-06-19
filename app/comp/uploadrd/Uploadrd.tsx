@@ -3,44 +3,42 @@ import axios from "axios";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
 interface Report {
-  id: number;
   title: string;
   industry: string;
-  subIndustry: string;
-  uploadDate: string;
+  subind: string;
 }
 
-const initialReports: Report[] = [
-  {
-    id: 1,
-    title: "Global Electric Vehicle market",
-    industry: "Electric Vehicle (EV) Technology",
-    subIndustry: "Electric Vehicle",
-    uploadDate: "02-06-2024",
-  },
-  {
-    id: 2,
-    title: "Global Electric Vehicle market",
-    industry: "Electric Vehicle (EV) Technology",
-    subIndustry: "Electric Vehicle",
-    uploadDate: "02-06-2024",
-  },
-];
-
 export default function Uploadrd() {
+
   const [reports, setReports] = useState<Report[]>(initialReports);
   
   // const [pined2, setPined2] = useState<boolean>(false);
+=======
+  const [reports, setReports] = useState<Report[]>([]);
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
-  const [len, setLen] = useState<Number>(0);
+  const [len, setLen] = useState(0);
+  const [end, setEnd] = useState(1);
+  console.log("your end is ", end);
+  const [page, setPage] = useState(1);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
-      setReports(reports.filter((report) => report.id !== id));
+      // setReports(reports.filter((report) => report.id !== id));
     }
   };
+
+  function next() {
+    if (page < end) {
+      setPage(page + 1);
+    }
+  }
+  function prev() {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
 
   useEffect(() => {
     // Code inside this function will run after every render
@@ -49,16 +47,17 @@ export default function Uploadrd() {
     // For example, you can fetch data from an API
     const fetchReport = async () => {
       console.log("fetch report called");
-      let url = `${dev_url}/api/getall/report`;
+      let url = `${dev_url}/api/getall/report?page=${page}`;
 
       try {
         const daata = await axios.get(url);
 
         console.log("daata on leftb hero is ", daata.data);
         if (daata) {
-          console.log("daaaaaattatatata is ", daata);
+          console.log("daaaaaattatatata is ", daata.data);
           setReports([...daata.data.reports]);
           setLen(daata.data.len);
+          setEnd(Math.floor(daata.data.len / 5 + 1));
         }
       } catch (err) {}
     };
@@ -70,7 +69,7 @@ export default function Uploadrd() {
       // Code inside this cleanup function will run before the component is unmounted or re-rendered
       // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
     };
-  }, []);
+  }, [page]);
 
   return (
     <div className="overflow-x-auto m-5">
@@ -88,18 +87,18 @@ export default function Uploadrd() {
         </thead>
         <tbody>
           {reports.map((report, index) => (
-            <tr key={report.id}>
-              <td className="border px-4 py-2 text-center">{index + 1}</td>
+            <tr key={index}>
+              <td className="border px-4 py-2 text-center">
+                {5 * (page - 1) + index + 1}
+              </td>
               <td className="border px-4 py-2">{report.title}</td>
               <td className="border px-4 py-2">{report.industry}</td>
-              <td className="border px-4 py-2">{report.subIndustry}</td>
-              <td className="border px-4 py-2 text-center">
-                {report.uploadDate}
-              </td>
+              <td className="border px-4 py-2">{report.subind}</td>
+              <td className="border px-4 py-2 text-center">May 2024</td>
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => handleDelete(report.id)}
+                  // onClick={() => handleDelete(report._id)}
                 >
                   Delete
                 </button>
@@ -109,9 +108,15 @@ export default function Uploadrd() {
         </tbody>
       </table>
       <div className={`flex justify-center gap-5 items-center mt-5`}>
-        <button className=" bg-blue-800 text-white p-2 w-[5rem]">PREVIES</button>
-        <span className="">1 To 50</span>
-        <button className="bg-blue-800 text-white p-2 w-[5rem]">NEXT</button>
+        <button className=" bg-blue-800 text-white p-2 w-[5rem]" onClick={prev}>
+          PREV
+        </button>
+        <span className="">
+          {page} To {end}
+        </span>
+        <button className="bg-blue-800 text-white p-2 w-[5rem]" onClick={next}>
+          NEXT
+        </button>
       </div>
     </div>
   );
