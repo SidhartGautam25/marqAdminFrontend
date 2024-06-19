@@ -6,10 +6,13 @@ interface Report {
   title: string;
   industry: string;
   subind: string;
+  isPin?: boolean;
 }
 
 export default function Uploadrd() {
   const [reports, setReports] = useState<Report[]>([]);
+ 
+
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState(0);
@@ -23,6 +26,12 @@ export default function Uploadrd() {
       // setReports(reports.filter((report) => report.id !== id));
     }
   };
+  // const togglePin = (id: number) => {
+  //   setReports(reports.map(item => 
+  //     item.id === id ? { ...item, isPin: !item.isPin } : item
+  //   ));
+  // };
+  
 
   function next() {
     if (page < end) {
@@ -77,6 +86,7 @@ export default function Uploadrd() {
             <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
             <th className="w-2/12 px-4 py-2 border">Upload Date</th>
             <th className="w-1/12 px-4 py-2 border">Delete</th>
+            <th className="w-1/12 px-4 py-2 border">Pin</th>
           </tr>
         </thead>
         <tbody>
@@ -95,6 +105,19 @@ export default function Uploadrd() {
                   // onClick={() => handleDelete(report._id)}
                 >
                   Delete
+                </button>
+              </td>
+              <td className="border px-4 py-2 text-center">
+              <button
+                  className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
+                    // onClick={() => togglePin(index)}
+                >
+                  <RxDrawingPin />
+                  {/* {reports.isPin ? (
+                    <RxDrawingPinFilled />
+                  ) : (
+                    <RxDrawingPin />
+                  )} */}
                 </button>
               </td>
             </tr>
