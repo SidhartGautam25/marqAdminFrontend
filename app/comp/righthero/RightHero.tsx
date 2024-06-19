@@ -37,10 +37,10 @@ const RightHero: React.FC<ChildComponentProps> = ({ reports }) => {
             <button>Upload New Report</button>
           </Link>
           <Link
-            href="/"
+            href="/pined-report"
             className="gap-4 items-center btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
           >
-            <button>Pined blogs</button>
+            <button>Pined Reports</button>
             <BsPinAngle className="text-xl"/>
 
           </Link>

@@ -1,19 +1,50 @@
-import React, { useEffect, useState } from "react";
+"use client"
+import React, { useState } from "react";
 import axios from "axios";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../comp/navbar/Navbar";
+import RightHero from "../comp/righthero/RightHero";
+import Hero from "../comp/hero/Hero";
+import Link from "next/link";
+import { BsPinAngle } from "react-icons/bs";
 interface Report {
-  _id: any;
-  title: string;
-  industry: string;
-  subind: string;
-  pin: boolean;
-}
-
-export default function Uploadrd() {
-  const [reports, setReports] = useState<Report[]>([]);
+    _id: any;
+    title: string;
+    industry: string;
+    subind: string;
+    pin: boolean;
+  }
+  interface Insight {
+    _id: number;
+    title: string;
+    type: string;
+    industry: string;
+    subIndustry: string;
+    uploadDate: string;
+    isPinned?: boolean;
+  }
+  
+  const initialReport: Report[] = [
+    {
+      _id: 1,
+      title: "How the Electric Vehicle market is booming?",
+      industry: "Electric Vehicle (EV) Innovations",
+      subind: "Electric Vehicles and Powertrains",
+      pin:true,
+    },
+    {
+      _id: 2,
+      title: "How the Electric Vehicle market is booming?",
+     
+      industry: "Electric Vehicle (EV) Innovations",
+      subind: "Electric Vehicles and Powertrains",
+      pin:true,
+      
+    },
+  ];
+const Page = () => {
+  const [reports, setReports] = useState<Report[]>(initialReport);
 
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
@@ -29,33 +60,14 @@ export default function Uploadrd() {
       try {
         const data = await axios.delete(url);
         alert("report deleted successfully");
-        setReports(reports.filter((report) => report._id !== id));
       } catch (err) {}
     }
   };
-  // const togglePin = (id: number) => {
-  //   setReports(reports.map(item =>
-  //     item.id === id ? { ...item, isPin: !item.isPin } : item
-  //   ));
-  // };
-
-  function next() {
-    if (page < end) {
-      setPage(page + 1);
-    }
-  }
-  function prev() {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  }
-
   function PinMePlease(title: string) {
     console.log("you clicked to pin this report");
     try {
       let url = `${dev_url}/api/getall/report/pin?title=${title}`;
       const data = axios.put(url);
-      alert("report pinned successfully");
     } catch (err) {}
   }
 
@@ -64,46 +76,39 @@ export default function Uploadrd() {
     try {
       let url = `${dev_url}/api/getall/report/unpin?title=${title}`;
       const data = axios.put(url);
-      alert("report unpinned successfully");
     } catch (err) {}
   }
-
-  useEffect(() => {
-    // Code inside this function will run after every render
-    // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
-
-    // For example, you can fetch data from an API
-    const fetchReport = async () => {
-      console.log("fetch report called");
-      let url = `${dev_url}/api/getall/report?page=${page}`;
-
-      try {
-        const daata = await axios.get(url);
-
-        console.log("daata on leftb hero is ", daata.data);
-        if (daata) {
-          console.log("daaaaaattatatata is ", daata.data);
-          setReports([...daata.data.reports]);
-          setLen(daata.data.len);
-          if (daata.data.len % 5 == 0) {
-            setEnd(Math.floor(daata.data.len / 5));
-          } else {
-            setEnd(Math.floor(daata.data.len / 5 + 1));
-          }
-        }
-      } catch (err) {}
-    };
-    fetchReport();
-
-    // You can also return a cleanup function from useEffect
-    // This cleanup function will be executed before the component is unmounted or re-rendered
-    return () => {
-      // Code inside this cleanup function will run before the component is unmounted or re-rendered
-      // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
-    };
-  }, [page]);
-
   return (
+    <>
+    <Navbar/>
+    <div className="flex rounded-lg mt-10">
+          <Link
+            href="/uploding-insight"
+            className=" btn-blue mx-2 w-1/2  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+          >
+            <button className="">Upload New insights</button>
+          </Link>
+          <Link
+            href="/uploding"
+            className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+          >
+            <button>Upload New Report</button>
+          </Link>
+          <Link
+            href="/pined-report"
+            className="gap-4 items-center btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+          >
+            <button>Pined Reports</button>
+            <BsPinAngle className="text-xl"/>
+
+          </Link>
+          <Link
+            href="/info"
+            className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+          >
+            <button>Update info</button>
+          </Link>
+        </div>
     <div className="overflow-x-auto m-5">
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
@@ -160,17 +165,10 @@ export default function Uploadrd() {
           ))}
         </tbody>
       </table>
-      <div className={`flex justify-center gap-5 items-center mt-5`}>
-        <button className=" bg-blue-800 text-white p-2 w-[5rem]" onClick={prev}>
-          PREV
-        </button>
-        <span className="">
-          {page} To {end}
-        </span>
-        <button className="bg-blue-800 text-white p-2 w-[5rem]" onClick={next}>
-          NEXT
-        </button>
-      </div>
+      
     </div>
-  );
+    </>
+  )
 }
+
+export default Page
