@@ -1,12 +1,12 @@
 // components/InsightTable.tsx
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
-=======
-import React, { use, useEffect, useState } from "react";
+
 import axios from "axios";
 interface Insight {
+  _id: number;
   title: string;
   type: string;
   industry: string;
@@ -16,6 +16,7 @@ interface Insight {
 
 const initialInsights: Insight[] = [
   {
+    _id: 1,
     title: "How the Electric Vehicle market is booming?",
     type: "Blog",
     industry: "Electric Vehicle (EV) Innovations",
@@ -23,6 +24,7 @@ const initialInsights: Insight[] = [
     uploadDate: "02-06-2024",
   },
   {
+    _id: 2,
     title: "How the Electric Vehicle market is booming?",
     type: "Article",
     industry: "Electric Vehicle (EV) Innovations",
@@ -32,17 +34,9 @@ const initialInsights: Insight[] = [
 ];
 
 export default function Uploadinsight() {
-
   const [insights, setInsights] = useState<Insight[]>(initialInsights);
   const [pined, setPined] = useState<number>();
-  const handleDelete = (id: number) => {
-    const isConfirmed = confirm(
-      "Are you sure you want to delete this insight?"
-    );
-    if (isConfirmed) {
-      setInsights(insights.filter((insight) => insight.id !== id));
-    }
-=======
+
   // const [blogs, setBlogs] = useState<Insight[]>(initialInsights);
   const [page, setPage] = useState(1);
   const dev_url = "http://localhost:8800";
@@ -60,8 +54,8 @@ export default function Uploadinsight() {
     // }
   };
   const setpin = (id: number) => {
-     setPined(id);
- };
+    setPined(id);
+  };
 
   function next() {
     if (page < end) {
@@ -143,9 +137,13 @@ export default function Uploadinsight() {
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => setpin(insight.id)}
+                  onClick={() => setpin(insight._id)}
                 >
-                  {pined===insight.id?<RxDrawingPinFilled />:<RxDrawingPin/>}
+                  {pined === insight._id ? (
+                    <RxDrawingPinFilled />
+                  ) : (
+                    <RxDrawingPin />
+                  )}
                 </button>
               </td>
             </tr>
