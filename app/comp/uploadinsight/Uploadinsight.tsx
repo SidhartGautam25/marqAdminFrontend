@@ -1,6 +1,7 @@
 // components/InsightTable.tsx
 import React, { useState } from "react";
-
+import { RxDrawingPin } from "react-icons/rx";
+import { RxDrawingPinFilled } from "react-icons/rx";
 interface Insight {
   id: number;
   title: string;
@@ -31,7 +32,7 @@ const initialInsights: Insight[] = [
 
 export default function Uploadinsight() {
   const [insights, setInsights] = useState<Insight[]>(initialInsights);
-
+  const [pined, setPined] = useState<number>();
   const handleDelete = (id: number) => {
     const isConfirmed = confirm(
       "Are you sure you want to delete this insight?"
@@ -40,6 +41,9 @@ export default function Uploadinsight() {
       setInsights(insights.filter((insight) => insight.id !== id));
     }
   };
+  const setpin = (id: number) => {
+     setPined(id);
+ };
 
   return (
     <div className="overflow-x-auto m-5">
@@ -53,6 +57,7 @@ export default function Uploadinsight() {
             <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
             <th className="w-2/12 px-4 py-2 border">Upload Date</th>
             <th className="w-1/12 px-4 py-2 border">Delete</th>
+            <th className="w-1/12 px-4 py-2 border">Pin</th>
           </tr>
         </thead>
         <tbody>
@@ -72,6 +77,14 @@ export default function Uploadinsight() {
                   onClick={() => handleDelete(insight.id)}
                 >
                   Delete
+                </button>
+              </td>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-red-400 text-black border border-black px-2 py-1"
+                  onClick={() => setpin(insight.id)}
+                >
+                  {pined===insight.id?<RxDrawingPinFilled />:<RxDrawingPin/>}
                 </button>
               </td>
             </tr>

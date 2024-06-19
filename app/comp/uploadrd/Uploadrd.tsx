@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { RxDrawingPin } from "react-icons/rx";
+import { RxDrawingPinFilled } from "react-icons/rx";
 interface Report {
   id: number;
   title: string;
@@ -28,6 +29,8 @@ const initialReports: Report[] = [
 
 export default function Uploadrd() {
   const [reports, setReports] = useState<Report[]>(initialReports);
+  
+  // const [pined2, setPined2] = useState<boolean>(false);
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState<Number>(0);
@@ -80,6 +83,7 @@ export default function Uploadrd() {
             <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
             <th className="w-2/12 px-4 py-2 border">Upload Date</th>
             <th className="w-1/12 px-4 py-2 border">Delete</th>
+           
           </tr>
         </thead>
         <tbody>
