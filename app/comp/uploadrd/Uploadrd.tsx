@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface Report {
+  _id: any;
   title: string;
   industry: string;
   subind: string;
-  isPin?: boolean;
+  pin: boolean;
 }
 
 export default function Uploadrd() {
   const [reports, setReports] = useState<Report[]>([]);
- 
 
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
@@ -20,18 +22,21 @@ export default function Uploadrd() {
   console.log("your end is ", end);
   const [page, setPage] = useState(1);
 
-  const handleDelete = (id: Number) => {
+  const handleDelete = async (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
-      // setReports(reports.filter((report) => report.id !== id));
+      let url = `${dev_url}/api/getall/report?id=${id}`;
+      try {
+        const data = await axios.delete(url);
+        alert("report deleted successfully");
+      } catch (err) {}
     }
   };
   // const togglePin = (id: number) => {
-  //   setReports(reports.map(item => 
+  //   setReports(reports.map(item =>
   //     item.id === id ? { ...item, isPin: !item.isPin } : item
   //   ));
   // };
-  
 
   function next() {
     if (page < end) {
@@ -42,6 +47,22 @@ export default function Uploadrd() {
     if (page > 1) {
       setPage(page - 1);
     }
+  }
+
+  function PinMePlease(title: string) {
+    console.log("you clicked to pin this report");
+    try {
+      let url = `${dev_url}/api/getall/report/pin?title=${title}`;
+      const data = axios.put(url);
+    } catch (err) {}
+  }
+
+  function UnPinMePlease(title: string) {
+    console.log("you clicked to unpin this report");
+    try {
+      let url = `${dev_url}/api/getall/report/unpin?title=${title}`;
+      const data = axios.put(url);
+    } catch (err) {}
   }
 
   useEffect(() => {
@@ -61,7 +82,11 @@ export default function Uploadrd() {
           console.log("daaaaaattatatata is ", daata.data);
           setReports([...daata.data.reports]);
           setLen(daata.data.len);
-          setEnd(Math.floor(daata.data.len / 5 + 1));
+          if (daata.data.len % 5 == 0) {
+            setEnd(Math.floor(daata.data.len / 5));
+          } else {
+            setEnd(Math.floor(daata.data.len / 5 + 1));
+          }
         }
       } catch (err) {}
     };
@@ -102,17 +127,25 @@ export default function Uploadrd() {
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
-                  // onClick={() => handleDelete(report._id)}
+                  onClick={() => handleDelete(report._id)}
                 >
                   Delete
                 </button>
               </td>
               <td className="border px-4 py-2 text-center">
-              <button
+                <button
                   className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
-                    // onClick={() => togglePin(index)}
+                  // onClick={() => togglePin(index)}
                 >
-                  <RxDrawingPin />
+                  {report.pin ? (
+                    <div onClick={() => UnPinMePlease(report.title)}>
+                      <RxDrawingPinFilled />
+                    </div>
+                  ) : (
+                    <div onClick={() => PinMePlease(report.title)}>
+                      <RxDrawingPin />
+                    </div>
+                  )}
                   {/* {reports.isPin ? (
                     <RxDrawingPinFilled />
                   ) : (
