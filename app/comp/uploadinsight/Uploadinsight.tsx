@@ -12,6 +12,7 @@ interface Insight {
   industry: string;
   subIndustry: string;
   uploadDate: string;
+  isPinned?: boolean;
 }
 
 const initialInsights: Insight[] = [
@@ -34,7 +35,7 @@ const initialInsights: Insight[] = [
 ];
 
 export default function Uploadinsight() {
-  const [insights, setInsights] = useState<Insight[]>(initialInsights);
+  // const [insights, setInsights] = useState<Insight[]>(initialInsights);
   const [pined, setPined] = useState<number>();
 
   // const [blogs, setBlogs] = useState<Insight[]>(initialInsights);
@@ -42,9 +43,9 @@ export default function Uploadinsight() {
   const dev_url = "http://localhost:8800";
   const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [blogs, setBlogs] = useState<Insight[]>([]);
-  const [len, setLen] = useState(1);
+    const [len, setLen] = useState(1);
   const [end, setEnd] = useState(1);
-
+  console.log("blogs here",blogs);
   const handleDelete = () => {
     // const isConfirmed = confirm(
     //   "Are you sure you want to delete this insight?"
@@ -53,8 +54,10 @@ export default function Uploadinsight() {
     //   setInsights(insights.filter((insight) => insight.id !== id));
     // }
   };
-  const setpin = (id: number) => {
-    setPined(id);
+  const togglePin = (id: number) => {
+    setBlogs(blogs.map(item => 
+      item._id === id ? { ...item, isPinned: !item.isPinned } : item
+    ));
   };
 
   function next() {
@@ -136,13 +139,13 @@ export default function Uploadinsight() {
               </td>
               <td className="border px-4 py-2 text-center">
                 <button
-                  className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => setpin(insight._id)}
+                  className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
+                   onClick={() => togglePin(insight._id)}
                 >
-                  {pined === insight._id ? (
-                    <RxDrawingPinFilled />
-                  ) : (
+                  {insight.isPinned ? (
                     <RxDrawingPin />
+                  ) : (
+                    <RxDrawingPinFilled />
                   )}
                 </button>
               </td>
