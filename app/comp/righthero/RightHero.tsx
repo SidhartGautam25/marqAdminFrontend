@@ -7,7 +7,7 @@ import { ReportContext, ReportContextType } from "@/app/context/reportContext";
 // import LeftHero from "../lefthero/LeftHero";
 import Uploadrd from "../uploadrd/Uploadrd";
 import Uploadinsight from "../uploadinsight/Uploadinsight";
-
+import { BsPinAngle } from "react-icons/bs";
 interface ChildComponentProps {
   reports: Record<string, any>[];
 }
@@ -38,9 +38,11 @@ const RightHero: React.FC<ChildComponentProps> = ({ reports }) => {
           </Link>
           <Link
             href="/"
-            className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+            className="gap-4 items-center btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
           >
-            <button>Select Top Insight</button>
+            <button>Pined blogs</button>
+            <BsPinAngle className="text-xl"/>
+
           </Link>
           <Link
             href="/info"
@@ -63,7 +65,6 @@ const RightHero: React.FC<ChildComponentProps> = ({ reports }) => {
         <div>
           {showComponent === "Uploadrd" ? <Uploadrd /> : <Uploadinsight />}
         </div>
-            
       </div>
 
       {/* <div className=" min-h-[40rem] rounded-lg m-2 flex-[3]">
