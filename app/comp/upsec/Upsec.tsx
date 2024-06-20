@@ -113,6 +113,12 @@ export default function Upsec() {
   const [metaTitle, setMetaTitle] = useState<string>("");
   const [metaDesc, setMetaDesc] = useState<string>("");
   const [metaKey, setMetaKey] = useState<string>("");
+  const [tumb, settumb] = useState<string>("");
+  const [altimg1, setaltimg1] = useState<string>("");
+  const [altimg2, setaltimg2] = useState<string>("");
+  const [study, setstudy] = useState<string>("");
+  const [base, setbase] = useState<string>("");
+  const [forcast, setforcast] = useState<string>("");
 
   const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
   const local = "http://localhost:8800/api/upload/uploadreport";
@@ -273,6 +279,7 @@ export default function Upsec() {
       metaKey: metaKey,
     };
     const res = await axios.post(local, daata);
+    toast.success("Report submitted sucessfully!");
   };
   // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files?.length) {
@@ -431,6 +438,8 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="alt-thumbnail"
             type="text"
+            value={tumb}
+            onChange={(e)=>settumb(e.target.value)}
             required
           />
         </div>
@@ -446,6 +455,8 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="alt-image-pdf"
             type="text"
+            value={altimg1}
+            onChange={(e)=>setaltimg1(e.target.value)}
             required
           />
         </div>
@@ -460,6 +471,56 @@ export default function Upsec() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
             id="alt-image-pdf"
             type="text"
+            value={altimg2}
+            onChange={(e)=>setaltimg2(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Study Period
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            value={study}
+            onChange={(e)=>setstudy(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Base Year
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            value={base}
+            onChange={(e)=>setbase(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-lg font-medium mb-2"
+            htmlFor="alt-image-pdf"
+          >
+            Forecast Period
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            id="alt-image-pdf"
+            type="text"
+            value={forcast}
+            onChange={(e)=>setforcast(e.target.value)}
             required
           />
         </div>
