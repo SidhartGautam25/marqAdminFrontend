@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
@@ -9,40 +9,39 @@ import Hero from "../comp/hero/Hero";
 import Link from "next/link";
 import { BsPinAngle } from "react-icons/bs";
 interface Report {
-    _id: any;
-    title: string;
-    industry: string;
-    subind: string;
-    pin: boolean;
-  }
-  interface Insight {
-    _id: number;
-    title: string;
-    type: string;
-    industry: string;
-    subIndustry: string;
-    uploadDate: string;
-    isPinned?: boolean;
-  }
-  
-  const initialReport: Report[] = [
-    {
-      _id: 1,
-      title: "How the Electric Vehicle market is booming?",
-      industry: "Electric Vehicle (EV) Innovations",
-      subind: "Electric Vehicles and Powertrains",
-      pin:true,
-    },
-    {
-      _id: 2,
-      title: "How the Electric Vehicle market is booming?",
-     
-      industry: "Electric Vehicle (EV) Innovations",
-      subind: "Electric Vehicles and Powertrains",
-      pin:true,
-      
-    },
-  ];
+  _id: any;
+  title: string;
+  industry: string;
+  subind: string;
+  pin: boolean;
+}
+interface Insight {
+  _id: number;
+  title: string;
+  type: string;
+  industry: string;
+  subIndustry: string;
+  uploadDate: string;
+  isPinned?: boolean;
+}
+
+const initialReport: Report[] = [
+  {
+    _id: 1,
+    title: "How the Electric Vehicle market is booming?",
+    industry: "Electric Vehicle (EV) Innovations",
+    subind: "Electric Vehicles and Powertrains",
+    pin: true,
+  },
+  {
+    _id: 2,
+    title: "How the Electric Vehicle market is booming?",
+
+    industry: "Electric Vehicle (EV) Innovations",
+    subind: "Electric Vehicles and Powertrains",
+    pin: true,
+  },
+];
 const Page = () => {
   const [reports, setReports] = useState<Report[]>(initialReport);
 
@@ -78,97 +77,122 @@ const Page = () => {
       const data = axios.put(url);
     } catch (err) {}
   }
+
+  useEffect(() => {
+    // Code inside this function will run after every render
+    // You can perform side effects, such as data fetching, subscriptions, or DOM manipulations here
+
+    // For example, you can fetch data from an API
+    const fetchReport = async () => {
+      console.log("fetch report called");
+      let url = `${dev_url}/api/getall/pinned-report`;
+
+      try {
+        const daata = await axios.get(url);
+
+        if (daata) {
+          console.log("daaaaaattatatata is ", daata.data);
+          setReports([...daata.data.reports]);
+        }
+      } catch (err) {}
+    };
+    fetchReport();
+
+    // You can also return a cleanup function from useEffect
+    // This cleanup function will be executed before the component is unmounted or re-rendered
+    return () => {
+      // Code inside this cleanup function will run before the component is unmounted or re-rendered
+      // You can perform cleanup tasks here, such as unsubscribing from subscriptions or clearing timers
+    };
+  }, []);
+
   return (
     <>
-    <Navbar/>
-    <div className="flex rounded-lg mt-10">
-          <Link
-            href="/uploding-insight"
-            className=" btn-blue mx-2 w-1/2  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
-          >
-            <button className="">Upload New insights</button>
-          </Link>
-          <Link
-            href="/uploding"
-            className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
-          >
-            <button>Upload New Report</button>
-          </Link>
-          <Link
-            href="/pined-report"
-            className="gap-4 items-center btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
-          >
-            <button>Pined Reports</button>
-            <BsPinAngle className="text-xl"/>
-
-          </Link>
-          <Link
-            href="/info"
-            className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
-          >
-            <button>Update info</button>
-          </Link>
-        </div>
-    <div className="overflow-x-auto m-5">
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr className="bg-blue-800 text-white">
-            <th className="w-1/12 px-4 py-2 border">S.No.</th>
-            <th className="w-3/12 px-4 py-2 border">RD Title</th>
-            <th className="w-3/12 px-4 py-2 border">Industry</th>
-            <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
-            <th className="w-2/12 px-4 py-2 border">Upload Date</th>
-            <th className="w-1/12 px-4 py-2 border">Delete</th>
-            <th className="w-1/12 px-4 py-2 border">Pin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.map((report, index) => (
-            <tr key={index}>
-              <td className="border px-4 py-2 text-center">
-                {5 * (page - 1) + index + 1}
-              </td>
-              <td className="border px-4 py-2">{report.title}</td>
-              <td className="border px-4 py-2">{report.industry}</td>
-              <td className="border px-4 py-2">{report.subind}</td>
-              <td className="border px-4 py-2 text-center">May 2024</td>
-              <td className="border px-4 py-2 text-center">
-                <button
-                  className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => handleDelete(report._id)}
-                >
-                  Delete
-                </button>
-              </td>
-              <td className="border px-4 py-2 text-center">
-                <button
-                  className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
-                  // onClick={() => togglePin(index)}
-                >
-                  {report.pin ? (
-                    <div onClick={() => UnPinMePlease(report.title)}>
-                      <RxDrawingPinFilled />
-                    </div>
-                  ) : (
-                    <div onClick={() => PinMePlease(report.title)}>
-                      <RxDrawingPin />
-                    </div>
-                  )}
-                  {/* {reports.isPin ? (
+      <Navbar />
+      <div className="flex rounded-lg mt-10">
+        <Link
+          href="/uploding-insight"
+          className=" btn-blue mx-2 w-1/2  font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+        >
+          <button className="">Upload New insights</button>
+        </Link>
+        <Link
+          href="/uploding"
+          className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+        >
+          <button>Upload New Report</button>
+        </Link>
+        <Link
+          href="/pined-report"
+          className="gap-4 items-center btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+        >
+          <button>Pined Reports</button>
+          <BsPinAngle className="text-xl" />
+        </Link>
+        <Link
+          href="/info"
+          className="btn-blue mx-2 w-1/2 font-semibold flex justify-center border-[1px] rounded border-blue-500 p-3 hover:bg-blue-500 text-blue-500 hover:text-white hover:font-bold"
+        >
+          <button>Update info</button>
+        </Link>
+      </div>
+      <div className="overflow-x-auto m-5">
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr className="bg-blue-800 text-white">
+              <th className="w-1/12 px-4 py-2 border">S.No.</th>
+              <th className="w-3/12 px-4 py-2 border">RD Title</th>
+              <th className="w-3/12 px-4 py-2 border">Industry</th>
+              <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
+              <th className="w-2/12 px-4 py-2 border">Upload Date</th>
+              <th className="w-1/12 px-4 py-2 border">Delete</th>
+              <th className="w-1/12 px-4 py-2 border">Pin</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reports.map((report, index) => (
+              <tr key={index}>
+                <td className="border px-4 py-2 text-center">{index + 1}</td>
+                <td className="border px-4 py-2">{report.title}</td>
+                <td className="border px-4 py-2">{report.industry}</td>
+                <td className="border px-4 py-2">{report.subind}</td>
+                <td className="border px-4 py-2 text-center">May 2024</td>
+                <td className="border px-4 py-2 text-center">
+                  <button
+                    className="bg-red-400 text-black border border-black px-2 py-1"
+                    onClick={() => handleDelete(report._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+                <td className="border px-4 py-2 text-center">
+                  <button
+                    className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
+                    // onClick={() => togglePin(index)}
+                  >
+                    {report.pin ? (
+                      <div onClick={() => UnPinMePlease(report.title)}>
+                        <RxDrawingPinFilled />
+                      </div>
+                    ) : (
+                      <div onClick={() => PinMePlease(report.title)}>
+                        <RxDrawingPin />
+                      </div>
+                    )}
+                    {/* {reports.isPin ? (
                     <RxDrawingPinFilled />
                   ) : (
                     <RxDrawingPin />
                   )} */}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      
-    </div>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
