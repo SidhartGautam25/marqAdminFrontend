@@ -22,21 +22,21 @@ const listData: ListItem[] = [
   {
     name: "Electric and Hybrid Vehicles",
     children: [
-     "Battery Technology",
-    "Electric Motors",
-    "Charging Infrastructure",
-    "Hybrid Systems",
-    "Vehicle Design"
+      "Battery Technology",
+      "Electric Motors",
+      "Charging Infrastructure",
+      "Hybrid Systems",
+      "Vehicle Design",
     ],
   },
   {
     name: " Vehicles and Components",
     children: [
-        "Chassis",
-        "Engine Components",
-        "Transmission Systems",
-        "Braking Systems",
-        "Fuel Systems"
+      "Chassis",
+      "Engine Components",
+      "Transmission Systems",
+      "Braking Systems",
+      "Fuel Systems",
     ],
   },
   {
@@ -46,37 +46,37 @@ const listData: ListItem[] = [
       "Ride Hailing",
       "Bike Sharing",
       "Scooter Sharing",
-      "Fleet Management"
+      "Fleet Management",
     ],
   },
   {
     name: "Tire",
     children: [
       "Manufacturing",
-    "Design",
-    "Recycling",
-    "Performance Testing",
-    "Distribution"
+      "Design",
+      "Recycling",
+      "Performance Testing",
+      "Distribution",
     ],
   },
   {
     name: "Connectivity Technology",
     children: [
       "Telematics",
-    "Vehicle-to-Everything (V2X)",
-    "Infotainment Systems",
-    "Navigation Systems",
-    "Remote Diagnostics"
+      "Vehicle-to-Everything (V2X)",
+      "Infotainment Systems",
+      "Navigation Systems",
+      "Remote Diagnostics",
     ],
   },
   {
     name: "Sensors, Electronics, and Electrical Equipment",
     children: [
       "LIDAR",
-    "RADAR",
-    "Cameras",
-    "Control Units",
-    "Wiring Harnesses"
+      "RADAR",
+      "Cameras",
+      "Control Units",
+      "Wiring Harnesses",
     ],
   },
 ];
@@ -87,7 +87,10 @@ const radioOptions: RadioOption[] = [
   { id: "Shared Mobility", label: "Shared Mobility" },
   { id: "Tire", label: "Tire" },
   { id: "Connectivity Technology", label: "Connectivity Technology" },
-  { id: "Sensors, Electronics, and Electrical Equipment", label: "Sensors, Electronics, and Electrical Equipment" },
+  {
+    id: "Sensors, Electronics, and Electrical Equipment",
+    label: "Sensors, Electronics, and Electrical Equipment",
+  },
 ];
 
 export default function Upsec() {
@@ -277,6 +280,9 @@ export default function Upsec() {
       metaTitle: metaTitle,
       metaDesc: metaDesc,
       metaKey: metaKey,
+      study: study,
+      base: base,
+      forcast: forcast,
     };
     const res = await axios.post(local, daata);
     toast.success("Report submitted sucessfully!");
@@ -439,7 +445,7 @@ export default function Upsec() {
             id="alt-thumbnail"
             type="text"
             value={tumb}
-            onChange={(e)=>settumb(e.target.value)}
+            onChange={(e) => settumb(e.target.value)}
             required
           />
         </div>
@@ -456,7 +462,7 @@ export default function Upsec() {
             id="alt-image-pdf"
             type="text"
             value={altimg1}
-            onChange={(e)=>setaltimg1(e.target.value)}
+            onChange={(e) => setaltimg1(e.target.value)}
             required
           />
         </div>
@@ -472,7 +478,7 @@ export default function Upsec() {
             id="alt-image-pdf"
             type="text"
             value={altimg2}
-            onChange={(e)=>setaltimg2(e.target.value)}
+            onChange={(e) => setaltimg2(e.target.value)}
             required
           />
         </div>
@@ -488,7 +494,7 @@ export default function Upsec() {
             id="alt-image-pdf"
             type="text"
             value={study}
-            onChange={(e)=>setstudy(e.target.value)}
+            onChange={(e) => setstudy(e.target.value)}
             required
           />
         </div>
@@ -504,7 +510,7 @@ export default function Upsec() {
             id="alt-image-pdf"
             type="text"
             value={base}
-            onChange={(e)=>setbase(e.target.value)}
+            onChange={(e) => setbase(e.target.value)}
             required
           />
         </div>
@@ -520,7 +526,7 @@ export default function Upsec() {
             id="alt-image-pdf"
             type="text"
             value={forcast}
-            onChange={(e)=>setforcast(e.target.value)}
+            onChange={(e) => setforcast(e.target.value)}
             required
           />
         </div>
