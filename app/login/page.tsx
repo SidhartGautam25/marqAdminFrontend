@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextType } from "../context/authContext";
 import PdfDescription from "../comp/pdfdescription/pdfdescription";
+import { my_admin_url } from "../utility";
 
 axios.defaults.withCredentials = true;
 
@@ -24,8 +25,8 @@ export default function Home() {
     // Here you would call your backend service to authenticate the user
     // For this example, let's mock a successful login response
     const data = { email: email, password: password };
-    const url = "https://marq-admin-backend.onrender.com/api/auth/login";
-    const local = "http://localhost:8800/api/auth/login";
+    //const url = "https://marq-admin-backend.onrender.com/api/auth/login";
+    const local = `${my_admin_url}/api/auth/login`;
     //console.log("user: ", user);
     dispatch({ type: "LOGIN_START" });
     try {

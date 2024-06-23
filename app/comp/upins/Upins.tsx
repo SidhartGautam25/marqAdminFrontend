@@ -1,5 +1,6 @@
 "use client";
 
+import { my_admin_url } from "@/app/utility";
 import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,21 +19,21 @@ const listData: ListItem[] = [
   {
     name: "Electric and Hybrid Vehicles",
     children: [
-     "Battery Technology",
-    "Electric Motors",
-    "Charging Infrastructure",
-    "Hybrid Systems",
-    "Vehicle Design"
+      "Battery Technology",
+      "Electric Motors",
+      "Charging Infrastructure",
+      "Hybrid Systems",
+      "Vehicle Design",
     ],
   },
   {
-    name: " Vehicles and Components",
+    name: "Vehicles and Components",
     children: [
-        "Chassis",
-        "Engine Components",
-        "Transmission Systems",
-        "Braking Systems",
-        "Fuel Systems"
+      "Chassis",
+      "Engine Components",
+      "Transmission Systems",
+      "Braking Systems",
+      "Fuel Systems",
     ],
   },
   {
@@ -42,37 +43,37 @@ const listData: ListItem[] = [
       "Ride Hailing",
       "Bike Sharing",
       "Scooter Sharing",
-      "Fleet Management"
+      "Fleet Management",
     ],
   },
   {
     name: "Tire",
     children: [
       "Manufacturing",
-    "Design",
-    "Recycling",
-    "Performance Testing",
-    "Distribution"
+      "Design",
+      "Recycling",
+      "Performance Testing",
+      "Distribution",
     ],
   },
   {
     name: "Connectivity Technology",
     children: [
       "Telematics",
-    "Vehicle-to-Everything (V2X)",
-    "Infotainment Systems",
-    "Navigation Systems",
-    "Remote Diagnostics"
+      "Vehicle-to-Everything (V2X)",
+      "Infotainment Systems",
+      "Navigation Systems",
+      "Remote Diagnostics",
     ],
   },
   {
     name: "Sensors, Electronics, and Electrical Equipment",
     children: [
       "LIDAR",
-    "RADAR",
-    "Cameras",
-    "Control Units",
-    "Wiring Harnesses"
+      "RADAR",
+      "Cameras",
+      "Control Units",
+      "Wiring Harnesses",
     ],
   },
 ];
@@ -83,7 +84,10 @@ const radioOptions: RadioOption[] = [
   { id: "Shared Mobility", label: "Shared Mobility" },
   { id: "Tire", label: "Tire" },
   { id: "Connectivity Technology", label: "Connectivity Technology" },
-  { id: "Sensors, Electronics, and Electrical Equipment", label: "Sensors, Electronics, and Electrical Equipment" },
+  {
+    id: "Sensors, Electronics, and Electrical Equipment",
+    label: "Sensors, Electronics, and Electrical Equipment",
+  },
 ];
 
 export default function Upins() {
@@ -92,6 +96,7 @@ export default function Upins() {
   const [subIndustryOption, setSubIndustryOption] = useState<string>("null");
 
   const [title, setTitle] = useState("");
+
   const [type, setType] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
@@ -103,8 +108,8 @@ export default function Upins() {
   const [imagep, setImagep] = useState("");
   const [imaget, setImaget] = useState("");
 
-  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadblog";
-  const local = "http://localhost:8800/api/upload/uploadblog";
+  //const url = "https://marq-admin-backend.onrender.com/api/upload/uploadblog";
+  const local = `${my_admin_url}/api/upload/uploadblog`;
 
   const handleChangeSubIndustry = (item: string) => {
     setSubIndustryOption(item);
@@ -124,6 +129,7 @@ export default function Upins() {
     const daata = {
       title: title,
       type: type,
+
       linkp: imagep,
       linkt: imaget,
       industry: selectedOption,
