@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState, useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { ReportContext, ReportContextType } from "@/app/context/reportContext";
+import { my_admin_url } from "@/app/utility";
 
 axios.defaults.withCredentials = true;
 
@@ -12,8 +13,8 @@ export default function Hero() {
   const [reports, setReports] = useState<Record<string, any>[]>([]);
   const [dup, setDup] = useState<Record<string, any>[]>([]);
 
-  const url = "https://marq-admin-backend.onrender.com/api/getall/report";
-  const local = "http://localhost:8800/api/getall/report";
+  //const url = "https://marq-admin-backend.onrender.com/api/getall/report";
+  const local = `${my_admin_url}/api/getall/report`;
 
   useEffect(() => {
     // Code inside this function will run after every render
