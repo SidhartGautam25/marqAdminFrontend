@@ -8,6 +8,7 @@ import RightHero from "../comp/righthero/RightHero";
 import Hero from "../comp/hero/Hero";
 import Link from "next/link";
 import { BsPinAngle } from "react-icons/bs";
+import { my_admin_url } from "../utility";
 interface Report {
   _id: any;
   title: string;
@@ -45,8 +46,8 @@ const initialReport: Report[] = [
 const Page = () => {
   const [reports, setReports] = useState<Report[]>(initialReport);
 
-  const dev_url = "http://localhost:8800";
-  const prod_url = "https://admin-backend-1-ekoa.onrender.com";
+  // const dev_url = "http://localhost:8800";
+  // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState(0);
   const [end, setEnd] = useState(1);
   console.log("your end is ", end);
@@ -55,7 +56,7 @@ const Page = () => {
   const handleDelete = async (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
-      let url = `${dev_url}/api/getall/report?id=${id}`;
+      let url = `${my_admin_url}/api/getall/report?id=${id}`;
       try {
         const data = await axios.delete(url);
         alert("report deleted successfully");
@@ -65,7 +66,7 @@ const Page = () => {
   function PinMePlease(title: string) {
     console.log("you clicked to pin this report");
     try {
-      let url = `${dev_url}/api/getall/report/pin?title=${title}`;
+      let url = `${my_admin_url}/api/getall/report/pin?title=${title}`;
       const data = axios.put(url);
     } catch (err) {}
   }
@@ -73,7 +74,7 @@ const Page = () => {
   function UnPinMePlease(title: string) {
     console.log("you clicked to unpin this report");
     try {
-      let url = `${dev_url}/api/getall/report/unpin?title=${title}`;
+      let url = `${my_admin_url}/api/getall/report/unpin?title=${title}`;
       const data = axios.put(url);
     } catch (err) {}
   }
@@ -85,7 +86,7 @@ const Page = () => {
     // For example, you can fetch data from an API
     const fetchReport = async () => {
       console.log("fetch report called");
-      let url = `${dev_url}/api/getall/pinned-report`;
+      let url = `${my_admin_url}/api/getall/pinned-report`;
 
       try {
         const daata = await axios.get(url);

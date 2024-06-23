@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { my_admin_url } from "../utility";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -27,7 +28,7 @@ export default function Home() {
       password: password,
     };
     try {
-      await axios.post("http://localhost:8800/api/auth/register", data);
+      await axios.post(`${my_admin_url}/api/auth/register`, data);
       if (allgood == false) {
         setAllgood(true);
       }

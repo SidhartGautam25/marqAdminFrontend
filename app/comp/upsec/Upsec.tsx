@@ -6,6 +6,7 @@ import Image from "next/image";
 import add from "@/public/add.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { my_admin_url } from "@/app/utility";
 // Define the type for the radio options
 interface RadioOption {
   id: string; // Unique identifier for each radio button
@@ -30,7 +31,7 @@ const listData: ListItem[] = [
     ],
   },
   {
-    name: " Vehicles and Components",
+    name: "Vehicles and Components",
     children: [
       "Chassis",
       "Engine Components",
@@ -123,8 +124,8 @@ export default function Upsec() {
   const [base, setbase] = useState<string>("");
   const [forcast, setforcast] = useState<string>("");
 
-  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
-  const local = "http://localhost:8800/api/upload/uploadreport";
+  //const url = "https://marq-admin-backend.onrender.com/api/upload/uploadreport";
+  const local = `${my_admin_url}/api/upload/uploadreport`;
 
   // const [date, dateChange] = useState<Date>(new Date());
   const router = useRouter();

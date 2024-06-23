@@ -1,5 +1,6 @@
 "use client";
 
+import { my_admin_url } from "@/app/utility";
 import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,7 +27,7 @@ const listData: ListItem[] = [
     ],
   },
   {
-    name: " Vehicles and Components",
+    name: "Vehicles and Components",
     children: [
       "Chassis",
       "Engine Components",
@@ -107,8 +108,8 @@ export default function Upins() {
   const [imagep, setImagep] = useState("");
   const [imaget, setImaget] = useState("");
 
-  const url = "https://marq-admin-backend.onrender.com/api/upload/uploadblog";
-  const local = "http://localhost:8800/api/upload/uploadblog";
+  //const url = "https://marq-admin-backend.onrender.com/api/upload/uploadblog";
+  const local = `${my_admin_url}/api/upload/uploadblog`;
 
   const handleChangeSubIndustry = (item: string) => {
     setSubIndustryOption(item);
