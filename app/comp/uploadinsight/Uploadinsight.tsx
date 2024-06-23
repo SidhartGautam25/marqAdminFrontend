@@ -5,6 +5,7 @@ import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
 
 import axios from "axios";
+import { my_admin_url } from "@/app/utility";
 interface Insight {
   _id: number;
   title: string;
@@ -40,8 +41,8 @@ export default function Uploadinsight() {
 
   // const [blogs, setBlogs] = useState<Insight[]>(initialInsights);
   const [page, setPage] = useState(1);
-  const dev_url = "http://localhost:8800";
-  const prod_url = "https://admin-backend-1-ekoa.onrender.com";
+  // const dev_url = "http://localhost:8800";
+  // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [blogs, setBlogs] = useState<Insight[]>([]);
     const [len, setLen] = useState(1);
   const [end, setEnd] = useState(1);
@@ -78,7 +79,7 @@ export default function Uploadinsight() {
     // For example, you can fetch data from an API
     const fetchReport = async () => {
       console.log("fetch report called");
-      let url = `${dev_url}/api/getall/blogs?page=${page}`;
+      let url = `${my_admin_url}/api/getall/blogs?page=${page}`;
 
       try {
         const daata = await axios.get(url);

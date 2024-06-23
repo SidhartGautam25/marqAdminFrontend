@@ -4,6 +4,7 @@ import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { my_admin_url } from "@/app/utility";
 interface Report {
   _id: any;
   title: string;
@@ -15,8 +16,8 @@ interface Report {
 export default function Uploadrd() {
   const [reports, setReports] = useState<Report[]>([]);
 
-  const dev_url = "http://localhost:8800";
-  const prod_url = "https://admin-backend-1-ekoa.onrender.com";
+  // const dev_url = "http://localhost:8800";
+  // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState(0);
   const [end, setEnd] = useState(1);
   console.log("your end is ", end);
@@ -25,7 +26,7 @@ export default function Uploadrd() {
   const handleDelete = async (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
-      let url = `${dev_url}/api/getall/report?id=${id}`;
+      let url = `${my_admin_url}/api/getall/report?id=${id}`;
       try {
         const data = await axios.delete(url);
         alert("report deleted successfully");
@@ -53,7 +54,7 @@ export default function Uploadrd() {
   function PinMePlease(title: string) {
     console.log("you clicked to pin this report");
     try {
-      let url = `${dev_url}/api/getall/report/pin?title=${title}`;
+      let url = `${my_admin_url}/api/getall/report/pin?title=${title}`;
       const data = axios.put(url);
       alert("report pinned successfully");
     } catch (err) {}
@@ -62,7 +63,7 @@ export default function Uploadrd() {
   function UnPinMePlease(title: string) {
     console.log("you clicked to unpin this report");
     try {
-      let url = `${dev_url}/api/getall/report/unpin?title=${title}`;
+      let url = `${my_admin_url}/api/getall/report/unpin?title=${title}`;
       const data = axios.put(url);
       alert("report unpinned successfully");
     } catch (err) {}
@@ -75,7 +76,7 @@ export default function Uploadrd() {
     // For example, you can fetch data from an API
     const fetchReport = async () => {
       console.log("fetch report called");
-      let url = `${dev_url}/api/getall/report?page=${page}`;
+      let url = `${my_admin_url}/api/getall/report?page=${page}`;
 
       try {
         const daata = await axios.get(url);
