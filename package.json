@@ -17,11 +17,13 @@
     "axios": "^1.6.8",
     "next": "14.2.2",
     "pdfjs-dist": "^3.4.120",
+    "quill": "^2.0.2",
     "react": "^18",
     "react-calendar": "^5.0.0",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-quill": "^2.0.0",
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
