@@ -3,6 +3,10 @@ import "react-quill/dist/quill.snow.css";
 import Quill from "../quill/Quill";
 import FaqSection from "../faqSection/FaqSection";
 import MajorPlayers from "../majorPlayers/MajorPlayers";
+// import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import "draft-js/dist/Draft.css";
+// import EditorComponent from "../editor/Editor";
+import MyComponent from "../editor/Editor";
 
 const ReportEditor = () => {
   const [selectedTab, setSelectedTab] = useState("Scope of the Report");
@@ -40,7 +44,7 @@ const ReportEditor = () => {
         </ul>
       </div>
       <div className="w-3/4 p-4 border ml-2 border-gray-300 bg-white">
-        {selectedTab === "Market Snapshot" && <Quill />}
+        {selectedTab === "Market Snapshot" && <MyComponent />}
         {selectedTab === "Market Overview" && <Quill />}
         {selectedTab === "Scope of the Report" && <Quill />}
         {selectedTab === "Key Market Trends" && <Quill />}
