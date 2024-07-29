@@ -7,9 +7,10 @@ import MajorPlayers from "../majorPlayers/MajorPlayers";
 import "draft-js/dist/Draft.css";
 // import EditorComponent from "../editor/Editor";
 import MyComponent from "../editor/Editor";
+import KeyMarket from "../keyMarket/KeyMarket";
 
 const ReportEditor = () => {
-  const [selectedTab, setSelectedTab] = useState("Scope of the Report");
+  const [selectedTab, setSelectedTab] = useState("Market Snapshot");
 
   const tabs = [
     "Market Snapshot",
@@ -47,7 +48,7 @@ const ReportEditor = () => {
         {selectedTab === "Market Snapshot" && <MyComponent />}
         {selectedTab === "Market Overview" && <Quill />}
         {selectedTab === "Scope of the Report" && <Quill />}
-        {selectedTab === "Key Market Trends" && <Quill />}
+        {selectedTab === "Key Market Trends" && <KeyMarket />}
         {selectedTab === "Competitive Landscape" && <Quill />}
         {selectedTab === "Major Players" && <MajorPlayers />}
         {selectedTab === "Recent Developments" && <Quill />}
