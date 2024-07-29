@@ -8,6 +8,7 @@ import "draft-js/dist/Draft.css";
 // import EditorComponent from "../editor/Editor";
 import MyComponent from "../editor/Editor";
 import KeyMarket from "../keyMarket/KeyMarket";
+import Toc from "../toc/Toc";
 
 const ReportEditor = () => {
   const [selectedTab, setSelectedTab] = useState("Market Snapshot");
@@ -21,6 +22,7 @@ const ReportEditor = () => {
     "Major Players",
     "Recent Developments",
     "FAQs",
+    "Table Of Contents",
   ];
 
   const handleTabClick = (tab: string) => {
@@ -53,6 +55,7 @@ const ReportEditor = () => {
         {selectedTab === "Major Players" && <MajorPlayers />}
         {selectedTab === "Recent Developments" && <Quill />}
         {selectedTab === "FAQs" && <FaqSection />}
+        {selectedTab === "Table Of Contents" && <Toc />}
       </div>
     </div>
   );
