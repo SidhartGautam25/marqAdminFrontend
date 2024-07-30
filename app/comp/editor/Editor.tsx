@@ -232,8 +232,10 @@
 
 // export default MyComponent;
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+// import "jodit/build/jodit.min.css";
+
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
@@ -265,6 +267,12 @@ const MyComponent: React.FC = () => {
   const handleRemoveAttribute = (index: number) => {
     setAttributes(attributes.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    if (editor.current) {
+      (editor.current as any).focus();
+    }
+  }, []);
 
   return (
     <div className="p-6">
@@ -340,37 +348,6 @@ const MyComponent: React.FC = () => {
       <JoditEditor
         ref={editor}
         value={editorContent}
-        config={{
-          readonly: false,
-          buttons: [
-            "bold",
-            "italic",
-            "underline",
-            "|",
-            "ul",
-            "ol",
-            "|",
-            "outdent",
-            "indent",
-            "|",
-            "font",
-            "fontsize",
-            "brush",
-            "paragraph",
-            "|",
-            "image",
-            "table",
-            "link",
-            "|",
-            "align",
-            "undo",
-            "redo",
-            "|",
-            "hr",
-            "eraser",
-            "fullsize",
-          ],
-        }}
         onChange={handleEditorChange}
       />
       <div

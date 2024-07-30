@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import Quill from "../quill/Quill";
+// import Quill from "../quill/Quill";
 import FaqSection from "../faqSection/FaqSection";
 import MajorPlayers from "../majorPlayers/MajorPlayers";
 // import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
@@ -9,6 +9,7 @@ import "draft-js/dist/Draft.css";
 import MyComponent from "../editor/Editor";
 import KeyMarket from "../keyMarket/KeyMarket";
 import Toc from "../toc/Toc";
+import OnlyEditor from "../onlyEditor/Editor";
 
 const ReportEditor = () => {
   const [selectedTab, setSelectedTab] = useState("Market Snapshot");
@@ -48,12 +49,12 @@ const ReportEditor = () => {
       </div>
       <div className="w-3/4 p-4 border ml-2 border-gray-300 bg-white">
         {selectedTab === "Market Snapshot" && <MyComponent />}
-        {selectedTab === "Market Overview" && <Quill />}
-        {selectedTab === "Scope of the Report" && <Quill />}
+        {selectedTab === "Market Overview" && <MyComponent />}
+        {selectedTab === "Scope of the Report" && <OnlyEditor />}
         {selectedTab === "Key Market Trends" && <KeyMarket />}
-        {selectedTab === "Competitive Landscape" && <Quill />}
+        {selectedTab === "Competitive Landscape" && <OnlyEditor />}
         {selectedTab === "Major Players" && <MajorPlayers />}
-        {selectedTab === "Recent Developments" && <Quill />}
+        {selectedTab === "Recent Developments" && <OnlyEditor />}
         {selectedTab === "FAQs" && <FaqSection />}
         {selectedTab === "Table Of Contents" && <Toc />}
       </div>

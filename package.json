@@ -22,8 +22,6 @@
     "jodit-react": "^4.1.2",
     "next": "14.2.2",
     "pdfjs-dist": "^3.4.120",
-    "quill": "^2.0.2",
-    "quill-paste-smart": "^2.0.0",
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
     "react-dom": "^18.3.1",
