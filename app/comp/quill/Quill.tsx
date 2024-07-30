@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 // Dynamically import React Quill to handle SSR
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const ScopeOfTheReport: React.FC = () => {
+const Quill: React.FC = () => {
   const [description, setDescription] = React.useState("");
   const [heading, setHeading] = React.useState("");
 
@@ -90,4 +90,4 @@ const ScopeOfTheReport: React.FC = () => {
   );
 };
 
-export default ScopeOfTheReport;
+export default Quill;
