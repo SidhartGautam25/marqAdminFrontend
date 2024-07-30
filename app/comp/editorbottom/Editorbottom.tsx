@@ -46,6 +46,12 @@ const ReportEditor = () => {
             </li>
           ))}
         </ul>
+        <button
+          type="submit"
+          className="w-full py-2 my-4 px-4 bg-blue-600 text-white rounded"
+        >
+          Submit
+        </button>
       </div>
       <div className="w-3/4 p-4 border ml-2 border-gray-300 bg-white">
         {selectedTab === "Market Snapshot" && <MyComponent />}

@@ -112,6 +112,14 @@ const MyComponent: React.FC = () => {
         className="mt-6 border border-gray-300 p-4 min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: editorContent }}
       />
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
