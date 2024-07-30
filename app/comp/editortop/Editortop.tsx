@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
 interface RadioOption {
   id: string;
   label: string;
@@ -79,6 +79,7 @@ const radioOptions: RadioOption[] = listData.map((item) => ({
 }));
 
 const Editortop = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [form, setForm] = useState({
     title: "",
     shortTitle: "",
@@ -119,7 +120,29 @@ const Editortop = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
+    console.log("this is the submit function working");
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        title: form.title,
+        slug: form.slug,
+        shortTitle: form.shortTitle,
+        subTitle: form.subTitle,
+        metaTitle: form.metaTitle,
+        metaKeywords: form.metaKeywords,
+        metaDescription: form.metaDescription,
+        category: form.category,
+        subCategory: form.subCategory,
+        geographyTag: form.geographyTag,
+        countryRegion: form.countryRegion,
+        priceSingle: form.priceSingle,
+        priceTeam: form.priceTeam,
+        priceCorporate: form.priceCorporate,
+        publishedDate: form.publishedDate,
+        relatedReports: form.relatedReports,
+      },
+    });
+    console.log("here", state);
   };
 
   return (

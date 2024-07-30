@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./comp/navbar/Navbar";
 import { AuthContextProvider } from "./context/authContext";
 import { ReportContextProvider } from "./context/reportContext";
+import { RDContextProvider } from "./context/rdContext";
 
 const inter = Roboto_Serif({ weight: "400", subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <AuthContextProvider>
-          <ReportContextProvider>{children}</ReportContextProvider>
+          <RDContextProvider>
+            <ReportContextProvider>{children}</ReportContextProvider>
+          </RDContextProvider>
         </AuthContextProvider>
       </body>
     </html>

@@ -15,9 +15,10 @@ type State = {
   [key: string]: any;
 };
 
-const INITIAL_STATE: State = JSON.parse(
-  localStorage.getItem("marq-rep-state") || "{}"
-);
+const INITIAL_STATE: State =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("marq-rep-state") || "{}")
+    : null;
 
 type Action = { type: "SET_RD"; payload: any };
 
@@ -46,6 +47,7 @@ export const RDContextProvider: React.FC<RDProviderProps> = ({ children }) => {
 
   const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
   useEffect(() => {
+    console.log("present state is ", state);
     // console.log("state ",state);
     // localStorage.setItem("marq-rep-title", state.title);
     // localStorage.setItem("marq-rep-desc", state.desc);
