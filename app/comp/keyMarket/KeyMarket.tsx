@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
+// import "jodit/build/jodit.min.css";
 
-// Dynamically import React Quill to handle SSR
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+// import JoditEditor from "jodit-react";
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const KeyMarket: React.FC = () => {
   const [heading, setHeading] = React.useState("");
@@ -15,6 +15,16 @@ const KeyMarket: React.FC = () => {
   const [image2, setImage2] = React.useState<File | null>(null);
   const [imageAlt, setImageAlt] = React.useState("");
   const [imageAlt2, setImageAlt2] = React.useState("");
+  const editor1 = useRef(null);
+  const [editorContent1, setEditorContent1] = useState<string>("");
+  const editor2 = useRef(null);
+  const [editorContent2, setEditorContent2] = useState<string>("");
+  const handleEditorChange1 = (newContent: string) => {
+    setEditorContent1(newContent);
+  };
+  const handleEditorChange2 = (newContent: string) => {
+    setEditorContent2(newContent);
+  };
 
   const modules = {
     toolbar: [
@@ -117,13 +127,18 @@ const KeyMarket: React.FC = () => {
         <label className="block text-sm font-medium text-gray-700 mr-4 w-1/6">
           Description:
         </label>
-        <ReactQuill
+        {/* <ReactQuill
           value={description}
           onChange={setDescription}
           className="rounded w-5/6 h-80 mb-10"
           theme="snow"
           modules={modules}
           formats={formats}
+        /> */}
+        <JoditEditor
+          ref={editor1}
+          value={editorContent1}
+          onChange={(newContent: string) => setEditorContent1(newContent)}
         />
       </div>
       <div className="flex items-center my-12">
@@ -174,13 +189,18 @@ const KeyMarket: React.FC = () => {
         <label className="block text-sm font-medium text-gray-700 mr-4 w-1/6">
           Description 2:
         </label>
-        <ReactQuill
+        {/* <ReactQuill
           value={description2}
           onChange={setDescription2}
           className="rounded w-5/6 h-80 mb-10"
           theme="snow"
           modules={modules}
           formats={formats}
+        /> */}
+        <JoditEditor
+          ref={editor2}
+          value={editorContent2}
+          onChange={(newContent: string) => setEditorContent2(newContent)}
         />
       </div>
       <div className="flex items-center my-12">

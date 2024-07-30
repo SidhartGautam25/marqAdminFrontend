@@ -106,37 +106,6 @@ const MyComponent: React.FC = () => {
       <JoditEditor
         ref={editor}
         value={editorContent}
-        config={{
-          readonly: false,
-          buttons: [
-            "bold",
-            "italic",
-            "underline",
-            "|",
-            "ul",
-            "ol",
-            "|",
-            "outdent",
-            "indent",
-            "|",
-            "font",
-            "fontsize",
-            "brush",
-            "paragraph",
-            "|",
-            "image",
-            "table",
-            "link",
-            "|",
-            "align",
-            "undo",
-            "redo",
-            "|",
-            "hr",
-            "eraser",
-            "fullsize",
-          ],
-        }}
         onChange={handleEditorChange}
       />
       <div
