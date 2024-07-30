@@ -215,6 +215,14 @@ const KeyMarket: React.FC = () => {
           </div>
         </div>
       )}
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
