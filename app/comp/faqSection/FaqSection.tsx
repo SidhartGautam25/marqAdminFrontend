@@ -2,8 +2,10 @@ import React, { useState, useContext } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 const FaqSection: React.FC = () => {
   const { state, dispatch } = useContext(RDContext) as RDContextType;
-  const [heading, setHeading] = useState("");
-  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+  const [heading, setHeading] = useState(state?.fsHeading ?? "");
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>(
+    state?.fsFaqs ?? []
+  );
   const [newFaq, setNewFaq] = useState<{ question: string; answer: string }>({
     question: "",
     answer: "",
@@ -29,7 +31,6 @@ const FaqSection: React.FC = () => {
       payload: {
         fsHeading: heading,
         fsFaqs: faqs,
-        fsNewFaqs: newFaq,
       },
     });
   };

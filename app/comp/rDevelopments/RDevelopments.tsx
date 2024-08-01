@@ -8,9 +8,11 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const RDevelopments: React.FC = () => {
   const { state, dispatch } = useContext(RDContext) as RDContextType;
-  const [heading, setHeading] = useState<string>();
+  const [heading, setHeading] = useState<string>(state?.rdHeading ?? "");
   const editor = useRef(null);
-  const [editorContent, setEditorContent] = useState<string>("");
+  const [editorContent, setEditorContent] = useState<string>(
+    state?.rdContent ?? ""
+  );
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
