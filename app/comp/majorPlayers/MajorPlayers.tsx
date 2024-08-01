@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
 const MajorPlayers: React.FC = () => {
-  const [heading, setHeading] = useState("");
-  const [companies, setCompanies] = useState([
-    "Continental AG",
-    "Delphi Technologies",
-    "DENSO Corporation",
-    "Robert Bosch GmbH",
-    "ZF Friedrichshafen AG",
-  ]);
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const [heading, setHeading] = useState(state?.mpHeading ?? "");
+  const [companies, setCompanies] = useState<string[]>(
+    state?.mpCompanies ?? []
+  );
 
   const addCompany = () => {
     setCompanies([...companies, ""]);
@@ -23,6 +20,15 @@ const MajorPlayers: React.FC = () => {
       i === index ? value : company
     );
     setCompanies(updatedCompanies);
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        mpHeading: heading,
+        mpCompanies: companies,
+      },
+    });
   };
 
   return (
@@ -69,7 +75,7 @@ const MajorPlayers: React.FC = () => {
       </div>
       <div className="flex justify-end">
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
         >
           Submit

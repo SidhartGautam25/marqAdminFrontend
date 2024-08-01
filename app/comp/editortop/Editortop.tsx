@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 interface RadioOption {
   id: string;

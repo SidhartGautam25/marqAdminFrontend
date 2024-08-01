@@ -1,17 +1,24 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const MyComponent: React.FC = () => {
-  const [heading, setHeading] = useState<string>("");
+const MSnapshot: React.FC = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+
+  const [heading, setHeading] = useState<string>(
+    state?.msHeading ? state.msHeading : ""
+  );
   const editor = useRef(null);
-  const [editorContent, setEditorContent] = useState<string>("");
+  const [editorContent, setEditorContent] = useState<string>(
+    state?.msContent ? state.msContent : ""
+  );
   const [attributes, setAttributes] = useState<
     { key: string; value: string }[]
-  >([]);
+  >(state?.msTables ? state.msTables : []);
   const [newAttributeKey, setNewAttributeKey] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
 
@@ -32,6 +39,16 @@ const MyComponent: React.FC = () => {
 
   const handleRemoveAttribute = (index: number) => {
     setAttributes(attributes.filter((_, i) => i !== index));
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        msHeading: heading,
+        msTables: attributes,
+        msContent: editorContent,
+      },
+    });
   };
 
   useEffect(() => {
@@ -122,7 +139,7 @@ const MyComponent: React.FC = () => {
       />
       <div className="flex justify-end">
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
         >
           Submit
@@ -132,4 +149,4 @@ const MyComponent: React.FC = () => {
   );
 };
 
-export default MyComponent;
+export default MSnapshot;

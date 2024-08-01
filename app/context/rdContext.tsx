@@ -17,7 +17,7 @@ type State = {
 
 const INITIAL_STATE: State =
   typeof window !== "undefined"
-    ? JSON.parse(localStorage.getItem("marq-rep-state") || "{}")
+    ? JSON.parse(localStorage.getItem("rd") || "{}")
     : null;
 
 type Action = { type: "SET_RD"; payload: any };
@@ -36,7 +36,6 @@ const Reducer = (state: State, action: Action): State => {
         ...state,
         ...action.payload,
       };
-
     default:
       return state;
   }
