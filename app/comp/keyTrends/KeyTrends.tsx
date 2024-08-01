@@ -1,24 +1,40 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import dynamic from "next/dynamic";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const KeyMarket: React.FC = () => {
-  const [heading, setHeading] = React.useState("");
-  const [subHeading, setSubHeading] = React.useState("");
+const KeyTrends: React.FC = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const [heading, setHeading] = React.useState(
+    state.ktHeading ? state.ktHeading : ""
+  );
+  const [subHeading, setSubHeading] = React.useState(
+    state.ktSubHeading ? state.ktSubHeading : ""
+  );
   const [description, setDescription] = React.useState("");
-  const [subHeading2, setSubHeading2] = React.useState("");
+  const [subHeading2, setSubHeading2] = React.useState(
+    state.ktSubHeading2 ? state.ktSubHeading2 : ""
+  );
   const [description2, setDescription2] = React.useState("");
-  const [image, setImage] = React.useState<File | null>(null);
-  const [image2, setImage2] = React.useState<File | null>(null);
+  const [image, setImage] = React.useState<File | null>(
+    state.ktImage ? state.ktImage2 : null
+  );
+  const [image2, setImage2] = React.useState<File | null>(
+    state.ktImage ? state.ktImage2 : null
+  );
   const [imageAlt, setImageAlt] = React.useState("");
   const [imageAlt2, setImageAlt2] = React.useState("");
   const editor1 = useRef(null);
-  const [editorContent1, setEditorContent1] = useState<string>("");
+  const [editorContent1, setEditorContent1] = useState<string>(
+    state.ktContent1 ? state.ktContent1 : ""
+  );
   const editor2 = useRef(null);
-  const [editorContent2, setEditorContent2] = useState<string>("");
+  const [editorContent2, setEditorContent2] = useState<string>(
+    state.ktContent2 ? state.ktContent2 : ""
+  );
   const handleEditorChange1 = (newContent: string) => {
     setEditorContent1(newContent);
   };
@@ -83,6 +99,24 @@ const KeyMarket: React.FC = () => {
     if (e.target.files && e.target.files.length > 0) {
       setImage(e.target.files[0]);
     }
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        ktHeading: heading,
+        ktSubHeading: subHeading,
+        ktTables: description,
+        ktContent1: editorContent1,
+        ktImage: image,
+        // ktImageAlt1: imageAlt,
+        ktSubHeading2: subHeading2,
+        ktTables2: description2,
+        ktContent2: editorContent2,
+        ktImage2: image2,
+        // ktImageAlt2: imageAlt2,
+      },
+    });
   };
 
   useEffect(() => {
@@ -237,7 +271,7 @@ const KeyMarket: React.FC = () => {
       )}
       <div className="flex justify-end">
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
         >
           Submit
@@ -247,4 +281,4 @@ const KeyMarket: React.FC = () => {
   );
 };
 
-export default KeyMarket;
+export default KeyTrends;
