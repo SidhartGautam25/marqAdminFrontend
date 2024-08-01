@@ -1,5 +1,6 @@
-import { useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { toast } from "react-toastify";
 interface RadioOption {
   id: string;
   label: string;
@@ -79,26 +80,32 @@ const radioOptions: RadioOption[] = listData.map((item) => ({
 }));
 
 const Editortop = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  //  const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [form, setForm] = useState({
-    title: "",
-    shortTitle: "",
-    slug: "",
-    subTitle: "",
-    metaTitle: "",
-    metaKeywords: "",
-    metaDescription: "",
-    category: "",
-    subCategory: "",
-    geographyTag: "Global",
-    countryRegion: "Global",
-    priceSingle: "",
-    priceTeam: "",
-    priceCorporate: "",
-    publishedDate: "",
-    relatedReports: "",
+    title: state?.title ?? "",
+    slug: state?.slug ?? "",
+    shortTitle: state?.shortTitle ?? "",
+    subTitle: state?.subTitle ?? "",
+    metaTitle: state?.metaTitle ?? "",
+    metaKeywords: state?.metaKeywords ?? "",
+    metaDescription: state?.metaDescription ?? "",
+    category: state?.category ?? "",
+    subCategory: state?.subCategory ?? "",
+    geographyTag: state?.geographyTag ?? "",
+    countryRegion: state?.countryRegion ?? "",
+    priceSingle: state?.priceSingle ?? "",
+    priceTeam: state?.priceTeam ?? "",
+    priceCorporate: state?.priceCorporate ?? "",
+    publishedDate: state?.publishedDate ?? "",
+    relatedReports: state?.relatedReports ?? "",
   });
 
   const [subIndustries, setSubIndustries] = useState<string[]>([]);
+  const [loading1, setLoading1] = useState<Boolean>(false);
+  const [loading2, setLoading2] = useState<Boolean>(false);
+  const [thumb1, setThumb1] = useState<String>("");
+  const [thumb2, setThumb2] = useState<String>("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -117,9 +124,90 @@ const Editortop = () => {
     setSubIndustries(selected ? selected.children : []);
   };
 
+  const uploadImage1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading1(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      setThumb1(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading1(false);
+    }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+  const uploadImage2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log("some error occured");
+    console.log(files);
+    const data = new FormData();
+    if (files) {
+      data.append("file", files[0]);
+      data.append("upload_preset", "ppn3qr4u");
+      setLoading2(true);
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      setThumb2(file.secure_url);
+      console.log("we are here now ");
+      console.log(file.secure_url);
+      setLoading2(false);
+    }
+    if (e.target.files?.length) {
+      toast.success("File selected successfully!");
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
+    console.log("this is the submit function working");
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        title: form.title,
+        slug: form.slug,
+        shortTitle: form.shortTitle,
+        subTitle: form.subTitle,
+        metaTitle: form.metaTitle,
+        metaKeywords: form.metaKeywords,
+        metaDescription: form.metaDescription,
+        category: form.category,
+        subCategory: form.subCategory,
+        geographyTag: form.geographyTag,
+        countryRegion: form.countryRegion,
+        priceSingle: form.priceSingle,
+        priceTeam: form.priceTeam,
+        priceCorporate: form.priceCorporate,
+        publishedDate: form.publishedDate,
+        relatedReports: form.relatedReports,
+        linki1: thumb1,
+        alti1: "",
+        alti2: "",
+        linki2: thumb2,
+      },
+    });
+    console.log("here", state);
   };
 
   return (
@@ -329,6 +417,32 @@ const Editortop = () => {
             value={form.relatedReports}
             onChange={handleChange}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput1">Image Used In Report Store</label>
+          <input
+            type="file"
+            name="file1"
+            id="fileInput1"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage1}
+            placeholder="Title"
+            // className="hidden"
+          />
+        </div>
+        <div className="group flex flex-col items-center gap-3 self-center">
+          <label htmlFor="fileInput1">Image Used In Report</label>
+          <input
+            type="file"
+            name="file1"
+            id="fileInput1"
+            required
+            // placeholder="upload your profile"
+            onChange={uploadImage2}
+            placeholder="Title"
+            // className="hidden"
           />
         </div>
         <button

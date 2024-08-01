@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
 const FaqSection: React.FC = () => {
-  const [heading, setHeading] = useState("");
-  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const [heading, setHeading] = useState(state?.fsHeading ?? "");
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>(
+    state?.fsFaqs ?? []
+  );
   const [newFaq, setNewFaq] = useState<{ question: string; answer: string }>({
     question: "",
     answer: "",
@@ -21,6 +24,15 @@ const FaqSection: React.FC = () => {
 
   const handleDeleteFaq = (index: number) => {
     setFaqs(faqs.filter((_, i) => i !== index));
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        fsHeading: heading,
+        fsFaqs: faqs,
+      },
+    });
   };
 
   return (
@@ -112,6 +124,14 @@ const FaqSection: React.FC = () => {
             </tbody>
           </table>
         )}
+      </div>
+      <div className="flex justify-end">
+        <button
+          onClick={handleSubmit}
+          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+        >
+          Submit
+        </button>
       </div>
     </div>
   );
