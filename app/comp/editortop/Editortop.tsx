@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 interface RadioOption {
   id: string;
   label: string;
@@ -106,6 +107,8 @@ const Editortop = () => {
   const [loading2, setLoading2] = useState<Boolean>(false);
   const [thumb1, setThumb1] = useState<String>("");
   const [thumb2, setThumb2] = useState<String>("");
+  const [imageAlt, setImageAlt] = useState("");
+  const [imageAlt2, setImageAlt2] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -148,7 +151,7 @@ const Editortop = () => {
       setLoading1(false);
     }
     if (e.target.files?.length) {
-      toast.success("File selected successfully!");
+      toast.success("File selected successfully!!");
     }
   };
   const uploadImage2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,7 +178,7 @@ const Editortop = () => {
       setLoading2(false);
     }
     if (e.target.files?.length) {
-      toast.success("File selected successfully!");
+      toast.success("File selected successfully!!");
     }
   };
 
@@ -419,8 +422,9 @@ const Editortop = () => {
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>
-        <div className="group flex flex-col items-center gap-3 self-center">
-          <label htmlFor="fileInput1">Image Used In Report Store</label>
+        <div className="group flex flex-col  gap-3">
+          <div className="flex gap-7">
+          <label htmlFor="fileInput1">Image Used In Report Store{" "}:</label>
           <input
             type="file"
             name="file1"
@@ -431,9 +435,23 @@ const Editortop = () => {
             placeholder="Title"
             // className="hidden"
           />
+          </div>
+          <div className="mt-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Image Alt Text:
+            </label>
+            <input
+              type="text"
+              value={imageAlt2}
+              onChange={(e) => setImageAlt2(e.target.value)}
+              className="p-2 border border-gray-300 rounded w-full"
+              placeholder="Enter alt text for the image"
+            />
+          </div>
         </div>
-        <div className="group flex flex-col items-center gap-3 self-center">
-          <label htmlFor="fileInput1">Image Used In Report</label>
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-7">
+          <label htmlFor="fileInput1">Image Used In Report Description{" "}:</label>
           <input
             type="file"
             name="file1"
@@ -444,6 +462,19 @@ const Editortop = () => {
             placeholder="Title"
             // className="hidden"
           />
+          </div>
+          <div className="mt-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Image Alt Text:
+            </label>
+            <input
+              type="text"
+              value={imageAlt}
+              onChange={(e) => setImageAlt(e.target.value)}
+              className="p-2 border border-gray-300 rounded w-full"
+              placeholder="Enter alt text for the image"
+            />
+          </div>
         </div>
         <button
           type="submit"
@@ -452,6 +483,7 @@ const Editortop = () => {
           Submit
         </button>
       </form>
+      <ToastContainer/>
     </div>
   );
 };
