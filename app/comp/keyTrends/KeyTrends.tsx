@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { toast } from "react-toastify";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
@@ -20,10 +21,10 @@ const KeyTrends: React.FC = () => {
   );
   const [description2, setDescription2] = React.useState("");
   const [image, setImage] = React.useState<File | null>(
-    state.ktImage ? state.ktImage2 : null
+    state.ktImage ? state.ktImage : null
   );
   const [image2, setImage2] = React.useState<File | null>(
-    state.ktImage ? state.ktImage2 : null
+    state.ktImage2 ? state.ktImage2 : null
   );
   const [imageAlt, setImageAlt] = React.useState("");
   const [imageAlt2, setImageAlt2] = React.useState("");
@@ -40,6 +41,24 @@ const KeyTrends: React.FC = () => {
   };
   const handleEditorChange2 = (newContent: string) => {
     setEditorContent2(newContent);
+  };
+
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        ktHeading: heading,
+        ktSubHeading: subHeading,
+        ktContent1: editorContent1,
+        ktImage: image,
+        ktImageAlt1: imageAlt,
+        ktSubHeading2: subHeading2,
+        ktTables2: description2,
+        ktContent2: editorContent2,
+        ktImage2: image2,
+        ktImageAlt2: imageAlt2,
+      },
+    });
   };
 
   const modules = {
@@ -91,45 +110,79 @@ const KeyTrends: React.FC = () => {
     "image",
     "video",
   ];
+  const [loading1, setLoading1] = useState<Boolean>(false);
+  const [loading2, setLoading2] = useState<Boolean>(false);
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setImage: React.Dispatch<React.SetStateAction<File | null>>
-  ) => {
+  const handleImageChange1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImage(e.target.files[0]);
+      const files = e.target.files;
+      console.log("some error occured");
+      console.log(files);
+      const data = new FormData();
+      if (files) {
+        data.append("file", files[0]);
+        data.append("upload_preset", "ppn3qr4u");
+        setLoading1(true);
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        setImage(file.secure_url);
+        console.log("we are here now ");
+        console.log(file.secure_url);
+        setLoading1(false);
+      }
+      if (e.target.files?.length) {
+        toast.success("File selected successfully!");
+      }
     }
   };
-  const handleSubmit = () => {
-    dispatch({
-      type: "SET_RD",
-      payload: {
-        ktHeading: heading,
-        ktSubHeading: subHeading,
-        ktTables: description,
-        ktContent1: editorContent1,
-        ktImage: image,
-        // ktImageAlt1: imageAlt,
-        ktSubHeading2: subHeading2,
-        ktTables2: description2,
-        ktContent2: editorContent2,
-        ktImage2: image2,
-        // ktImageAlt2: imageAlt2,
-      },
-    });
+  const handleImageChange2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const files = e.target.files;
+      console.log("some error occured");
+      console.log(files);
+      const data = new FormData();
+      if (files) {
+        data.append("file", files[0]);
+        data.append("upload_preset", "ppn3qr4u");
+        setLoading2(true);
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dkzpbucfz/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        setImage2(file.secure_url);
+        console.log("we are here now ");
+        console.log(file.secure_url);
+        setLoading2(false);
+      }
+      if (e.target.files?.length) {
+        toast.success("File selected successfully!");
+      }
+    }
   };
 
-  useEffect(() => {
-    // Cleanup URLs for images to avoid memory leaks
-    return () => {
-      if (image) {
-        URL.revokeObjectURL(URL.createObjectURL(image));
-      }
-      if (image2) {
-        URL.revokeObjectURL(URL.createObjectURL(image2));
-      }
-    };
-  }, [image, image2]);
+  // useEffect(() => {
+  //   // Cleanup URLs for images to avoid memory leaks
+  //   return () => {
+  //     if (image) {
+  //       URL.revokeObjectURL(URL.createObjectURL(image));
+  //     }
+  //     if (image2) {
+  //       URL.revokeObjectURL(URL.createObjectURL(image2));
+  //     }
+  //   };
+  // }, [image, image2]);
 
   return (
     <div className="p-4">
@@ -182,17 +235,17 @@ const KeyTrends: React.FC = () => {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => handleImageChange(e, setImage)}
+          onChange={(e) => handleImageChange1(e)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
       {image && (
         <div className="mb-4">
-          <img
+          {/* <img
             src={URL.createObjectURL(image)}
             alt={imageAlt}
             className="max-w-full h-auto"
-          />
+          /> */}
           <div className="mt-2">
             <label className="block text-sm font-medium text-gray-700">
               Image Alt Text:
@@ -244,17 +297,17 @@ const KeyTrends: React.FC = () => {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => handleImageChange(e, setImage2)}
+          onChange={(e) => handleImageChange2(e)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
       {image2 && (
         <div className="mb-4">
-          <img
+          {/* <img
             src={URL.createObjectURL(image2)}
             alt={imageAlt2}
             className="max-w-full h-auto"
-          />
+          /> */}
           <div className="mt-2">
             <label className="block text-sm font-medium text-gray-700">
               Image Alt Text:
