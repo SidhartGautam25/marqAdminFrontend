@@ -19,6 +19,7 @@ import MOverview from "../mOverview/MOverview";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { my_admin_url } from "@/app/utility";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
@@ -60,6 +61,7 @@ const ReportEditor = () => {
     const local = `${my_admin_url}/api/upload/ureport`;
     try {
       const res = await axios.post(local, state);
+      toast.success("Final submit successfully!");
     } catch (err) {
       console.log("some error occured while uploadig report");
     }
@@ -101,6 +103,7 @@ const ReportEditor = () => {
           {selectedTab === "Table Of Contents" && <Toc />}
         </div>
       </div>
+      <ToastContainer/>
     </NoSSR>
   );
 };

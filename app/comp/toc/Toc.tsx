@@ -120,10 +120,10 @@ const MyComponent: React.FC = () => {
         value={editorContent}
         onChange={handleEditorChange}
       />
-      <div
+      {/* <div
         className="mt-6 border border-gray-300 p-4 min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: editorContent }}
-      />
+      /> */}
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
