@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 // import "jodit/build/jodit.min.css";
@@ -21,6 +21,7 @@ const MSnapshot: React.FC = () => {
   >(state?.msTables ? state.msTables : []);
   const [newAttributeKey, setNewAttributeKey] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
+  const [submit, setSubmit] = useState<boolean>(false);
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
@@ -49,6 +50,7 @@ const MSnapshot: React.FC = () => {
         msContent: editorContent,
       },
     });
+    setSubmit(true);
   };
 
   useEffect(() => {
@@ -133,16 +135,16 @@ const MSnapshot: React.FC = () => {
         value={editorContent}
         onChange={handleEditorChange}
       />
-      <div
+      {/* <div
         className="mt-6 border border-gray-300 p-4 min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: editorContent }}
-      />
+      /> */}
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${submit?"bg-green-500":"bg-blue-500"} text-white rounded`}
         >
-          Submit
+          {submit?'Submitted':'Submit'}
         </button>
       </div>
     </div>

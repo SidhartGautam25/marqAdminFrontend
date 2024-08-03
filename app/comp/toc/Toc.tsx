@@ -95,6 +95,7 @@ import { RDContext, RDContextType } from "@/app/context/rdContext";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const MyComponent: React.FC = () => {
+  const [submit, setSubmit] = useState<boolean>(false);
   const { state, dispatch } = useContext(RDContext) as RDContextType;
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState<string>(
@@ -111,6 +112,7 @@ const MyComponent: React.FC = () => {
         tocContent: editorContent,
       },
     });
+    setSubmit(true)
   };
 
   return (
@@ -120,16 +122,16 @@ const MyComponent: React.FC = () => {
         value={editorContent}
         onChange={handleEditorChange}
       />
-      <div
+      {/* <div
         className="mt-6 border border-gray-300 p-4 min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: editorContent }}
-      />
+      /> */}
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
-        >
-          Submit
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${submit?"bg-green-500":"bg-blue-500"} text-white rounded`}
+          >
+            {submit?'Submitted':'Submit'}
         </button>
       </div>
     </div>

@@ -20,7 +20,7 @@ const INITIAL_STATE: State =
     ? JSON.parse(localStorage.getItem("rd") || "{}")
     : null;
 
-type Action = { type: "SET_RD"; payload: any };
+type Action = { type: "SET_RD"; payload: any } | { type: "RESET" };
 
 export type RDContextType = {
   state: State;
@@ -36,6 +36,8 @@ const Reducer = (state: State, action: Action): State => {
         ...state,
         ...action.payload,
       };
+    case "RESET":
+      return INITIAL_STATE;
     default:
       return state;
   }
