@@ -62,6 +62,7 @@ const ReportEditor = () => {
     try {
       const res = await axios.post(local, state);
       toast.success("Final submit successfully!");
+      dispatch({ type: "RESET" });
     } catch (err) {
       console.log("some error occured while uploadig report");
     }
@@ -103,7 +104,7 @@ const ReportEditor = () => {
           {selectedTab === "Table Of Contents" && <Toc />}
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </NoSSR>
   );
 };
