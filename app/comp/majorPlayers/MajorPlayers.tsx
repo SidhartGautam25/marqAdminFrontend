@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 const MajorPlayers: React.FC = () => {
+  const [submit, setSubmit] = useState<boolean>(false);
   const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [heading, setHeading] = useState(state?.mpHeading ?? "");
   const [companies, setCompanies] = useState<string[]>(
@@ -29,6 +30,7 @@ const MajorPlayers: React.FC = () => {
         mpCompanies: companies,
       },
     });
+    setSubmit(true)
   };
 
   return (
@@ -76,9 +78,9 @@ const MajorPlayers: React.FC = () => {
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
-        >
-          Submit
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${submit?"bg-green-500":"bg-blue-500"} text-white rounded`}
+          >
+            {submit?'Submitted':'Submit'}
         </button>
       </div>
     </div>
