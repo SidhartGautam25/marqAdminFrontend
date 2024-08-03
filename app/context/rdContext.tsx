@@ -37,7 +37,7 @@ const Reducer = (state: State, action: Action): State => {
         ...action.payload,
       };
     case "RESET":
-      return INITIAL_STATE;
+      return { resetted: "i am clear now" };
     default:
       return state;
   }
@@ -66,6 +66,7 @@ export const RDContextProvider: React.FC<RDProviderProps> = ({ children }) => {
     // localStorage.setItem("marq-rep-forcast", state.dataSuite);
     // localStorage.setItem("marq-rep-forcast", state.insightReport);
     localStorage.setItem("rd", JSON.stringify(state));
+    console.log("rd is ", state);
   }, [state]);
 
   // Here, we're casting the value to UserContextType because we're certain it matches the shape
