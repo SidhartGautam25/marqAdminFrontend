@@ -60,9 +60,9 @@ const ReportEditor = () => {
     console.log("request sent to server");
     const local = `${my_admin_url}/api/upload/ureport`;
     try {
-      // const res = await axios.post(local, state);
-      // setSubmit(true);
-      // toast.success("Final submit successfully!");
+      const res = await axios.post(local, state);
+      setSubmit(true);
+      toast.success("Final submit successfully!");
       // reset added
       console.log("state before dispatch is ", state);
       dispatch({ type: "RESET" });
