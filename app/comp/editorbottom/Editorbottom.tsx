@@ -63,6 +63,7 @@ const ReportEditor = () => {
       const res = await axios.post(local, state);
       setSubmit(true);
       toast.success("Final submit successfully!");
+      // reset added
       dispatch({ type: "RESET" });
     } catch (err) {
       console.log("some error occured while uploadig report");
