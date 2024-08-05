@@ -61,8 +61,11 @@ const ReportEditor = () => {
     const local = `${my_admin_url}/api/upload/ureport`;
     try {
       const res = await axios.post(local, state);
-      setSubmit(true)
+      setSubmit(true);
       toast.success("Final submit successfully!");
+      // reset added
+      console.log("state before dispatch is ", state);
+      dispatch({ type: "RESET" });
     } catch (err) {
       console.log("some error occured while uploadig report");
     }
@@ -87,9 +90,11 @@ const ReportEditor = () => {
           </ul>
           <button
             onClick={handleSubmit}
-            className={`w-full py-2 my-4 px-4 ${submit?"bg-green-500":"bg-blue-600"} text-white rounded`}
+            className={`w-full py-2 my-4 px-4 ${
+              submit ? "bg-green-500" : "bg-blue-600"
+            } text-white rounded`}
           >
-             {submit?'All Submitted':'All Submit'}
+            {submit ? "All Submitted" : "All Submit"}
           </button>
         </div>
         <div className="w-3/4 p-4 border ml-2 border-gray-300 bg-white">
@@ -104,7 +109,7 @@ const ReportEditor = () => {
           {selectedTab === "Table Of Contents" && <Toc />}
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </NoSSR>
   );
 };
