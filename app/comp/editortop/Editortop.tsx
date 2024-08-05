@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 interface RadioOption {
   id: string;
   label: string;
@@ -80,8 +81,24 @@ const radioOptions: RadioOption[] = listData.map((item) => ({
   label: item.name,
 }));
 
+const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
+
 const Editortop = () => {
   const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const [submitted, setSubmitted] = useState(state1?.first ?? false);
   //  const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [form, setForm] = useState({
     title: state?.title ?? "",
@@ -211,280 +228,293 @@ const Editortop = () => {
       },
     });
     console.log("here", state);
+    dispatch1({
+      type: "CHANGE_COND",
+      payload: {
+        first: true,
+      },
+    });
+    setSubmitted(true);
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Report Form</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Title *
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Short Title
-          </label>
-          <input
-            type="text"
-            name="shortTitle"
-            value={form.shortTitle}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Slug *
-          </label>
-          <input
-            type="text"
-            name="slug"
-            value={form.slug}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Sub-Title *
-          </label>
-          <textarea
-            name="subTitle"
-            value={form.subTitle}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full h-24"
-            required
-          ></textarea>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Meta Information
-          </label>
-          <input
-            type="text"
-            name="metaTitle"
-            value={form.metaTitle}
-            onChange={handleChange}
-            placeholder="Meta Title"
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-          <input
-            type="text"
-            name="metaKeywords"
-            value={form.metaKeywords}
-            onChange={handleChange}
-            placeholder="Meta Keywords"
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-          <textarea
-            name="metaDescription"
-            value={form.metaDescription}
-            onChange={handleChange}
-            placeholder="Meta Description"
-            className="mt-1 p-2 border border-gray-300 rounded w-full h-24"
-          ></textarea>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Industry *
-          </label>
-          <select
-            name="category"
-            value={form.category}
-            onChange={(e) => handleChangeIndustry(e.target.value)}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          >
-            <option value="">Select Industry</option>
-            {radioOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Sub-Category *
-          </label>
-          <select
-            name="subCategory"
-            value={form.subCategory}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          >
-            <option value="">Select Sub-Category</option>
-            {subIndustries.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Geography Tag *
-          </label>
-          <select
-            name="geographyTag"
-            value={form.geographyTag}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          >
-            <option value="Global">Global</option>
-            {/* Add other tags here */}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Country/Region *
-          </label>
-          <select
-            name="countryRegion"
-            value={form.countryRegion}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          >
-            <option value="Global">Global</option>
-            {/* Add other countries/regions here */}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Price (Single, Team, Corporate) *
-          </label>
-          <div className="flex space-x-2">
-            <input
-              type="number"
-              name="priceSingle"
-              value={form.priceSingle}
-              onChange={handleChange}
-              placeholder="Single"
-              className="mt-1 p-2 border border-gray-300 rounded w-1/3"
-              required
-            />
-            <input
-              type="number"
-              name="priceTeam"
-              value={form.priceTeam}
-              onChange={handleChange}
-              placeholder="Team"
-              className="mt-1 p-2 border border-gray-300 rounded w-1/3"
-              required
-            />
-            <input
-              type="number"
-              name="priceCorporate"
-              value={form.priceCorporate}
-              onChange={handleChange}
-              placeholder="Corporate"
-              className="mt-1 p-2 border border-gray-300 rounded w-1/3"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Published Date *
-          </label>
-          <input
-            type="date"
-            name="publishedDate"
-            value={form.publishedDate}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Related Reports
-          </label>
-          <input
-            type="text"
-            name="relatedReports"
-            value={form.relatedReports}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
-        <div className="group flex flex-col  gap-3">
-          <div className="flex gap-7">
-          <label htmlFor="fileInput1">Image Used In Report Store{" "}:</label>
-          <input
-            type="file"
-            name="file1"
-            id="fileInput1"
-            required
-            // placeholder="upload your profile"
-            onChange={uploadImage1}
-            placeholder="Title"
-            // className="hidden"
-          />
-          </div>
-          <div className="mt-2">
+    <NoSSR>
+      <div className="max-w-4xl mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Report Form</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <label className="block text-sm font-medium text-gray-700">
-              Image Alt Text:
+              Title *
             </label>
             <input
               type="text"
-              value={imageAlt2}
-              onChange={(e) => setImageAlt2(e.target.value)}
-              className="p-2 border border-gray-300 rounded w-full"
-              placeholder="Enter alt text for the image"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
             />
           </div>
-        </div>
-        <div className="flex flex-col gap-3">
-          <div className="flex gap-7">
-          <label htmlFor="fileInput1">Image Used In Report Description{" "}:</label>
-          <input
-            type="file"
-            name="file1"
-            id="fileInput1"
-            required
-            // placeholder="upload your profile"
-            onChange={uploadImage2}
-            placeholder="Title"
-            // className="hidden"
-          />
-          </div>
-          <div className="mt-2">
+          <div>
             <label className="block text-sm font-medium text-gray-700">
-              Image Alt Text:
+              Short Title
             </label>
             <input
               type="text"
-              value={imageAlt}
-              onChange={(e) => setImageAlt(e.target.value)}
-              className="p-2 border border-gray-300 rounded w-full"
-              placeholder="Enter alt text for the image"
+              name="shortTitle"
+              value={form.shortTitle}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
           </div>
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-blue-600 text-white rounded"
-        >
-          Submit
-        </button>
-      </form>
-      <ToastContainer/>
-    </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Slug *
+            </label>
+            <input
+              type="text"
+              name="slug"
+              value={form.slug}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Sub-Title *
+            </label>
+            <textarea
+              name="subTitle"
+              value={form.subTitle}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full h-24"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Meta Information
+            </label>
+            <input
+              type="text"
+              name="metaTitle"
+              value={form.metaTitle}
+              onChange={handleChange}
+              placeholder="Meta Title"
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+            <input
+              type="text"
+              name="metaKeywords"
+              value={form.metaKeywords}
+              onChange={handleChange}
+              placeholder="Meta Keywords"
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+            <textarea
+              name="metaDescription"
+              value={form.metaDescription}
+              onChange={handleChange}
+              placeholder="Meta Description"
+              className="mt-1 p-2 border border-gray-300 rounded w-full h-24"
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Industry *
+            </label>
+            <select
+              name="category"
+              value={form.category}
+              onChange={(e) => handleChangeIndustry(e.target.value)}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            >
+              <option value="">Select Industry</option>
+              {radioOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Sub-Category *
+            </label>
+            <select
+              name="subCategory"
+              value={form.subCategory}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            >
+              <option value="">Select Sub-Category</option>
+              {subIndustries.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Geography Tag *
+            </label>
+            <select
+              name="geographyTag"
+              value={form.geographyTag}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            >
+              <option value="Global">Global</option>
+              {/* Add other tags here */}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Country/Region *
+            </label>
+            <select
+              name="countryRegion"
+              value={form.countryRegion}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            >
+              <option value="Global">Global</option>
+              {/* Add other countries/regions here */}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Price (Single, Team, Corporate) *
+            </label>
+            <div className="flex space-x-2">
+              <input
+                type="number"
+                name="priceSingle"
+                value={form.priceSingle}
+                onChange={handleChange}
+                placeholder="Single"
+                className="mt-1 p-2 border border-gray-300 rounded w-1/3"
+                required
+              />
+              <input
+                type="number"
+                name="priceTeam"
+                value={form.priceTeam}
+                onChange={handleChange}
+                placeholder="Team"
+                className="mt-1 p-2 border border-gray-300 rounded w-1/3"
+                required
+              />
+              <input
+                type="number"
+                name="priceCorporate"
+                value={form.priceCorporate}
+                onChange={handleChange}
+                placeholder="Corporate"
+                className="mt-1 p-2 border border-gray-300 rounded w-1/3"
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Published Date *
+            </label>
+            <input
+              type="date"
+              name="publishedDate"
+              value={form.publishedDate}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Related Reports
+            </label>
+            <input
+              type="text"
+              name="relatedReports"
+              value={form.relatedReports}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
+          </div>
+          <div className="group flex flex-col  gap-3">
+            <div className="flex gap-7">
+              <label htmlFor="fileInput1">Image Used In Report Store :</label>
+              <input
+                type="file"
+                name="file1"
+                id="fileInput1"
+                required
+                // placeholder="upload your profile"
+                onChange={uploadImage1}
+                placeholder="Title"
+                // className="hidden"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Image Alt Text:
+              </label>
+              <input
+                type="text"
+                value={imageAlt2}
+                onChange={(e) => setImageAlt2(e.target.value)}
+                className="p-2 border border-gray-300 rounded w-full"
+                placeholder="Enter alt text for the image"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-7">
+              <label htmlFor="fileInput1">
+                Image Used In Report Description :
+              </label>
+              <input
+                type="file"
+                name="file1"
+                id="fileInput1"
+                required
+                // placeholder="upload your profile"
+                onChange={uploadImage2}
+                placeholder="Title"
+                // className="hidden"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Image Alt Text:
+              </label>
+              <input
+                type="text"
+                value={imageAlt}
+                onChange={(e) => setImageAlt(e.target.value)}
+                className="p-2 border border-gray-300 rounded w-full"
+                placeholder="Enter alt text for the image"
+              />
+            </div>
+          </div>
+          <button
+            onClick={handleSubmit}
+            className={`w-1/6 py-2 my-4 justify-end px-4 ${
+              submitted ? "bg-green-500" : "bg-blue-500"
+            } text-white rounded`}
+          >
+            {submitted ? "Submitted" : "Submit"}
+          </button>
+        </form>
+        <ToastContainer />
+      </div>
+    </NoSSR>
   );
 };
 

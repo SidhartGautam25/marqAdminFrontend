@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useContext, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
@@ -21,7 +22,8 @@ const MSnapshot: React.FC = () => {
   >(state?.msTables ? state.msTables : []);
   const [newAttributeKey, setNewAttributeKey] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
-  const [submit, setSubmit] = useState<boolean>(false);
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const [submit, setSubmit] = useState<boolean>(state1?.one ?? false);
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
@@ -48,6 +50,12 @@ const MSnapshot: React.FC = () => {
         msHeading: heading,
         msTables: attributes,
         msContent: editorContent,
+      },
+    });
+    dispatch1({
+      type: "CHANGE_COND",
+      payload: {
+        one: true,
       },
     });
     setSubmit(true);
@@ -142,9 +150,11 @@ const MSnapshot: React.FC = () => {
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          className={`w-1/6 py-2 my-4 justify-end px-4 ${submit?"bg-green-500":"bg-blue-500"} text-white rounded`}
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${
+            submit ? "bg-green-500" : "bg-blue-500"
+          } text-white rounded`}
         >
-          {submit?'Submitted':'Submit'}
+          {submit ? "Submitted" : "Submit"}
         </button>
       </div>
     </div>
