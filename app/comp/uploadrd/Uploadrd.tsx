@@ -6,11 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { my_admin_url } from "@/app/utility";
 interface Report {
-  _id: any;
-  title: string;
-  industry: string;
-  subind: string;
-  pin: boolean;
+  [key: string]: any;
 }
 
 export default function Uploadrd() {
@@ -67,6 +63,14 @@ export default function Uploadrd() {
       const data = axios.put(url);
       alert("report unpinned successfully");
     } catch (err) {}
+  }
+
+  function formatDate(date: any) {
+    let day = date.substring(8, 10);
+    let month = date.substring(5, 7);
+    let year = date.substring(0, 4);
+
+    return `${day}:${month}:${year}`;
   }
 
   useEffect(() => {
@@ -127,7 +131,9 @@ export default function Uploadrd() {
               <td className="border px-4 py-2">{report.title}</td>
               <td className="border px-4 py-2">{report.industry}</td>
               <td className="border px-4 py-2">{report.subind}</td>
-              <td className="border px-4 py-2 text-center">May 2024</td>
+              <td className="border px-4 py-2 text-center">
+                {formatDate(report.createdAt)}
+              </td>
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
