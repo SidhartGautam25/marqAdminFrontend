@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 const MajorPlayers: React.FC = () => {
-  const [heading, setHeading] = useState("");
-  const [companies, setCompanies] = useState([
-    "Continental AG",
-    "Delphi Technologies",
-    "DENSO Corporation",
-    "Robert Bosch GmbH",
-    "ZF Friedrichshafen AG",
-  ]);
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const [submit, setSubmit] = useState<boolean>(state1?.six ?? false);
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const [heading, setHeading] = useState(state?.mpHeading ?? "");
+  const [companies, setCompanies] = useState<string[]>(
+    state?.mpCompanies ?? []
+  );
 
   const addCompany = () => {
     setCompanies([...companies, ""]);
@@ -23,6 +23,22 @@ const MajorPlayers: React.FC = () => {
       i === index ? value : company
     );
     setCompanies(updatedCompanies);
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        mpHeading: heading,
+        mpCompanies: companies,
+      },
+    });
+    dispatch1({
+      type: "CHANGE_COND",
+      payload: {
+        six: true,
+      },
+    });
+    setSubmit(true);
   };
 
   return (
@@ -65,6 +81,16 @@ const MajorPlayers: React.FC = () => {
           className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded mt-4"
         >
           Add Company Name
+        </button>
+      </div>
+      <div className="flex justify-end">
+        <button
+          onClick={handleSubmit}
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${
+            submit ? "bg-green-500" : "bg-blue-500"
+          } text-white rounded`}
+        >
+          {submit ? "Submitted" : "Submit"}
         </button>
       </div>
     </div>

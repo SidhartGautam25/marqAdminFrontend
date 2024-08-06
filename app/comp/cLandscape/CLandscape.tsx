@@ -1,37 +1,43 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const OnlyEditor: React.FC = () => {
-  const [heading, setHeading] = useState<string>("");
+const CLandscape: React.FC = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const [heading, setHeading] = useState<string>(
+    state.clHeading ? state.clHeading : ""
+  );
   const editor = useRef(null);
-  const [editorContent, setEditorContent] = useState<string>("");
-  const [attributes, setAttributes] = useState<
-    { key: string; value: string }[]
-  >([]);
-  const [newAttributeKey, setNewAttributeKey] = useState<string>("");
-  const [newAttributeValue, setNewAttributeValue] = useState<string>("");
+  const [editorContent, setEditorContent] = useState<string>(
+    state.clContent ? state.clContent : ""
+  );
+  const [submit, setSubmit] = useState<boolean>(state1?.five ?? false);
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
   };
 
-  const handleAddAttribute = () => {
-    if (newAttributeKey.trim() && newAttributeValue.trim()) {
-      setAttributes([
-        ...attributes,
-        { key: newAttributeKey, value: newAttributeValue },
-      ]);
-      setNewAttributeKey("");
-      setNewAttributeValue("");
-    }
-  };
-
-  const handleRemoveAttribute = (index: number) => {
-    setAttributes(attributes.filter((_, i) => i !== index));
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        clHeading: heading,
+        clContent: editorContent,
+      },
+    });
+    dispatch1({
+      type: "CHANGE_COND",
+      payload: {
+        five: true,
+      },
+    });
+    setSubmit(true);
   };
 
   useEffect(() => {
@@ -66,14 +72,16 @@ const OnlyEditor: React.FC = () => {
       </div>
       <div className="flex justify-end">
         <button
-          type="submit"
-          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+          onClick={handleSubmit}
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${
+            submit ? "bg-green-500" : "bg-blue-500"
+          } text-white rounded`}
         >
-          Submit
+          {submit ? "Submitted" : "Submit"}
         </button>
       </div>
     </div>
   );
 };
 
-export default OnlyEditor;
+export default CLandscape;

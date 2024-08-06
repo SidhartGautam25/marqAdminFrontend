@@ -1,19 +1,29 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { RDContext, RDContextType } from "@/app/context/rdContext";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const MyComponent: React.FC = () => {
-  const [heading, setHeading] = useState<string>("");
+const MSnapshot: React.FC = () => {
+  const { state, dispatch } = useContext(RDContext) as RDContextType;
+
+  const [heading, setHeading] = useState<string>(
+    state?.msHeading ? state.msHeading : ""
+  );
   const editor = useRef(null);
-  const [editorContent, setEditorContent] = useState<string>("");
+  const [editorContent, setEditorContent] = useState<string>(
+    state?.msContent ? state.msContent : ""
+  );
   const [attributes, setAttributes] = useState<
     { key: string; value: string }[]
-  >([]);
+  >(state?.msTables ? state.msTables : []);
   const [newAttributeKey, setNewAttributeKey] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const [submit, setSubmit] = useState<boolean>(state1?.one ?? false);
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
@@ -32,6 +42,23 @@ const MyComponent: React.FC = () => {
 
   const handleRemoveAttribute = (index: number) => {
     setAttributes(attributes.filter((_, i) => i !== index));
+  };
+  const handleSubmit = () => {
+    dispatch({
+      type: "SET_RD",
+      payload: {
+        msHeading: heading,
+        msTables: attributes,
+        msContent: editorContent,
+      },
+    });
+    dispatch1({
+      type: "CHANGE_COND",
+      payload: {
+        one: true,
+      },
+    });
+    setSubmit(true);
   };
 
   useEffect(() => {
@@ -116,20 +143,22 @@ const MyComponent: React.FC = () => {
         value={editorContent}
         onChange={handleEditorChange}
       />
-      <div
+      {/* <div
         className="mt-6 border border-gray-300 p-4 min-h-[200px]"
         dangerouslySetInnerHTML={{ __html: editorContent }}
-      />
+      /> */}
       <div className="flex justify-end">
         <button
-          type="submit"
-          className="w-1/6 py-2 my-4 justify-end px-4 bg-blue-600 text-white rounded"
+          onClick={handleSubmit}
+          className={`w-1/6 py-2 my-4 justify-end px-4 ${
+            submit ? "bg-green-500" : "bg-blue-500"
+          } text-white rounded`}
         >
-          Submit
+          {submit ? "Submitted" : "Submit"}
         </button>
       </div>
     </div>
   );
 };
 
-export default MyComponent;
+export default MSnapshot;

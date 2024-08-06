@@ -38,7 +38,7 @@ export default function Navbar() {
           </div>
           <div className="space-x-4">
             <Link href="/editor">
-              <span className="hover:text-gray-300 mr-6">Add</span>
+              <span className="hover:text-gray-300 mr-6">Custom</span>
             </Link>
             {user ? (
               <button onClick={handlelogout} className="hover:text-gray-300">
