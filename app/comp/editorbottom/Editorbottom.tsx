@@ -20,6 +20,7 @@ import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { my_admin_url } from "@/app/utility";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
@@ -96,6 +97,7 @@ const ReportEditor = () => {
           >
             {submit ? "All Submitted" : "All Submit"}
           </button>
+          <ToastContainer />
         </div>
         <div className="w-3/4 p-4 border ml-2 border-gray-300 bg-white">
           {selectedTab === "Market Snapshot" && <MSnapshot />}
@@ -109,7 +111,6 @@ const ReportEditor = () => {
           {selectedTab === "Table Of Contents" && <Toc />}
         </div>
       </div>
-      <ToastContainer />
     </NoSSR>
   );
 };
