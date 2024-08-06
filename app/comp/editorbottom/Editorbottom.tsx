@@ -19,6 +19,7 @@ import MOverview from "../mOverview/MOverview";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { my_admin_url } from "@/app/utility";
 import axios from "axios";
+import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -39,6 +40,7 @@ const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const ReportEditor = () => {
   const [selectedTab, setSelectedTab] = useState("Market Snapshot");
   const { state, dispatch } = useContext(RDContext) as RDContextType;
+  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
   const [submit, setSubmit] = useState<boolean>(false);
   const tabs = [
     "Market Snapshot",
@@ -67,6 +69,21 @@ const ReportEditor = () => {
       // reset added
       console.log("state before dispatch is ", state);
       dispatch({ type: "RESET" });
+      dispatch1({
+        type: "CHANGE_COND",
+        payload: {
+          first: false,
+          one: false,
+          two: false,
+          three: false,
+          four: false,
+          five: false,
+          six: false,
+          seven: false,
+          eight: false,
+          nine: false,
+        },
+      });
     } catch (err) {
       console.log("some error occured while uploadig report");
     }
