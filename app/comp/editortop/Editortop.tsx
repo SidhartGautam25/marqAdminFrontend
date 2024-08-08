@@ -509,7 +509,7 @@ const Editortop = () => {
               submitted ? "bg-green-500" : "bg-blue-500"
             } text-white rounded`}
           >
-            {submitted ? "Submitted" : "Submit"}
+            {submitted ? "Saved" : "Save"}
           </button>
         </form>
         <ToastContainer />
