@@ -44,21 +44,34 @@ export default function Uploadinsight() {
   // const dev_url = "http://localhost:8800";
   // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [blogs, setBlogs] = useState<Insight[]>([]);
-    const [len, setLen] = useState(1);
+  const [len, setLen] = useState(1);
   const [end, setEnd] = useState(1);
-  console.log("blogs here",blogs);
-  const handleDelete = () => {
+  console.log("blogs here", blogs);
+  const handleDelete = async (id: Number) => {
     // const isConfirmed = confirm(
     //   "Are you sure you want to delete this insight?"
     // );
     // if (isConfirmed) {
     //   setInsights(insights.filter((insight) => insight.id !== id));
     // }
+    //this function is commented
+    // i dont know why
+    const isConfirmed = confirm("Are you sure you want to delete this report?");
+    if (isConfirmed) {
+      let url = `${my_admin_url}/api/getall/delete/blog?id=${id}`;
+      try {
+        const data = await axios.delete(url);
+        alert("report deleted successfully");
+        setBlogs(blogs.filter((blog) => blog._id !== id));
+      } catch (err) {}
+    }
   };
   const togglePin = (id: number) => {
-    setBlogs(blogs.map(item => 
-      item._id === id ? { ...item, isPinned: !item.isPinned } : item
-    ));
+    setBlogs(
+      blogs.map((item) =>
+        item._id === id ? { ...item, isPinned: !item.isPinned } : item
+      )
+    );
   };
 
   function next() {
@@ -133,7 +146,7 @@ export default function Uploadinsight() {
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1"
-                  onClick={() => handleDelete()}
+                  onClick={() => handleDelete(insight._id)}
                 >
                   Delete
                 </button>
@@ -141,13 +154,9 @@ export default function Uploadinsight() {
               <td className="border px-4 py-2 text-center">
                 <button
                   className="bg-red-400 text-black border border-black px-2 py-1 text-xl"
-                   onClick={() => togglePin(insight._id)}
+                  onClick={() => togglePin(insight._id)}
                 >
-                  {insight.isPinned ? (
-                    <RxDrawingPin />
-                  ) : (
-                    <RxDrawingPinFilled />
-                  )}
+                  {insight.isPinned ? <RxDrawingPin /> : <RxDrawingPinFilled />}
                 </button>
               </td>
             </tr>
