@@ -116,7 +116,8 @@ const Editortop = () => {
     priceTeam: state?.priceTeam ?? "",
     priceCorporate: state?.priceCorporate ?? "",
     publishedDate: state?.publishedDate ?? "",
-    relatedReports: state?.relatedReports ?? "",
+    // relatedReports: state?.relatedReports ?? "",
+    id: state?.id ?? "",
   });
 
   const [subIndustries, setSubIndustries] = useState<string[]>([]);
@@ -220,11 +221,12 @@ const Editortop = () => {
         priceTeam: form.priceTeam,
         priceCorporate: form.priceCorporate,
         publishedDate: form.publishedDate,
-        relatedReports: form.relatedReports,
+        // relatedReports: form.relatedReports,
         linki1: thumb1,
         alti1: "",
         alti2: "",
         linki2: thumb2,
+        id: form.id,
       },
     });
     console.log("here", state);
@@ -437,12 +439,12 @@ const Editortop = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Related Reports
+              Id of the Report
             </label>
             <input
               type="text"
-              name="relatedReports"
-              value={form.relatedReports}
+              name="id"
+              value={form.id}
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
@@ -509,7 +511,7 @@ const Editortop = () => {
               submitted ? "bg-green-500" : "bg-blue-500"
             } text-white rounded`}
           >
-            {submitted ? "Submitted" : "Submit"}
+            {submitted ? "Saved" : "Save"}
           </button>
         </form>
         <ToastContainer />

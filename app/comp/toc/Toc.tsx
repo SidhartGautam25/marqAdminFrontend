@@ -141,7 +141,7 @@ const MyComponent: React.FC = () => {
             submit ? "bg-green-500" : "bg-blue-500"
           } text-white rounded`}
         >
-          {submit ? "Submitted" : "Submit"}
+          {submit ? "Saved" : "Save"}
         </button>
       </div>
     </div>

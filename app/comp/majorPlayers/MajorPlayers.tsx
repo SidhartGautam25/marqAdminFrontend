@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
+
 const MajorPlayers: React.FC = () => {
   const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
   const [submit, setSubmit] = useState<boolean>(state1?.six ?? false);
   const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [heading, setHeading] = useState(state?.mpHeading ?? "");
   const [companies, setCompanies] = useState<string[]>(
-    state?.mpCompanies ?? []
+    state?.mpCompanies ?? [""]
   );
 
   const addCompany = () => {
@@ -24,6 +25,7 @@ const MajorPlayers: React.FC = () => {
     );
     setCompanies(updatedCompanies);
   };
+
   const handleSubmit = () => {
     dispatch({
       type: "SET_RD",
@@ -68,12 +70,14 @@ const MajorPlayers: React.FC = () => {
               onChange={(e) => updateCompany(index, e.target.value)}
               className="p-2 border border-gray-300 rounded w-5/6 mr-2"
             />
-            <button
-              onClick={() => removeCompany(index)}
-              className="text-white bg-red-500 hover:bg-red-700 px-2 py-1 rounded"
-            >
-              &ndash;
-            </button>
+            {companies.length > 1 && (
+              <button
+                onClick={() => removeCompany(index)}
+                className="text-white bg-red-500 hover:bg-red-700 px-2 py-1 rounded"
+              >
+                &ndash;
+              </button>
+            )}
           </div>
         ))}
         <button
@@ -90,7 +94,7 @@ const MajorPlayers: React.FC = () => {
             submit ? "bg-green-500" : "bg-blue-500"
           } text-white rounded`}
         >
-          {submit ? "Submitted" : "Submit"}
+          {submit ? "Saved" : "Save"}
         </button>
       </div>
     </div>

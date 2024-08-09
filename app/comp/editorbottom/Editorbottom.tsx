@@ -20,6 +20,7 @@ import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { my_admin_url } from "@/app/utility";
 import axios from "axios";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
+import RelatedReport from "../relatedReport/RelatedReport";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -52,6 +53,7 @@ const ReportEditor = () => {
     "Recent Developments",
     "FAQs",
     "Table Of Contents",
+    "Related Reports",
   ];
 
   const handleTabClick = (tab: string) => {
@@ -82,6 +84,7 @@ const ReportEditor = () => {
           seven: false,
           eight: false,
           nine: false,
+          ten: false,
         },
       });
     } catch (err) {
@@ -112,7 +115,7 @@ const ReportEditor = () => {
               submit ? "bg-green-500" : "bg-blue-600"
             } text-white rounded`}
           >
-            {submit ? "All Submitted" : "All Submit"}
+            {submit ? "Submitted" : "Submit"}
           </button>
           {/* <ToastContainer /> */}
         </div>
@@ -126,6 +129,7 @@ const ReportEditor = () => {
           {selectedTab === "Recent Developments" && <RDevelopments />}
           {selectedTab === "FAQs" && <FaqSection />}
           {selectedTab === "Table Of Contents" && <Toc />}
+          {selectedTab === "Related Reports" && <RelatedReport />}
         </div>
       </div>
     </NoSSR>
