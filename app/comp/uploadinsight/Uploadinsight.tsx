@@ -36,26 +36,13 @@ const initialInsights: Insight[] = [
 ];
 
 export default function Uploadinsight() {
-  // const [insights, setInsights] = useState<Insight[]>(initialInsights);
   const [pined, setPined] = useState<number>();
-
-  // const [blogs, setBlogs] = useState<Insight[]>(initialInsights);
   const [page, setPage] = useState(1);
-  // const dev_url = "http://localhost:8800";
-  // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [blogs, setBlogs] = useState<Insight[]>([]);
   const [len, setLen] = useState(1);
   const [end, setEnd] = useState(1);
   console.log("blogs here", blogs);
   const handleDelete = async (id: Number) => {
-    // const isConfirmed = confirm(
-    //   "Are you sure you want to delete this insight?"
-    // );
-    // if (isConfirmed) {
-    //   setInsights(insights.filter((insight) => insight.id !== id));
-    // }
-    //this function is commented
-    // i dont know why
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
       let url = `${my_admin_url}/api/getall/delete/blog?id=${id}`;

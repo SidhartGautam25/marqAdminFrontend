@@ -7,7 +7,7 @@ const RelatedReport: React.FC = () => {
   const [submit, setSubmit] = useState<boolean>(state1?.eight ?? false);
   const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [relatedReports, setRelatedReports] = useState<string[]>(
-    state?.fsFaqs ?? []
+    state?.related ?? []
   );
   const [newReport, setNewReport] = useState<string>("");
 
@@ -26,13 +26,13 @@ const RelatedReport: React.FC = () => {
     dispatch({
       type: "SET_RD",
       payload: {
-        fsFaqs: relatedReports,
+        related: relatedReports,
       },
     });
     dispatch1({
       type: "CHANGE_COND",
       payload: {
-        eight: true,
+        ten: true,
       },
     });
     setSubmit(true);

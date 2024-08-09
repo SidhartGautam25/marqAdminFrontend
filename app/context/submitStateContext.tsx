@@ -30,6 +30,7 @@ const INITIAL_STATE: State =
             seven: false,
             eight: false,
             nine: false,
+            ten: false,
           })
       )
     : null;

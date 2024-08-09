@@ -84,6 +84,7 @@ const ReportEditor = () => {
           seven: false,
           eight: false,
           nine: false,
+          ten: false,
         },
       });
     } catch (err) {
