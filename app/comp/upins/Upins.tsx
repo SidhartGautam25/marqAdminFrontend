@@ -140,6 +140,7 @@ export default function Upins() {
       altPdf: altPdf,
       altThumb: altThumb,
     };
+    console.log("daata you are uploadin is ", daata);
     const res = await axios.post(local, daata);
     if (res) {
       toast.success("Uploaded successfully!");
@@ -165,7 +166,7 @@ export default function Upins() {
       );
       const file = await res.json();
       setImagep(file.secure_url);
-      console.log("we are here now ");
+      console.log("we are here now and pdf link is  ");
       console.log(file.secure_url);
       setLoading1(false);
     }
@@ -193,7 +194,7 @@ export default function Upins() {
       );
       const file = await res.json();
       setImaget(file.secure_url);
-      console.log("we are here now ");
+      console.log("we are here now and the image link is  ");
       console.log(file.secure_url);
       setLoading2(false);
     }

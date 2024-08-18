@@ -114,6 +114,7 @@ export default function Uploadrd() {
         <thead>
           <tr className="bg-blue-800 text-white">
             <th className="w-1/12 px-4 py-2 border">S.No.</th>
+            <th className="w-1/12 px-4 py-2 border">Id</th>
             <th className="w-3/12 px-4 py-2 border">RD Title</th>
             <th className="w-3/12 px-4 py-2 border">Industry</th>
             <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
@@ -128,6 +129,7 @@ export default function Uploadrd() {
               <td className="border px-4 py-2 text-center">
                 {5 * (page - 1) + index + 1}
               </td>
+              <td className="border px-4 py-2">{report.id}</td>
               <td className="border px-4 py-2">{report.title}</td>
               <td className="border px-4 py-2">{report.industry}</td>
               <td className="border px-4 py-2">{report.subind}</td>
