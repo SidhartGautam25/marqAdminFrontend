@@ -65,6 +65,7 @@ const ReportEditor = () => {
     console.log("request sent to server");
     const local = `${my_admin_url}/api/upload/ureport`;
     try {
+      console.log("state before submitting is ", state);
       const res = await axios.post(local, state);
       setSubmit(true);
       // toast.success("Final submit successfully!");
