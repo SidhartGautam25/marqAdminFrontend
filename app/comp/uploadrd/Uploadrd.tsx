@@ -19,6 +19,8 @@ export default function Uploadrd() {
   console.log("your end is ", end);
   const [page, setPage] = useState(1);
 
+  const handleEdit = async (id: Number) => {};
+
   const handleDelete = async (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");
     if (isConfirmed) {
@@ -119,6 +121,7 @@ export default function Uploadrd() {
             <th className="w-3/12 px-4 py-2 border">Industry</th>
             <th className="w-2/12 px-4 py-2 border">Sub-Industry</th>
             <th className="w-2/12 px-4 py-2 border">Upload Date</th>
+            <th className="w-2/12 px-4 py-2 border">Edit</th>
             <th className="w-1/12 px-4 py-2 border">Delete</th>
             <th className="w-1/12 px-4 py-2 border">Pin</th>
           </tr>
@@ -135,6 +138,14 @@ export default function Uploadrd() {
               <td className="border px-4 py-2">{report.subind}</td>
               <td className="border px-4 py-2 text-center">
                 {formatDate(report.createdAt)}
+              </td>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-green-400 text-black border border-black px-2 py-1"
+                  onClick={() => handleEdit(report._id)}
+                >
+                  Edit
+                </button>
               </td>
               <td className="border px-4 py-2 text-center">
                 <button
