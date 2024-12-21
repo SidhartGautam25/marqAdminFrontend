@@ -6,6 +6,7 @@ import { AuthContextProvider } from "./context/authContext";
 import { ReportContextProvider } from "./context/reportContext";
 import { RDContextProvider } from "./context/rdContext";
 import { CondContextProvider } from "./context/submitStateContext";
+import { EDITContextProvider } from "./context/Edit/editContext";
 
 const inter = Roboto_Serif({ weight: "400", subsets: ["latin"] });
 
@@ -25,13 +26,15 @@ export default function RootLayout({
         <meta charSet="utf-8" />
       </head>
       <body className={inter.className}>
-        <AuthContextProvider>
-          <RDContextProvider>
-            <CondContextProvider>
-              <ReportContextProvider>{children}</ReportContextProvider>
-            </CondContextProvider>
-          </RDContextProvider>
-        </AuthContextProvider>
+        <EDITContextProvider>
+          <AuthContextProvider>
+            <RDContextProvider>
+              <CondContextProvider>
+                <ReportContextProvider>{children}</ReportContextProvider>
+              </CondContextProvider>
+            </RDContextProvider>
+          </AuthContextProvider>
+        </EDITContextProvider>
       </body>
     </html>
   );
