@@ -1,10 +1,27 @@
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { RxDrawingPin } from "react-icons/rx";
 import { RxDrawingPinFilled } from "react-icons/rx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { my_admin_url } from "@/app/utility";
+import { useRouter } from "next/navigation";
+import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+
+const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
+
 interface Report {
   [key: string]: any;
 }
@@ -16,10 +33,35 @@ export default function Uploadrd() {
   // const prod_url = "https://admin-backend-1-ekoa.onrender.com";
   const [len, setLen] = useState(0);
   const [end, setEnd] = useState(1);
+  const { state, dispatch } = useContext(EDITContext) as EDITContextType;
+  const router = useRouter();
   console.log("your end is ", end);
   const [page, setPage] = useState(1);
 
-  const handleEdit = async (id: Number) => {};
+  const handleEdit = async (id: Number) => {
+    const isConfirmed = confirm("Are you sure you want to edit this report ?");
+    if (isConfirmed) {
+      let url = `${my_admin_url}/api/getall/report?id=${id}`;
+      console.log("requesting data for editing");
+      // try {
+      //   console.log("requesting data for editing");
+      //   const data = await axios.get(url);
+      //   console.log("data which we get for editing is ", data.data);
+      // } catch (err) {
+      //   console.log(
+      //     "err we get in handleEdit while requesting from server is ",
+      //     err
+      //   );
+      // }
+      const editReport = reports.filter((report) => report._id === id);
+      console.log("report to be edited is ", editReport);
+      dispatch({
+        type: "SET_EDITRD",
+        payload: editReport[0],
+      });
+      router.push(`/edit/${id}`);
+    }
+  };
 
   const handleDelete = async (id: Number) => {
     const isConfirmed = confirm("Are you sure you want to delete this report?");

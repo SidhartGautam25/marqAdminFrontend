@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Roboto_Serif } from "next/font/google";
 import "./globals.css";
-import Navbar from "./comp/navbar/Navbar";
 import { AuthContextProvider } from "./context/authContext";
 import { ReportContextProvider } from "./context/reportContext";
 import { RDContextProvider } from "./context/rdContext";
 import { CondContextProvider } from "./context/submitStateContext";
+import { EDITContextProvider } from "./context/Edit/editContext";
+import { EditCondContextProvider } from "./context/Edit/editStateContext";
 
 const inter = Roboto_Serif({ weight: "400", subsets: ["latin"] });
 
@@ -25,13 +26,17 @@ export default function RootLayout({
         <meta charSet="utf-8" />
       </head>
       <body className={inter.className}>
-        <AuthContextProvider>
-          <RDContextProvider>
-            <CondContextProvider>
-              <ReportContextProvider>{children}</ReportContextProvider>
-            </CondContextProvider>
-          </RDContextProvider>
-        </AuthContextProvider>
+        <EditCondContextProvider>
+          <EDITContextProvider>
+            <AuthContextProvider>
+              <RDContextProvider>
+                <CondContextProvider>
+                  <ReportContextProvider>{children}</ReportContextProvider>
+                </CondContextProvider>
+              </RDContextProvider>
+            </AuthContextProvider>
+          </EDITContextProvider>
+        </EditCondContextProvider>
       </body>
     </html>
   );
