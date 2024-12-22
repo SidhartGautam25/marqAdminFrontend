@@ -2,39 +2,118 @@ import React, { useState, useContext } from "react";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 
 const EditMajorPlayers: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.six ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.six ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   const [heading, setHeading] = useState(state?.mpTitle ?? "");
   const [companies, setCompanies] = useState<string[]>(state?.mp ?? [""]);
 
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    if (size != y.length) {
+      if (submit) {
+        setSubmit(false);
+        editdispatch({
+          type: "CHANGE_EDIT_COND",
+          payload: {
+            two: false,
+          },
+        });
+      }
+
+      return;
+    }
+    for (let i = 0; i < size; i++) {
+      console.log("at market players comp,at index i ", i);
+      console.log("x[i] is ", x[i]);
+      console.log("y[i] is ", y[i]);
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          editdispatch({
+            type: "CHANGE_EDIT_COND",
+            payload: {
+              two: false,
+            },
+          });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      editdispatch({
+        type: "CHANGE_EDIT_COND",
+        payload: {
+          two: true,
+        },
+      });
+    }
+  };
+
   const addCompany = () => {
-    setCompanies([...companies, ""]);
+    let temp = [...companies, ""];
+    setCompanies(temp);
+    let comp = state?.mp;
+    let x: string[] = [heading, ...temp];
+    let y: string[] = [state?.mpTitle, ...comp];
+    checkChanges(x, y);
   };
 
   const removeCompany = (index: number) => {
-    setCompanies(companies.filter((_, i) => i !== index));
+    let temp = companies.filter((_, i) => i !== index);
+    let comp = state?.mp;
+    setCompanies(temp);
+    let x: string[] = [heading, ...temp];
+    let y: string[] = [state?.mpTitle, ...comp];
+    checkChanges(x, y);
+  };
+
+  const changeHeading = (newHeading: string) => {
+    setHeading(newHeading);
+    let comp = state?.mp;
+    let x: string[] = [newHeading, ...companies];
+    let y: string[] = [state?.mpTitle, ...comp];
+    checkChanges(x, y);
   };
 
   const updateCompany = (index: number, value: string) => {
     const updatedCompanies = companies.map((company, i) =>
       i === index ? value : company
     );
+    let comp = state?.mp;
+    let x: string[] = [heading, ...updatedCompanies];
+    let y: string[] = [state?.mpTitle, ...comp];
     setCompanies(updatedCompanies);
+    checkChanges(x, y);
   };
 
   const handleSubmit = () => {
+    if (submit) {
+      return;
+    }
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        mpHeading: heading,
-        mpCompanies: companies,
+        mpTitle: heading,
+        mp: companies,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         six: true,
       },
@@ -52,7 +131,7 @@ const EditMajorPlayers: React.FC = () => {
           type="text"
           placeholder="Advanced Driver Assistance Systems Market Leaders"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => changeHeading(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -69,14 +148,14 @@ const EditMajorPlayers: React.FC = () => {
               onChange={(e) => updateCompany(index, e.target.value)}
               className="p-2 border border-gray-300 rounded w-5/6 mr-2"
             />
-            {companies.length > 1 && (
+            {
               <button
                 onClick={() => removeCompany(index)}
                 className="text-white bg-red-500 hover:bg-red-700 px-2 py-1 rounded"
               >
                 &ndash;
               </button>
-            )}
+            }
           </div>
         ))}
         <button

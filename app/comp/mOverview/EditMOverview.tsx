@@ -78,7 +78,7 @@ const EditMOverview: React.FC = () => {
     checkChanges(x, y);
   };
   const handleSubmit = () => {
-    if (change) {
+    if (submit) {
       return;
     }
     dispatch({
