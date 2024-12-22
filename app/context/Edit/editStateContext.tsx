@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 
-interface CondProviderProps {
+interface EditCondProviderProps {
   children: ReactNode;
 }
 
@@ -18,35 +18,35 @@ type State = {
 const INITIAL_STATE: State =
   typeof window !== "undefined"
     ? JSON.parse(
-        localStorage.getItem("cond") ||
+        localStorage.getItem("EditCond") ||
           JSON.stringify({
-            first: false,
-            one: false,
-            two: false,
-            three: false,
-            four: false,
-            five: false,
-            six: false,
-            seven: false,
-            eight: false,
-            nine: false,
-            ten: false,
+            first: true,
+            one: true,
+            two: true,
+            three: true,
+            four: true,
+            five: true,
+            six: true,
+            seven: true,
+            eight: true,
+            nine: true,
+            ten: true,
           })
       )
     : null;
 
-type Action = { type: "CHANGE_COND"; payload: any };
+type Action = { type: "CHANGE_EDIT_COND"; payload: any };
 
-export type CondContextType = {
-  state1: State;
-  dispatch1: Dispatch<Action>;
+export type EditCondContextType = {
+  editstate: State;
+  editdispatch: Dispatch<Action>;
 };
 
-export const CondContext = createContext<CondContextType | null>(null);
+export const EditCondContext = createContext<EditCondContextType | null>(null);
 
 const Reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "CHANGE_COND":
+    case "CHANGE_EDIT_COND":
       return {
         ...state,
         ...action.payload,
@@ -57,21 +57,23 @@ const Reducer = (state: State, action: Action): State => {
   }
 };
 
-export const CondContextProvider: React.FC<CondProviderProps> = ({
+export const EditCondContextProvider: React.FC<EditCondProviderProps> = ({
   children,
 }) => {
-  const initialState: State = {};
-
-  const [state1, dispatch1] = useReducer(Reducer, INITIAL_STATE);
+  const [editstate, editdispatch] = useReducer(Reducer, INITIAL_STATE);
   useEffect(() => {
-    console.log("present state is ", state1);
+    console.log("present state is ", editstate);
 
-    localStorage.setItem("cond", JSON.stringify(state1));
-    console.log("cond is ", state1);
-  }, [state1]);
+    localStorage.setItem("EditCond", JSON.stringify(editstate));
+    console.log("cond is ", editstate);
+  }, [editstate]);
 
   // Here, we're casting the value to UserContextType because we're certain it matches the shape
-  const value = { state1, dispatch1 } as CondContextType;
+  const value = { editstate, editdispatch } as EditCondContextType;
 
-  return <CondContext.Provider value={value}>{children}</CondContext.Provider>;
+  return (
+    <EditCondContext.Provider value={value}>
+      {children}
+    </EditCondContext.Provider>
+  );
 };

@@ -3,15 +3,23 @@ import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
+import { checkIsOnDemandRevalidate } from "next/dist/server/api-utils";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditMOverview: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.two ?? false);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
+  //   console.log("state at market overview is ", state);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.two ?? true);
   const [heading, setHeading] = useState<string>(
     state.moTitle ? state.moTitle : ""
   );
@@ -20,16 +28,54 @@ const EditMOverview: React.FC = () => {
   const [editorContent, setEditorContent] = useState<string>(
     state.moDesc ? state.moDesc : ""
   );
-  console.log("this is my state market overview ", state);
+  //   console.log("this is my state market overview ", state);
+
+  // x:= array which stores the current values of diffrent variables
+  // y:= array which stores the  saved values of diffrent variables
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          editdispatch({
+            type: "CHANGE_EDIT_COND",
+            payload: {
+              two: false,
+            },
+          });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      editdispatch({
+        type: "CHANGE_EDIT_COND",
+        payload: {
+          two: true,
+        },
+      });
+    }
+  };
 
   const handleEditorChange = (newContent: string) => {
-    setChange(true);
     setEditorContent(newContent);
+    let x: string[] = [newContent, heading];
+    let y: string[] = [state?.moDesc, state?.moTitle];
+    checkChanges(x, y);
   };
 
   const handleHeadingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChange(true);
     setHeading(e.target.value);
+    let x: string[] = [editorContent, e.target.value];
+    let y: string[] = [state?.moDesc, state?.moTitle];
+    checkChanges(x, y);
   };
   const handleSubmit = () => {
     if (change) {
@@ -38,12 +84,12 @@ const EditMOverview: React.FC = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        moHeading: heading,
-        moContent: editorContent,
+        moTitle: heading,
+        moDesc: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         two: true,
       },
@@ -78,10 +124,10 @@ const EditMOverview: React.FC = () => {
         <button
           onClick={handleSubmit}
           className={`w-1/6 py-2 my-4 justify-end px-4 ${
-            submit ? "bg-green-500" : "bg-blue-500"
+            submit && !change ? "bg-green-500" : "bg-blue-500"
           } text-white rounded`}
         >
-          {submit ? "Saved" : "Save"}
+          {submit && !change ? "Saved" : "Save"}
         </button>
       </div>
     </div>

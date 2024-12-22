@@ -3,8 +3,9 @@
 import Editortop from "@/app/comp/editortop/Editortop";
 import Navbar from "@/app/comp/navbar/Navbar";
 import Editorbottom from "@/app/comp/editorbottom/Editorbottom";
-import EditEditortop from "@/app/comp/editortop/editEditortop";
+// import EditEditortop from "@/app/comp/editortop/editEditortop";
 import EditEditorbottom from "@/app/comp/editorbottom/EditEditorbottom";
+import EditEditortop from "@/app/comp/editortop/EditEditortop";
 
 export default function Page({ params }: { params: { slug: Number } }) {
   return (
