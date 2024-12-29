@@ -94,16 +94,15 @@ const EditKeyTrends: React.FC = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        ktHeading: heading,
-        ktSubHeading: subHeading,
-        ktContent1: editorContent1,
-        ktImage: image,
-        ktImageAlt1: imageAlt,
-        ktSubHeading2: subHeading2,
-        ktTables2: description2,
-        ktContent2: editorContent2,
-        ktImage2: image2,
-        ktImageAlt2: imageAlt2,
+        kmtTitle: heading,
+        kmtsh1: subHeading,
+        kmtsh2: subHeading2,
+        kmti1: image,
+        kmti2: image2,
+        kmti1alt: imageAlt,
+        kmti2alt: imageAlt2,
+        kmtdesc1: editorContent1,
+        kmtdesc2: editorContent2,
       },
     });
     editdispatch({
