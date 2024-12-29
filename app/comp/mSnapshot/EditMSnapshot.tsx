@@ -3,6 +3,10 @@ import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
@@ -24,11 +28,90 @@ const EditMSnapshot: React.FC = () => {
   >(state?.msTable ? state.msTable : []);
   const [newAttributeKey, setNewAttributeKey] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.one ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.one ?? true);
+
+  const checkChanges = (
+    x: string[],
+    y: string[],
+    obj: { t: boolean }
+  ): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          obj.t = false;
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       two: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      obj.t = true;
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       two: true,
+      //     },
+      //   });
+    }
+  };
+  const checkChanges2 = (x: {}[], y: {}[]): void => {
+    if (x.length !== y.length) {
+      setSubmit(false);
+      return;
+    }
+
+    const areObjectsEqual = (
+      obj1: { [key: string]: string },
+      obj2: { [key: string]: string }
+    ): boolean => {
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
+
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
+
+      return keys1.every((key) => obj1[key] === obj2[key]); // Check key-value pairs
+    };
+
+    // Sort both arrays by a consistent key, like 'question'
+    //   const sortedX = [...x].sort((a, b) =>
+    //     a.question.localeCompare(b.question)
+    //   );
+    //   const sortedY = [...y].sort((a, b) =>
+    //     a.question.localeCompare(b.question)
+    //   );
+
+    const isEqual = x.every((item, index) => areObjectsEqual(item, y[index]));
+
+    setSubmit(isEqual);
+  };
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
+    let x: string[] = [heading, newContent];
+    let y: string[] = [state?.msHeading, state?.msContent];
+    let obj = { t: true };
+    checkChanges(x, y, obj);
+    if (obj.t) {
+      checkChanges2(attributes, state?.msTable);
+    }
   };
 
   const handleAddAttribute = () => {
@@ -39,12 +122,42 @@ const EditMSnapshot: React.FC = () => {
       ]);
       setNewAttributeKey("");
       setNewAttributeValue("");
+      let x: string[] = [heading, editorContent];
+      let y: string[] = [state?.msHeading, state?.msContent];
+      let obj = { t: true };
+      checkChanges(x, y, obj);
+      let temp = [
+        ...attributes,
+        { key: newAttributeKey, value: newAttributeValue },
+      ];
+      if (obj.t) {
+        checkChanges2(temp, state?.msTable);
+      }
     }
   };
 
   const handleRemoveAttribute = (index: number) => {
-    setAttributes(attributes.filter((_, i) => i !== index));
+    let temp = attributes.filter((_, i) => i !== index);
+    setAttributes(temp);
+    let x: string[] = [heading, editorContent];
+    let y: string[] = [state?.msHeading, state?.msContent];
+    let obj = { t: true };
+    checkChanges(x, y, obj);
+    if (obj.t) {
+      checkChanges2(temp, state?.msTable);
+    }
   };
+  const handleHeadingChange = (newHeading: string) => {
+    setHeading(newHeading);
+    let x: string[] = [newHeading, editorContent];
+    let y: string[] = [state?.msHeading, state?.msContent];
+    let obj = { t: true };
+    checkChanges(x, y, obj);
+    if (obj.t) {
+      checkChanges2(attributes, state?.msTable);
+    }
+  };
+
   const handleSubmit = () => {
     dispatch({
       type: "SET_EDITRD",
@@ -54,8 +167,8 @@ const EditMSnapshot: React.FC = () => {
         msContent: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         one: true,
       },
@@ -79,7 +192,7 @@ const EditMSnapshot: React.FC = () => {
           type="text"
           name="heading"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => handleHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
