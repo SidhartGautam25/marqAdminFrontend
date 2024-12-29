@@ -87,42 +87,94 @@
 
 // export default MyComponent;
 
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditToc: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.nine ?? false);
+  const normalizeContent = (content: string): string => {
+    // Remove whitespace and normalize the HTML
+    return content.replace(/\s+/g, " ").trim();
+  };
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.nine ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState<string>(
-    state?.toc ? state.toc : ""
+    normalizeContent(state?.toc ? state.toc : "")
   );
 
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index in toc ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       seven: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       seven: true,
+      //     },
+      //   });
+    }
+  };
+
   const handleEditorChange = (newContent: string) => {
-    setEditorContent(newContent);
+    const normalizedNewContent = normalizeContent(newContent);
+    if (normalizedNewContent !== editorContent) {
+      setEditorContent(newContent);
+      let x: string[] = [normalizedNewContent];
+      let y: string[] = [state?.toc];
+      checkChanges(x, y);
+    }
   };
   const handleSubmit = () => {
+    if (submit) {
+      return;
+    }
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        tocContent: editorContent,
+        toc: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         nine: true,
       },
     });
     setSubmit(true);
   };
+  useEffect(() => {}, []);
 
   return (
     <div className="p-6">
