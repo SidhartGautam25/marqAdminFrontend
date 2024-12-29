@@ -1,10 +1,17 @@
 import React, { useState, useContext } from "react";
+
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 const EditFaqSection: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.eight ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.eight ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   const [heading, setHeading] = useState(state?.faqTitle ?? "");
   const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>(
@@ -15,36 +22,152 @@ const EditFaqSection: React.FC = () => {
     answer: "",
   });
 
+  const checkChanges = (
+    x: { question: string; answer: string }[],
+    y: { question: string; answer: string }[]
+  ): void => {
+    if (x.length !== y.length) {
+      setSubmit(false);
+      return;
+    }
+
+    const areObjectsEqual = (
+      obj1: { [key: string]: string },
+      obj2: { [key: string]: string }
+    ): boolean => {
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
+
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
+
+      return keys1.every((key) => obj1[key] === obj2[key]); // Check key-value pairs
+    };
+
+    // Sort both arrays by a consistent key, like 'question'
+    const sortedX = [...x].sort((a, b) => a.question.localeCompare(b.question));
+    const sortedY = [...y].sort((a, b) => a.question.localeCompare(b.question));
+
+    const isEqual = sortedX.every((item, index) =>
+      areObjectsEqual(item, sortedY[index])
+    );
+
+    setSubmit(isEqual);
+  };
+
+  //   const checkChanges = (
+  //     x: { [key: string]: string }[],
+  //     y: { [key: string]: string }[]
+  //   ): void => {
+  //     if (x.length !== y.length) {
+  //       setSubmit(false);
+  //       return; // Arrays of different lengths can't be equal
+  //     }
+  //     if (heading != state?.faqTitle) {
+  //       setSubmit(false);
+  //       return;
+  //       }
+
+  //     const areObjectsEqual = (
+  //       obj1: { [key: string]: string },
+  //       obj2: { [key: string]: string }
+  //     ): boolean => {
+  //       const keys1 = Object.keys(obj1);
+  //       const keys2 = Object.keys(obj2);
+
+  //       if (keys1.length !== keys2.length) {
+  //         return false;
+  //       }
+
+  //       return keys1.every((key) => obj1[key] === obj2[key]); // Check if values for each key match
+  //     };
+
+  //     setSubmit(x.every((item, index) => areObjectsEqual(item, y[index])));
+  //   };
+
   const handleFaqChange = (field: string, value: string) => {
     setNewFaq({ ...newFaq, [field]: value });
   };
 
+  //   const handleAddFaq = () => {
+  //     if (newFaq.question.trim() && newFaq.answer.trim()) {
+  //       let temp = [...faqs, newFaq];
+  //       setFaqs([...faqs, newFaq]);
+  //       setNewFaq({ question: "", answer: "" });
+  //       let x: {}[] = [temp];
+  //       let y: {}[] = [state?.faqs];
+  //       checkChanges(x, y);
+  //     }
+  //   };
+
   const handleAddFaq = () => {
     if (newFaq.question.trim() && newFaq.answer.trim()) {
-      setFaqs([...faqs, newFaq]);
-      setNewFaq({ question: "", answer: "" });
+      const temp = [...faqs, newFaq]; // New array with the added FAQ
+      setFaqs(temp); // Update the state with the new array
+      setNewFaq({ question: "", answer: "" }); // Reset the input fields
+
+      // Pass the correct structure to checkChanges
+      checkChanges(temp, state?.faqs ?? []);
     }
   };
 
   const handleDeleteFaq = (index: number) => {
-    setFaqs(faqs.filter((_, i) => i !== index));
+    const temp = faqs.filter((_, i) => i !== index); // Remove the FAQ at the specified index
+    setFaqs(temp); // Update the state with the filtered array
+
+    // Pass the correct structure to checkChanges
+    checkChanges(temp, state?.faqs ?? []);
   };
+
+  //   const handleDeleteFaq = (index: number) => {
+  //     let temp = faqs.filter((_, i) => i !== index);
+  //     setFaqs(temp);
+  //     let x: {}[] = [temp];
+  //     let y: {}[] = [state?.faqs];
+  //     checkChanges(x, y);
+  //   };
   const handleSubmit = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        fsHeading: heading,
-        fsFaqs: faqs,
+        faqTitle: heading,
+        faqs: faqs,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         eight: true,
       },
     });
     setSubmit(true);
   };
+
+  const handleHeadingChange = (newHeading: string) => {
+    setHeading(newHeading);
+
+    if (newHeading !== state?.faqTitle) {
+      // Mark as unsaved if the heading is different from the original
+      setSubmit(false);
+    } else if (!submit) {
+      // If heading matches but form is still unsaved, recheck the FAQs
+      checkChanges(faqs, state?.faqs ?? []);
+    }
+  };
+
+  //   const handleHeadingChange = (newHeading: string) => {
+  //     setHeading(newHeading);
+  //     if (newHeading != state?.faqTitle) {
+  //       setSubmit(false);
+  //     } else {
+  //       if (submit == false) {
+  //         let x: {}[] = [faqs];
+  //         let y: {}[] = [state?.faqs];
+  //         checkChanges(x, y);
+  //       }
+  //     }
+  //   };
 
   return (
     <div className="p-4">
@@ -56,7 +179,7 @@ const EditFaqSection: React.FC = () => {
           type="text"
           placeholder="FAQs"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => handleHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>

@@ -4,14 +4,20 @@ import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { toast } from "react-toastify";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditKeyTrends: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.four ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.four ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   const [heading, setHeading] = React.useState(
     state.kmtTitle ? state.kmtTitle : ""
@@ -40,11 +46,37 @@ const EditKeyTrends: React.FC = () => {
   const [editorContent2, setEditorContent2] = useState<string>(
     state.kmtdesc2 ? state.kmtdesc2 : ""
   );
-  const handleEditorChange1 = (newContent: string) => {
-    setEditorContent1(newContent);
-  };
-  const handleEditorChange2 = (newContent: string) => {
-    setEditorContent2(newContent);
+
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       two: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       two: true,
+      //     },
+      //   });
+    }
   };
 
   const handleSubmit = () => {
@@ -63,8 +95,8 @@ const EditKeyTrends: React.FC = () => {
         ktImageAlt2: imageAlt2,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         four: true,
       },
@@ -147,6 +179,14 @@ const EditKeyTrends: React.FC = () => {
         console.log("we are here now ");
         console.log(file.secure_url);
         setLoading1(false);
+        let x: string[] = [heading, subHeading, subHeading2, file.secure_url];
+        let y: string[] = [
+          state?.kmtTitle,
+          state?.kmtsh1,
+          state?.kmtsh2,
+          state?.kmti1,
+        ];
+        checkChanges(x, y);
       }
       if (e.target.files?.length) {
         toast.success("File selected successfully!");
@@ -176,12 +216,94 @@ const EditKeyTrends: React.FC = () => {
         console.log("we are here now ");
         console.log(file.secure_url);
         setLoading2(false);
+        let x: string[] = [
+          heading,
+          subHeading,
+          subHeading2,
+          image,
+          file.secure_url,
+        ];
+        let y: string[] = [
+          state?.kmtTitle,
+          state?.kmtsh1,
+          state?.kmtsh2,
+          state?.kmti1,
+          state?.kmti2,
+        ];
+        checkChanges(x, y);
       }
       if (e.target.files?.length) {
         toast.success("File selected successfully!");
       }
     }
   };
+
+  const handleHeadingChange = (newHeading: string) => {
+    setHeading(newHeading);
+    let x: string[] = [newHeading];
+    let y: string[] = [state?.kmtTitle];
+    checkChanges(x, y);
+  };
+
+  const handleSubHeadingChange = (newHeading: string) => {
+    setSubHeading(newHeading);
+    let x: string[] = [heading, subHeading];
+    let y: string[] = [state?.kmtTitle, state?.kmtsh1];
+    checkChanges(x, y);
+  };
+
+  const handleSubHeadingChange2 = (newHeading: string) => {
+    setSubHeading2(newHeading);
+    let x: string[] = [heading, subHeading, newHeading];
+    let y: string[] = [state?.kmtTitle, state?.kmtsh1, state?.kmtsh2];
+    checkChanges(x, y);
+  };
+
+  const handleImageAlt2Change = (newContent: string) => {
+    setImageAlt2(newContent);
+    let x: string[] = [
+      heading,
+      subHeading,
+      subHeading2,
+      image,
+      image2,
+      imageAlt,
+      newContent,
+    ];
+    let y: string[] = [
+      state?.kmtTitle,
+      state?.kmtsh1,
+      state?.kmtsh2,
+      state?.kmti1,
+      state?.kmti2,
+      state?.kmti1alt,
+      state?.kmti2alt,
+    ];
+    checkChanges(x, y);
+  };
+  const handleImageAltChange = (newContent: string) => {
+    setImageAlt(newContent);
+    let x: string[] = [
+      heading,
+      subHeading,
+      subHeading2,
+      image,
+      image2,
+      newContent,
+    ];
+    let y: string[] = [
+      state?.kmtTitle,
+      state?.kmtsh1,
+      state?.kmtsh2,
+      state?.kmti1,
+      state?.kmti2,
+      state?.kmti1alt,
+    ];
+    checkChanges(x, y);
+  };
+
+  const handleEditorChange = (newContent: string) => {};
+  const handleEditorChange2 = (newContent: string) => {};
 
   // useEffect(() => {
   //   // Cleanup URLs for images to avoid memory leaks
@@ -205,7 +327,7 @@ const EditKeyTrends: React.FC = () => {
           type="text"
           name="heading"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => handleHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -217,7 +339,7 @@ const EditKeyTrends: React.FC = () => {
           type="text"
           name="subHeading"
           value={subHeading}
-          onChange={(e) => setSubHeading(e.target.value)}
+          onChange={(e) => handleSubHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -264,7 +386,7 @@ const EditKeyTrends: React.FC = () => {
             <input
               type="text"
               value={imageAlt}
-              onChange={(e) => setImageAlt(e.target.value)}
+              onChange={(e) => handleImageAltChange(e.target.value)}
               className="p-2 border border-gray-300 rounded w-full"
               placeholder="Enter alt text for the image"
             />
@@ -279,7 +401,7 @@ const EditKeyTrends: React.FC = () => {
           type="text"
           name="subHeading2"
           value={subHeading2}
-          onChange={(e) => setSubHeading2(e.target.value)}
+          onChange={(e) => handleSubHeadingChange2(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -326,7 +448,7 @@ const EditKeyTrends: React.FC = () => {
             <input
               type="text"
               value={imageAlt2}
-              onChange={(e) => setImageAlt2(e.target.value)}
+              onChange={(e) => handleImageAlt2Change(e.target.value)}
               className="p-2 border border-gray-300 rounded w-full"
               placeholder="Enter alt text for the image"
             />

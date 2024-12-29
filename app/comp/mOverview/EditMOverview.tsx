@@ -41,12 +41,12 @@ const EditMOverview: React.FC = () => {
         // console.log("y[i] is ", y[i]);
         if (submit) {
           setSubmit(false);
-          editdispatch({
-            type: "CHANGE_EDIT_COND",
-            payload: {
-              two: false,
-            },
-          });
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       two: false,
+          //     },
+          //   });
         }
 
         return;
@@ -55,12 +55,12 @@ const EditMOverview: React.FC = () => {
 
     if (!submit) {
       setSubmit(true);
-      editdispatch({
-        type: "CHANGE_EDIT_COND",
-        payload: {
-          two: true,
-        },
-      });
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       two: true,
+      //     },
+      //   });
     }
   };
 
