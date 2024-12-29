@@ -36,8 +36,8 @@ const EditKeyTrends: React.FC = () => {
   const [image2, setImage2] = React.useState<File | null>(
     state.kmti2 ? state.kmti2 : null
   );
-  const [imageAlt, setImageAlt] = React.useState("");
-  const [imageAlt2, setImageAlt2] = React.useState("");
+  const [imageAlt, setImageAlt] = React.useState(state?.kmti1alt ?? "");
+  const [imageAlt2, setImageAlt2] = React.useState(state?.kmti2alt ?? "");
   const editor1 = useRef(null);
   const [editorContent1, setEditorContent1] = useState<string>(
     state.kmtdesc1 ? state.kmtdesc1 : ""
@@ -46,14 +46,25 @@ const EditKeyTrends: React.FC = () => {
   const [editorContent2, setEditorContent2] = useState<string>(
     state.kmtdesc2 ? state.kmtdesc2 : ""
   );
+  const states = [
+    state?.kmtTitle,
+    state?.kmtsh1,
+    state?.kmtsh2,
+    state?.kmti1,
+    state?.kmti2,
+    state?.kmti1alt,
+    state?.kmti2alt,
+    state?.kmtdesc1,
+    state?.kmtdesc2,
+  ];
 
   const checkChanges = (x: string[], y: string[]): void => {
     let size = x.length;
     for (let i = 0; i < size; i++) {
       if (x[i] != y[i]) {
-        // console.log("diffrences occur at index ", i);
-        // console.log("x[i] is ", x[i]);
-        // console.log("y[i] is ", y[i]);
+        console.log("diffrences occur at index for kmt ", i);
+        console.log("x[i] is ", x[i]);
+        console.log("y[i] is ", y[i]);
         if (submit) {
           setSubmit(false);
           //   editdispatch({
@@ -179,13 +190,18 @@ const EditKeyTrends: React.FC = () => {
         console.log("we are here now ");
         console.log(file.secure_url);
         setLoading1(false);
-        let x: string[] = [heading, subHeading, subHeading2, file.secure_url];
-        let y: string[] = [
-          state?.kmtTitle,
-          state?.kmtsh1,
-          state?.kmtsh2,
-          state?.kmti1,
+        let x: string[] = [
+          heading,
+          subHeading,
+          subHeading2,
+          file.secure_url,
+          image2,
+          imageAlt,
+          imageAlt2,
+          editorContent1,
+          editorContent2,
         ];
+        let y: string[] = states;
         checkChanges(x, y);
       }
       if (e.target.files?.length) {
@@ -222,14 +238,12 @@ const EditKeyTrends: React.FC = () => {
           subHeading2,
           image,
           file.secure_url,
+          imageAlt,
+          imageAlt2,
+          editorContent1,
+          editorContent2,
         ];
-        let y: string[] = [
-          state?.kmtTitle,
-          state?.kmtsh1,
-          state?.kmtsh2,
-          state?.kmti1,
-          state?.kmti2,
-        ];
+        let y: string[] = states;
         checkChanges(x, y);
       }
       if (e.target.files?.length) {
@@ -240,22 +254,53 @@ const EditKeyTrends: React.FC = () => {
 
   const handleHeadingChange = (newHeading: string) => {
     setHeading(newHeading);
-    let x: string[] = [newHeading];
-    let y: string[] = [state?.kmtTitle];
+    let x: string[] = [
+      newHeading,
+      subHeading,
+      subHeading2,
+      image,
+      image2,
+      imageAlt,
+      imageAlt2,
+      editorContent1,
+      editorContent2,
+    ];
+    let y: string[] = states;
     checkChanges(x, y);
   };
 
   const handleSubHeadingChange = (newHeading: string) => {
     setSubHeading(newHeading);
-    let x: string[] = [heading, subHeading];
-    let y: string[] = [state?.kmtTitle, state?.kmtsh1];
+    //   console.log("current heading is ")
+    let x: string[] = [
+      heading,
+      newHeading,
+      subHeading2,
+      image,
+      image2,
+      imageAlt,
+      imageAlt2,
+      editorContent1,
+      editorContent2,
+    ];
+    let y: string[] = states;
     checkChanges(x, y);
   };
 
   const handleSubHeadingChange2 = (newHeading: string) => {
     setSubHeading2(newHeading);
-    let x: string[] = [heading, subHeading, newHeading];
-    let y: string[] = [state?.kmtTitle, state?.kmtsh1, state?.kmtsh2];
+    let x: string[] = [
+      heading,
+      subHeading,
+      newHeading,
+      image,
+      image2,
+      imageAlt,
+      imageAlt2,
+      editorContent1,
+      editorContent2,
+    ];
+    let y: string[] = states;
     checkChanges(x, y);
   };
 
@@ -269,16 +314,10 @@ const EditKeyTrends: React.FC = () => {
       image2,
       imageAlt,
       newContent,
+      editorContent1,
+      editorContent2,
     ];
-    let y: string[] = [
-      state?.kmtTitle,
-      state?.kmtsh1,
-      state?.kmtsh2,
-      state?.kmti1,
-      state?.kmti2,
-      state?.kmti1alt,
-      state?.kmti2alt,
-    ];
+    let y: string[] = states;
     checkChanges(x, y);
   };
   const handleImageAltChange = (newContent: string) => {
@@ -290,20 +329,46 @@ const EditKeyTrends: React.FC = () => {
       image,
       image2,
       newContent,
+      imageAlt2,
+      editorContent1,
+      editorContent2,
     ];
-    let y: string[] = [
-      state?.kmtTitle,
-      state?.kmtsh1,
-      state?.kmtsh2,
-      state?.kmti1,
-      state?.kmti2,
-      state?.kmti1alt,
-    ];
+    let y: string[] = states;
     checkChanges(x, y);
   };
 
-  const handleEditorChange = (newContent: string) => {};
-  const handleEditorChange2 = (newContent: string) => {};
+  const handleEditorChange = (newContent: string) => {
+    setEditorContent1(newContent);
+    let x: string[] = [
+      heading,
+      subHeading,
+      subHeading2,
+      image,
+      image2,
+      imageAlt,
+      imageAlt2,
+      newContent,
+      editorContent2,
+    ];
+    let y: string[] = states;
+    checkChanges(x, y);
+  };
+  const handleEditorChange2 = (newContent: string) => {
+    setEditorContent2(newContent);
+    let x: string[] = [
+      heading,
+      subHeading,
+      subHeading2,
+      image,
+      image2,
+      imageAlt,
+      imageAlt2,
+      editorContent1,
+      newContent,
+    ];
+    let y: string[] = states;
+    checkChanges(x, y);
+  };
 
   // useEffect(() => {
   //   // Cleanup URLs for images to avoid memory leaks
@@ -358,7 +423,7 @@ const EditKeyTrends: React.FC = () => {
         <JoditEditor
           ref={editor1}
           value={editorContent1}
-          onChange={(newContent: string) => setEditorContent1(newContent)}
+          onChange={(newContent: string) => handleEditorChange(newContent)}
         />
       </div>
       <div className="flex items-center my-12">
@@ -420,7 +485,7 @@ const EditKeyTrends: React.FC = () => {
         <JoditEditor
           ref={editor2}
           value={editorContent2}
-          onChange={(newContent: string) => setEditorContent2(newContent)}
+          onChange={(newContent: string) => handleEditorChange2(newContent)}
         />
       </div>
       <div className="flex items-center my-12">

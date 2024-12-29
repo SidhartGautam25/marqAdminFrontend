@@ -14,6 +14,8 @@ pnpm dev
 bun dev
 ```
 
+<!-- >ssh -i ~/.ssh/id_ed25520 root@91.108.111.200 -p 22 -->
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
