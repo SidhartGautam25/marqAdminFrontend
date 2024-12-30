@@ -80,7 +80,7 @@ const EditEditorbottom = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("request sent to server");
-    const local = `${my_admin_url}/api/edit/ureport`;
+    const local = `${my_admin_url}/api/upload/ureport`;
     try {
       console.log("state before submitting is ", state);
       const res = await axios.put(local, state);
