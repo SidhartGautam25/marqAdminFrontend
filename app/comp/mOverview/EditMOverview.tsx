@@ -78,9 +78,6 @@ const EditMOverview: React.FC = () => {
     checkChanges(x, y);
   };
   const handleSubmit = () => {
-    if (submit) {
-      return;
-    }
     dispatch({
       type: "SET_EDITRD",
       payload: {

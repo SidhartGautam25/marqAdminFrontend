@@ -163,8 +163,8 @@ const EditMSnapshot: React.FC = () => {
       type: "SET_EDITRD",
       payload: {
         msHeading: heading,
-        msTables: attributes,
-        msContent: editorContent,
+        msTable: attributes,
+        msDesc: editorContent,
       },
     });
     editdispatch({
