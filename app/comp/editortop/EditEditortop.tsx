@@ -4,6 +4,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 interface RadioOption {
   id: string;
   label: string;
@@ -98,37 +102,42 @@ const NoSSR: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const EditEditortop = () => {
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submitted, setSubmitted] = useState(state1?.first ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submitted, setSubmitted] = useState(editstate?.first);
+  console.log("editstate at top of editor is --> ", editstate);
+  console.log("submitted is ", submitted);
 
   const [updated, setUpdated] = useState<Number>(0);
 
   //  const { state, dispatch } = useContext(RDContext) as RDContextType;
   const [form, setForm] = useState({
-    title: state?.title ?? "",
-    slug: state?.slug ?? "",
-    shortTitle: state?.shortTitle ?? "",
-    subTitle: state?.subTitle ?? "",
-    metaTitle: state?.metaTitle ?? "",
-    metaKeywords: state?.metaKeywords ?? "",
-    metaDescription: state?.metaDescription ?? "",
-    category: state?.category ?? "",
-    subCategory: state?.subCategory ?? "",
-    geographyTag: state?.geographyTag ?? "",
-    countryRegion: state?.countryRegion ?? "",
-    priceSingle: state?.priceSingle ?? "",
-    priceTeam: state?.priceTeam ?? "",
-    priceCorporate: state?.priceCorporate ?? "",
-    publishedDate: state?.publishedDate ?? "",
-    // relatedReports: state?.relatedReports ?? "",
-    id: state?.id ?? "",
+    title: state?.title,
+    slug: state?.slug,
+    shortTitle: state?.shortTitle,
+    subTitle: state?.subTitle,
+    metaTitle: state?.metaTitle,
+    metaKeywords: state?.metaKeywords,
+    metaDescription: state?.metaDescription,
+    category: state?.category,
+    subCategory: state?.subCategory,
+    geographyTag: state?.geographyTag,
+    countryRegion: state?.countryRegion,
+    priceSingle: state?.priceSingle,
+    priceTeam: state?.priceTeam,
+    priceCorporate: state?.priceCorporate,
+    publishedDate: state?.publishedDate,
+    alti1: state?.alti1,
+    alti2: state?.alti2,
+    id: state?.id,
   });
 
   const [subIndustries, setSubIndustries] = useState<string[]>([]);
   const [loading1, setLoading1] = useState<Boolean>(false);
   const [loading2, setLoading2] = useState<Boolean>(false);
-  const [thumb1, setThumb1] = useState<String>("");
-  const [thumb2, setThumb2] = useState<String>("");
+  const [thumb1, setThumb1] = useState<String>(state?.linki1);
+  const [thumb2, setThumb2] = useState<String>(state?.linki2);
   const [imageAlt, setImageAlt] = useState("");
   const [imageAlt2, setImageAlt2] = useState("");
 
@@ -138,12 +147,81 @@ const EditEditortop = () => {
     >
   ) => {
     setUpdated(1);
-    setSubmitted(false);
+
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
+
+  function checkChanges() {
+    console.log("here in check changes top editor edit");
+    if (state?.title != form?.title) {
+      console.log("1 edit top");
+      setSubmitted(false);
+    } else if (state?.slug != form?.slug) {
+      console.log("2 edit top");
+      setSubmitted(false);
+    } else if (state?.shortTitle != form?.shortTitle) {
+      console.log("3 edit top");
+      setSubmitted(false);
+    } else if (state?.subTitle != form?.subTitle) {
+      console.log("4 edit top");
+      setSubmitted(false);
+    } else if (state?.metaTitle != form?.metaTitle) {
+      console.log("5 edit top");
+      setSubmitted(false);
+    } else if (state?.metaKeywords != form?.metaKeywords) {
+      console.log("6 edit top");
+      console.log("so state.metaKeywords is ", state?.metaKeywords);
+      console.log("and form metaDescriptions is ", form?.metaKeywords);
+      setSubmitted(false);
+    } else if (state?.metaDescription != form?.metaDescription) {
+      console.log("7 edit top");
+      setSubmitted(false);
+    } else if (state?.category != form?.category) {
+      console.log("8 edit top");
+      setSubmitted(false);
+    } else if (state?.subCategory != form?.subCategory) {
+      console.log("9 edit top");
+      setSubmitted(false);
+    } else if (state?.geographyTag != form?.geographyTag) {
+      console.log("10 edit top");
+      setSubmitted(false);
+    } else if (state?.countryRegion != form?.countryRegion) {
+      console.log("11 edit top");
+      setSubmitted(false);
+    } else if (state?.priceSingle != form?.priceSingle) {
+      console.log("12 edit top");
+      setSubmitted(false);
+    } else if (state?.priceTeam != form?.priceTeam) {
+      console.log("13 edit top");
+      setSubmitted(false);
+    } else if (state?.priceCorporate != form?.priceCorporate) {
+      console.log("14 edit top");
+      setSubmitted(false);
+    } else if (state?.publishedDate != form?.publishedDate) {
+      console.log("15 edit top");
+      setSubmitted(false);
+    } else if (state?.alti1 != form?.alti1) {
+      console.log("16 edit top");
+      setSubmitted(false);
+    } else if (state?.alti2 != form?.alti2) {
+      console.log("17 edit top");
+      setSubmitted(false);
+    } else if (state?.id != form?.id) {
+      console.log("18 edit top");
+      setSubmitted(false);
+    } else if (state?.linki1 != thumb1) {
+      console.log("19 edit top");
+      setSubmitted(false);
+    } else if (state?.linki2 != thumb2) {
+      console.log("20 edit top");
+      setSubmitted(false);
+    } else {
+      setSubmitted(true);
+    }
+  }
 
   const handleChangeIndustry = (option: string) => {
     setForm({ ...form, category: option, subCategory: "" });
@@ -212,38 +290,41 @@ const EditEditortop = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        title: form.title,
-        slug: form.slug,
-        shortTitle: form.shortTitle,
-        subTitle: form.subTitle,
-        metaTitle: form.metaTitle,
-        metaKeywords: form.metaKeywords,
-        metaDescription: form.metaDescription,
-        category: form.category,
-        subCategory: form.subCategory,
-        geographyTag: form.geographyTag,
-        countryRegion: form.countryRegion,
-        priceSingle: form.priceSingle,
-        priceTeam: form.priceTeam,
-        priceCorporate: form.priceCorporate,
-        publishedDate: form.publishedDate,
-        // relatedReports: form.relatedReports,
+        title: form?.title,
+        slug: form?.slug,
+        shortTitle: form?.shortTitle,
+        subTitle: form?.subTitle,
+        metaTitle: form?.metaTitle,
+        metaKeywords: form?.metaKeywords,
+        metaDescription: form?.metaDescription,
+        category: form?.category,
+        subCategory: form?.subCategory,
+        geographyTag: form?.geographyTag,
+        countryRegion: form?.countryRegion,
+        priceSingle: form?.priceSingle,
+        priceTeam: form?.priceTeam,
+        priceCorporate: form?.priceCorporate,
+        publishedDate: form?.publishedDate,
         linki1: thumb1,
-        alti1: "",
-        alti2: "",
+        alti1: form?.alti1,
+        alti2: form?.alti2,
         linki2: thumb2,
-        id: form.id,
+        id: form?.id,
       },
     });
     console.log("here", state);
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         first: true,
       },
     });
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    checkChanges();
+  }, [form, thumb1, thumb2]);
 
   return (
     <NoSSR>
@@ -517,7 +598,7 @@ const EditEditortop = () => {
               submitted ? "bg-green-500" : "bg-blue-500"
             } text-white rounded`}
           >
-            {submitted ? "Saved" : "Save"}
+            {submitted ? "Saved" : "Save this"}
           </button>
         </form>
         <ToastContainer />
