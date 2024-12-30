@@ -3,6 +3,10 @@ import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
@@ -10,7 +14,9 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditCLandscape: React.FC = () => {
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
   const [heading, setHeading] = useState<string>(
     state.clTitle ? state.clTitle : ""
   );
@@ -18,22 +24,64 @@ const EditCLandscape: React.FC = () => {
   const [editorContent, setEditorContent] = useState<string>(
     state.clDesc ? state.clDesc : ""
   );
-  const [submit, setSubmit] = useState<boolean>(state1?.five ?? false);
+  const [submit, setSubmit] = useState<boolean>(editstate?.five ?? false);
+
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       two: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       two: true,
+      //     },
+      //   });
+    }
+  };
+
+  const handleHeadingChange = (newHeading: string) => {
+    setHeading(newHeading);
+    let x: string[] = [editorContent, newHeading];
+    let y: string[] = [state?.clDesc, state?.clTitle];
+    checkChanges(x, y);
+  };
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
+    let x: string[] = [newContent, heading];
+    let y: string[] = [state?.clDesc, state?.clTitle];
+    checkChanges(x, y);
   };
 
   const handleSubmit = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        clHeading: heading,
-        clContent: editorContent,
+        clTitle: heading,
+        clDesc: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         five: true,
       },
@@ -57,7 +105,7 @@ const EditCLandscape: React.FC = () => {
           type="text"
           name="heading"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => handleHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -68,7 +116,7 @@ const EditCLandscape: React.FC = () => {
         <JoditEditor
           ref={editor}
           value={editorContent}
-          onChange={(newContent) => setEditorContent(newContent)}
+          onChange={(newContent) => handleEditorChange(newContent)}
         />
       </div>
       <div className="flex justify-end">

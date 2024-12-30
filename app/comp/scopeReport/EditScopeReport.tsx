@@ -3,14 +3,20 @@ import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditScopeReport: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.three ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.three ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   console.log("state under scopreofreport ", state);
   console.log("edit scope of report state ", state);
@@ -22,20 +28,62 @@ const EditScopeReport: React.FC = () => {
     state?.sorDesc ? state.sorDesc : ""
   );
 
+  const handleHeadingChange = (newHeading: string): void => {
+    setHeading(newHeading);
+  };
+
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
+    let x: string[] = [newContent, heading];
+    let y: string[] = [state?.sorDesc, state?.sorTitle];
+    checkChanges(x, y);
+  };
+
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       two: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       two: true,
+      //     },
+      //   });
+    }
   };
 
   const handleSubmit = () => {
+    if (submit) {
+      return;
+    }
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        srHeading: heading,
-        srContent: editorContent,
+        sorTitle: heading,
+        sorDesc: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         three: true,
       },
@@ -59,7 +107,7 @@ const EditScopeReport: React.FC = () => {
           type="text"
           name="heading"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => handleHeadingChange(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -70,7 +118,7 @@ const EditScopeReport: React.FC = () => {
         <JoditEditor
           ref={editor}
           value={editorContent}
-          onChange={(newContent) => setEditorContent(newContent)}
+          onChange={handleEditorChange}
         />
       </div>
       <div className="flex justify-end">

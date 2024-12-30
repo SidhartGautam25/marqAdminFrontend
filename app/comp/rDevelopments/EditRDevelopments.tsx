@@ -3,36 +3,95 @@ import dynamic from "next/dynamic";
 import { RDContext, RDContextType } from "@/app/context/rdContext";
 import { CondContext, CondContextType } from "@/app/context/submitStateContext";
 import { EDITContext, EDITContextType } from "@/app/context/Edit/editContext";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import "jodit/build/jodit.min.css";
 
 // import JoditEditor from "jodit-react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditRDevelopments: React.FC = () => {
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(state1?.seven ?? false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState<boolean>(editstate?.seven ?? true);
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
   const [heading, setHeading] = useState<string>(state?.rDevTitle ?? "");
   const editor = useRef(null);
+
+  const normalizeContent = (content: string): string => {
+    // Remove whitespace and normalize the HTML
+    return content.replace(/\s+/g, " ").trim();
+  };
   const [editorContent, setEditorContent] = useState<string>(
-    state?.rDevDesc ?? ""
+    normalizeContent(state?.rDevDesc ?? "")
   );
 
+  const changeHeading = (newContent: string): void => {
+    setHeading(newContent);
+    let x: string[] = [newContent, editorContent];
+    let y: string[] = [state?.rDevTitle, state?.rDevDesc];
+    checkChanges(x, y);
+  };
+
+  const checkChanges = (x: string[], y: string[]): void => {
+    let size = x.length;
+    for (let i = 0; i < size; i++) {
+      if (x[i] != y[i]) {
+        // console.log("diffrences occur at index ", i);
+        // console.log("x[i] is ", x[i]);
+        // console.log("y[i] is ", y[i]);
+        if (submit) {
+          setSubmit(false);
+          //   editdispatch({
+          //     type: "CHANGE_EDIT_COND",
+          //     payload: {
+          //       seven: false,
+          //     },
+          //   });
+        }
+
+        return;
+      }
+    }
+
+    if (!submit) {
+      setSubmit(true);
+      //   editdispatch({
+      //     type: "CHANGE_EDIT_COND",
+      //     payload: {
+      //       seven: true,
+      //     },
+      //   });
+    }
+  };
+
   const handleEditorChange = (newContent: string) => {
-    setEditorContent(newContent);
+    const normalizedNewContent = normalizeContent(newContent);
+    if (normalizedNewContent !== editorContent) {
+      setEditorContent(newContent);
+      let x: string[] = [heading, normalizedNewContent];
+      let y: string[] = [state?.rDevTitle, editorContent];
+      checkChanges(x, y);
+    }
   };
 
   const handleSubmit = () => {
+    if (submit) {
+      return;
+    }
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        rdHeading: heading,
+        rDevHeading: heading,
 
-        rdContent: editorContent,
+        rDevDesc: editorContent,
       },
     });
-    dispatch1({
-      type: "CHANGE_COND",
+    editdispatch({
+      type: "CHANGE_EDIT_COND",
       payload: {
         seven: true,
       },
@@ -56,7 +115,7 @@ const EditRDevelopments: React.FC = () => {
           type="text"
           name="heading"
           value={heading}
-          onChange={(e) => setHeading(e.target.value)}
+          onChange={(e) => changeHeading(e.target.value)}
           className="p-2 border border-gray-300 rounded w-5/6"
         />
       </div>
@@ -67,7 +126,7 @@ const EditRDevelopments: React.FC = () => {
         <JoditEditor
           ref={editor}
           value={editorContent}
-          onChange={(newContent) => setEditorContent(newContent)}
+          onChange={handleEditorChange}
         />
       </div>
       <div className="flex justify-end">

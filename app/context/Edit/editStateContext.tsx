@@ -31,6 +31,7 @@ const INITIAL_STATE: State =
             eight: true,
             nine: true,
             ten: true,
+            final: true,
           })
       )
     : null;
