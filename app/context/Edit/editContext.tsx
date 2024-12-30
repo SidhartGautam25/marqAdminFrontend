@@ -37,7 +37,7 @@ const Reducer = (state: State, action: Action): State => {
         ...action.payload,
       };
     case "RESET":
-      return { resetted: "i am clear now" };
+      return {};
     default:
       return state;
   }

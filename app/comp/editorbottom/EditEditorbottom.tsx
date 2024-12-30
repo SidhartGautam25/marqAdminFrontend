@@ -31,6 +31,10 @@ import EditMajorPlayers from "../majorPlayers/EditMajorPlayers";
 import EditRDevelopments from "../rDevelopments/EditRDevelopments";
 import EditFaqSection from "../faqSection/EditFaqSection";
 import EditToc from "../toc/EditToc";
+import {
+  EditCondContext,
+  EditCondContextType,
+} from "@/app/context/Edit/editStateContext";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -52,8 +56,10 @@ const EditEditorbottom = () => {
   console.log("on editEditorBottom component");
   const [selectedTab, setSelectedTab] = useState("Market Snapshot");
   const { state, dispatch } = useContext(EDITContext) as EDITContextType;
-  const { state1, dispatch1 } = useContext(CondContext) as CondContextType;
-  const [submit, setSubmit] = useState<boolean>(false);
+  const { editstate, editdispatch } = useContext(
+    EditCondContext
+  ) as EditCondContextType;
+  const [submit, setSubmit] = useState(false);
   const tabs = [
     "Market Snapshot",
     "Market Overview",
@@ -74,29 +80,30 @@ const EditEditorbottom = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("request sent to server");
-    const local = `${my_admin_url}/api/upload/ureport`;
+    const local = `${my_admin_url}/api/edit/ureport`;
     try {
       console.log("state before submitting is ", state);
-      const res = await axios.post(local, state);
+      const res = await axios.put(local, state);
       setSubmit(true);
       // toast.success("Final submit successfully!");
       // reset added
       console.log("state before dispatch is ", state);
-      dispatch({ type: "RESET" });
-      dispatch1({
-        type: "CHANGE_COND",
+      //   dispatch({ type: "RESET" });
+      editdispatch({
+        type: "CHANGE_EDIT_COND",
         payload: {
-          first: false,
-          one: false,
-          two: false,
-          three: false,
-          four: false,
-          five: false,
-          six: false,
-          seven: false,
-          eight: false,
-          nine: false,
-          ten: false,
+          first: true,
+          one: true,
+          two: true,
+          three: true,
+          four: true,
+          five: true,
+          six: true,
+          seven: true,
+          eight: true,
+          nine: true,
+          ten: true,
+          final: true,
         },
       });
     } catch (err) {
