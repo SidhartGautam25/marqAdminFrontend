@@ -85,7 +85,7 @@ const EditRDevelopments: React.FC = () => {
     dispatch({
       type: "SET_EDITRD",
       payload: {
-        rDevHeading: heading,
+        rDevTitle: heading,
 
         rDevDesc: editorContent,
       },

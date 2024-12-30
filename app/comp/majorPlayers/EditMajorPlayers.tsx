@@ -102,9 +102,6 @@ const EditMajorPlayers: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (submit) {
-      return;
-    }
     dispatch({
       type: "SET_EDITRD",
       payload: {
